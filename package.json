@@ -1,0 +1,30 @@
+{
+  "name": "react-smart-data-table",
+  "version": "0.0.0",
+  "description": "A smart data table component for React.js meant to be configuration free",
+  "main": "lib/index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaocarmo/react-smart-data-table.git"
+  },
+  "keywords": [
+    "react",
+    "simple",
+    "smart",
+    "data",
+    "table",
+    "configuration"
+  ],
+  "author": "Joao Carmo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joaocarmo/react-smart-data-table/issues"
+  },
+  "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0"
+  }
+}
