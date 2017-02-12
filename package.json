@@ -26,5 +26,15 @@
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "faker": "^3.1.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "webpack": "^2.2.1"
   }
 }
