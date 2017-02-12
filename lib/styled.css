@@ -1,0 +1,28 @@
+.rsdt .table {
+  display: table;
+  width: 100%;
+}
+
+.rsdt .head {
+  display: table-header-group;
+}
+
+.rsdt .body {
+  display: table-row-group;
+}
+
+.rsdt .foot {
+  display: table-footer-group;
+}
+
+.rsdt .row {
+  display: table-row;
+}
+
+.rsdt .cell {
+  display: table-cell;
+}
+
+.rsdt .head .cell {
+  font-weight: bold;
+}
