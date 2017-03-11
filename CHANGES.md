@@ -3,6 +3,7 @@
 
 - Added support for nested objects and for more header formats
 - Added _lodash_ dependency
+- Started to document the code, updated the _README.md_
 
 ## 0.0.1
 > Feb 12, 2017
