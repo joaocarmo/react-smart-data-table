@@ -1,7 +1,13 @@
-## 1.0.0
+## 0.0.2
+> Mar 11, 2017
+
+- Added support for nested objects and for more header formats
+- Added _lodash_ dependency
+
+## 0.0.1
 > Feb 12, 2017
 
-- Something
+- Wrote most of the logic for the smart data table
 
 ## 0.0.0
 > Jan 30, 2017
