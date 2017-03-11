@@ -20,7 +20,7 @@ $ npm install react-smart-data-table
 | :----- | :------------------ | :-------- | :---------------------------------------- |
 | data   | []                  | {array}   | An array of plain objects (can be nested) |
 | name   | reactsmartdatatable | {string}  | The name for the table                    |
-| styled | false               | {boolean} | Use divs instead of <table>               |
+| styled | false               | {boolean} | Use divs instead of table tag             |
 | footer | false               | {boolean} | Copy the header to the footer             |
 
 ## Example
@@ -29,9 +29,9 @@ $ npm install react-smart-data-table
 import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
-import { SmartDataTable } from './index'
+import { SmartDataTable } from 'react-smart-data-table'
 
-var testData = [ {} ]
+var testData = []
 var numResults = 100
 var sematicUI = 'ui compact selectable table'
 
@@ -41,7 +41,7 @@ for (var i=0; i<numResults; i++) {
     fullName: faker.name.findName(),
     'email.address': faker.internet.email(),
     phone_number: faker.phone.phoneNumber(),
-    addres: {
+    address: {
       city: faker.address.city(),
       state: faker.address.state(),
       country: faker.address.country()
