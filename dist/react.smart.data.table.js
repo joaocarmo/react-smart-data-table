@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 42);
+/******/ 	return __webpack_require__(__webpack_require__.s = 44);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -412,7 +412,7 @@ var warning = __webpack_require__(1);
 var canDefineProperty = __webpack_require__(13);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var REACT_ELEMENT_TYPE = __webpack_require__(15);
+var REACT_ELEMENT_TYPE = __webpack_require__(17);
 
 var RESERVED_PROPS = {
   key: true,
@@ -1658,619 +1658,6 @@ module.exports = getIteratorFn;
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- */
-
-
-
-// The Symbol used to tag the ReactElement type. If there is no native Symbol
-// nor polyfill, then a plain number is used for performance.
-
-var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 0xeac7;
-
-module.exports = REACT_ELEMENT_TYPE;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
-
-/**
- * ReactElementValidator provides a wrapper around a element factory
- * which validates the props passed to the element. This is intended to be
- * used only in DEV and could be replaced by a static type checker for languages
- * that support it.
- */
-
-
-
-var ReactCurrentOwner = __webpack_require__(6);
-var ReactComponentTreeHook = __webpack_require__(10);
-var ReactElement = __webpack_require__(3);
-
-var checkReactTypeSpec = __webpack_require__(34);
-
-var canDefineProperty = __webpack_require__(13);
-var getIteratorFn = __webpack_require__(14);
-var warning = __webpack_require__(1);
-
-function getDeclarationErrorAddendum() {
-  if (ReactCurrentOwner.current) {
-    var name = ReactCurrentOwner.current.getName();
-    if (name) {
-      return ' Check the render method of `' + name + '`.';
-    }
-  }
-  return '';
-}
-
-/**
- * Warn if there's no key explicitly set on dynamic arrays of children or
- * object keys are not valid. This allows us to keep track of children between
- * updates.
- */
-var ownerHasKeyUseWarning = {};
-
-function getCurrentComponentErrorInfo(parentType) {
-  var info = getDeclarationErrorAddendum();
-
-  if (!info) {
-    var parentName = typeof parentType === 'string' ? parentType : parentType.displayName || parentType.name;
-    if (parentName) {
-      info = ' Check the top-level render call using <' + parentName + '>.';
-    }
-  }
-  return info;
-}
-
-/**
- * Warn if the element doesn't have an explicit key assigned to it.
- * This element is in an array. The array could grow and shrink or be
- * reordered. All children that haven't already been validated are required to
- * have a "key" property assigned to it. Error statuses are cached so a warning
- * will only be shown once.
- *
- * @internal
- * @param {ReactElement} element Element that requires a key.
- * @param {*} parentType element's parent's type.
- */
-function validateExplicitKey(element, parentType) {
-  if (!element._store || element._store.validated || element.key != null) {
-    return;
-  }
-  element._store.validated = true;
-
-  var memoizer = ownerHasKeyUseWarning.uniqueKey || (ownerHasKeyUseWarning.uniqueKey = {});
-
-  var currentComponentErrorInfo = getCurrentComponentErrorInfo(parentType);
-  if (memoizer[currentComponentErrorInfo]) {
-    return;
-  }
-  memoizer[currentComponentErrorInfo] = true;
-
-  // Usually the current owner is the offender, but if it accepts children as a
-  // property, it may be the creator of the child that's responsible for
-  // assigning it a key.
-  var childOwner = '';
-  if (element && element._owner && element._owner !== ReactCurrentOwner.current) {
-    // Give the component that originally created this child.
-    childOwner = ' It was passed a child from ' + element._owner.getName() + '.';
-  }
-
-  process.env.NODE_ENV !== 'production' ? warning(false, 'Each child in an array or iterator should have a unique "key" prop.' + '%s%s See https://fb.me/react-warning-keys for more information.%s', currentComponentErrorInfo, childOwner, ReactComponentTreeHook.getCurrentStackAddendum(element)) : void 0;
-}
-
-/**
- * Ensure that every element either is passed in a static location, in an
- * array with an explicit keys property defined, or in an object literal
- * with valid key property.
- *
- * @internal
- * @param {ReactNode} node Statically passed child of any type.
- * @param {*} parentType node's parent's type.
- */
-function validateChildKeys(node, parentType) {
-  if (typeof node !== 'object') {
-    return;
-  }
-  if (Array.isArray(node)) {
-    for (var i = 0; i < node.length; i++) {
-      var child = node[i];
-      if (ReactElement.isValidElement(child)) {
-        validateExplicitKey(child, parentType);
-      }
-    }
-  } else if (ReactElement.isValidElement(node)) {
-    // This element was passed in a valid location.
-    if (node._store) {
-      node._store.validated = true;
-    }
-  } else if (node) {
-    var iteratorFn = getIteratorFn(node);
-    // Entry iterators provide implicit keys.
-    if (iteratorFn) {
-      if (iteratorFn !== node.entries) {
-        var iterator = iteratorFn.call(node);
-        var step;
-        while (!(step = iterator.next()).done) {
-          if (ReactElement.isValidElement(step.value)) {
-            validateExplicitKey(step.value, parentType);
-          }
-        }
-      }
-    }
-  }
-}
-
-/**
- * Given an element, validate that its props follow the propTypes definition,
- * provided by the type.
- *
- * @param {ReactElement} element
- */
-function validatePropTypes(element) {
-  var componentClass = element.type;
-  if (typeof componentClass !== 'function') {
-    return;
-  }
-  var name = componentClass.displayName || componentClass.name;
-  if (componentClass.propTypes) {
-    checkReactTypeSpec(componentClass.propTypes, element.props, 'prop', name, element, null);
-  }
-  if (typeof componentClass.getDefaultProps === 'function') {
-    process.env.NODE_ENV !== 'production' ? warning(componentClass.getDefaultProps.isReactClassApproved, 'getDefaultProps is only used on classic React.createClass ' + 'definitions. Use a static property named `defaultProps` instead.') : void 0;
-  }
-}
-
-var ReactElementValidator = {
-
-  createElement: function (type, props, children) {
-    var validType = typeof type === 'string' || typeof type === 'function';
-    // We warn in this case but don't throw. We expect the element creation to
-    // succeed and there will likely be errors in render.
-    if (!validType) {
-      if (typeof type !== 'function' && typeof type !== 'string') {
-        var info = '';
-        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
-          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
-        }
-        info += getDeclarationErrorAddendum();
-        process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', type == null ? type : typeof type, info) : void 0;
-      }
-    }
-
-    var element = ReactElement.createElement.apply(this, arguments);
-
-    // The result can be nullish if a mock or a custom function is used.
-    // TODO: Drop this when these are no longer allowed as the type argument.
-    if (element == null) {
-      return element;
-    }
-
-    // Skip key warning if the type isn't valid since our key validation logic
-    // doesn't expect a non-string/function type and can throw confusing errors.
-    // We don't want exception behavior to differ between dev and prod.
-    // (Rendering will throw with a helpful message and as soon as the type is
-    // fixed, the key warnings will appear.)
-    if (validType) {
-      for (var i = 2; i < arguments.length; i++) {
-        validateChildKeys(arguments[i], type);
-      }
-    }
-
-    validatePropTypes(element);
-
-    return element;
-  },
-
-  createFactory: function (type) {
-    var validatedFactory = ReactElementValidator.createElement.bind(null, type);
-    // Legacy hook TODO: Warn if this is accessed
-    validatedFactory.type = type;
-
-    if (process.env.NODE_ENV !== 'production') {
-      if (canDefineProperty) {
-        Object.defineProperty(validatedFactory, 'type', {
-          enumerable: false,
-          get: function () {
-            process.env.NODE_ENV !== 'production' ? warning(false, 'Factory.type is deprecated. Access the class directly ' + 'before passing it to createFactory.') : void 0;
-            Object.defineProperty(this, 'type', {
-              value: type
-            });
-            return type;
-          }
-        });
-      }
-    }
-
-    return validatedFactory;
-  },
-
-  cloneElement: function (element, props, children) {
-    var newElement = ReactElement.cloneElement.apply(this, arguments);
-    for (var i = 2; i < arguments.length; i++) {
-      validateChildKeys(arguments[i], newElement.type);
-    }
-    validatePropTypes(newElement);
-    return newElement;
-  }
-
-};
-
-module.exports = ReactElementValidator;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SmartDataTable = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(37);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _flat = __webpack_require__(22);
-
-var _flat2 = _interopRequireDefault(_flat);
-
-var _functions = __webpack_require__(19);
-
-var _styled = __webpack_require__(39);
-
-var _styled2 = _interopRequireDefault(_styled);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _React$PropTypes = _react2.default.PropTypes,
-    array = _React$PropTypes.array,
-    bool = _React$PropTypes.bool,
-    string = _React$PropTypes.string;
-
-var SmartDataTable = function (_React$Component) {
-  _inherits(SmartDataTable, _React$Component);
-
-  function SmartDataTable(props) {
-    _classCallCheck(this, SmartDataTable);
-
-    var _this = _possibleConstructorReturn(this, (SmartDataTable.__proto__ || Object.getPrototypeOf(SmartDataTable)).call(this, props));
-
-    _this.state = {
-      columns: [],
-      data: [],
-      originalData: []
-    };
-    return _this;
-  }
-
-  _createClass(SmartDataTable, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var rawData = this.props.data;
-
-      var originalData = rawData.map(function (m) {
-        return _.isPlainObject(m) ? (0, _flat2.default)(m) : null;
-      }).filter(function (m) {
-        return !_.isNil(m) && !_.isEmpty(m);
-      });
-      var firstRow = originalData[0];
-      var columns = [];
-      var rows = [];
-
-      if (_.isPlainObject(firstRow)) {
-        _.forOwn(firstRow, function (value, key) {
-          return columns.push((0, _functions.parseHeader)(key));
-        });
-
-        if (!_.isEmpty(originalData)) {
-          rows = originalData.map(function (row) {
-            return Object.keys(row).map(function (key) {
-              return (0, _functions.parseCell)(row[key]);
-            });
-          });
-        } else {
-          console.error('couldn\'t find rows in the data');
-        }
-      } else {
-        console.error('couldn\'t find headers in the data');
-      }
-
-      this.setState({
-        columns: columns,
-        rows: rows,
-        originalData: originalData
-      });
-    }
-  }, {
-    key: 'renderStyledTable',
-    value: function renderStyledTable() {
-      var _props = this.props,
-          className = _props.className,
-          footer = _props.footer;
-      var _state = this.state,
-          columns = _state.columns,
-          rows = _state.rows;
-
-      var head = columns.map(function (header, i) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'rsdt cell', key: 'rsdt-header-' + i },
-          header
-        );
-      });
-      var foot = columns.map(function (header, i) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'rsdt cell', key: 'rsdt-footer-' + i },
-          header
-        );
-      });
-      var body = rows.map(function (row, i) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'rsdt row', key: 'rsdt-row-' + i },
-          row.map(function (cell, j) {
-            return _react2.default.createElement(
-              'div',
-              { className: 'rsdt cell', key: 'rsdt-row-' + i + '-cell-' + j },
-              cell
-            );
-          })
-        );
-      });
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'rsdt table' },
-        _react2.default.createElement(
-          'div',
-          { className: 'rsdt head' },
-          _react2.default.createElement(
-            'div',
-            { className: 'rsdt row' },
-            head
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'rsdt body' },
-          body
-        ),
-        footer ? _react2.default.createElement(
-          'div',
-          { className: 'rsdt foot' },
-          _react2.default.createElement(
-            'div',
-            { className: 'rsdt row' },
-            foot
-          )
-        ) : null
-      );
-    }
-  }, {
-    key: 'renderHTMLTable',
-    value: function renderHTMLTable() {
-      var _props2 = this.props,
-          className = _props2.className,
-          footer = _props2.footer;
-      var _state2 = this.state,
-          columns = _state2.columns,
-          rows = _state2.rows;
-
-      var head = columns.map(function (header, i) {
-        return _react2.default.createElement(
-          'th',
-          { key: 'rsdt-header-' + i },
-          header
-        );
-      });
-      var foot = columns.map(function (header, i) {
-        return _react2.default.createElement(
-          'th',
-          { key: 'rsdt-footer-' + i },
-          header
-        );
-      });
-      var body = rows.map(function (row, i) {
-        return _react2.default.createElement(
-          'tr',
-          { key: 'rsdt-row-' + i },
-          row.map(function (cell, j) {
-            return _react2.default.createElement(
-              'td',
-              { key: 'rsdt-row-' + i + '-cell-' + j },
-              cell
-            );
-          })
-        );
-      });
-
-      return _react2.default.createElement(
-        'table',
-        { className: className },
-        _react2.default.createElement(
-          'thead',
-          null,
-          _react2.default.createElement(
-            'tr',
-            null,
-            head
-          )
-        ),
-        _react2.default.createElement(
-          'tbody',
-          null,
-          body
-        ),
-        footer ? _react2.default.createElement(
-          'tfoot',
-          null,
-          _react2.default.createElement(
-            'tr',
-            null,
-            foot
-          )
-        ) : null
-      );
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      /* get the data table name */
-      var _props3 = this.props,
-          name = _props3.name,
-          styled = _props3.styled;
-
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'rsdt', 'data-table-name': name },
-        styled ? this.renderStyledTable() : this.renderHTMLTable()
-      );
-    }
-  }]);
-
-  return SmartDataTable;
-}(_react2.default.Component);
-
-/* Defines the type of data expected in each passed prop */
-
-
-SmartDataTable.propTypes = {
-  data: array.isRequired,
-  name: string.isRequired,
-  styled: bool,
-  basic: bool,
-  footer: bool
-};
-
-/* Defines the default values for not passing a certain prop */
-SmartDataTable.defaultProps = {
-  data: [],
-  name: 'reactsmartdatatable',
-  styled: false,
-  basic: false,
-  footer: false
-};
-
-exports.SmartDataTable = SmartDataTable;
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.parseCell = exports.parseHeader = undefined;
-
-var _lodash = __webpack_require__(24);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function capitalizeAll(arr) {
-  return arr.map(function (m) {
-    return m ? _lodash2.default.capitalize(m) : '';
-  }).join(' ').trim();
-}
-
-function parseHeader(val) {
-
-  if (_lodash2.default.isString(val)) {
-    var camelCase = _lodash2.default.camelCase(val);
-    var parser = /^[a-z]+|[A-Z][a-z]*/g;
-
-    return capitalizeAll(camelCase.match(parser));
-  }
-
-  return '';
-}
-
-function parseCell(val) {
-  return val ? val : JSON.stringify(val);
-}
-
-exports.parseHeader = parseHeader;
-exports.parseCell = parseCell;
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(21)();
-// imports
-
-
-// module
-exports.push([module.i, ".rsdt .table {\n  display: table;\n  width: 100%;\n}\n\n.rsdt .head {\n  display: table-header-group;\n}\n\n.rsdt .body {\n  display: table-row-group;\n}\n\n.rsdt .foot {\n  display: table-footer-group;\n}\n\n.rsdt .row {\n  display: table-row;\n}\n\n.rsdt .cell {\n  display: table-cell;\n}\n\n.rsdt .head .cell {\n  font-weight: bold;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 21 */
 /***/ (function(module, exports) {
 
 /*
@@ -2326,145 +1713,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isBuffer = __webpack_require__(23)
-
-var flat = module.exports = flatten
-flatten.flatten = flatten
-flatten.unflatten = unflatten
-
-function flatten(target, opts) {
-  opts = opts || {}
-
-  var delimiter = opts.delimiter || '.'
-  var maxDepth = opts.maxDepth
-  var output = {}
-
-  function step(object, prev, currentDepth) {
-    currentDepth = currentDepth ? currentDepth : 1
-    Object.keys(object).forEach(function(key) {
-      var value = object[key]
-      var isarray = opts.safe && Array.isArray(value)
-      var type = Object.prototype.toString.call(value)
-      var isbuffer = isBuffer(value)
-      var isobject = (
-        type === "[object Object]" ||
-        type === "[object Array]"
-      )
-
-      var newKey = prev
-        ? prev + delimiter + key
-        : key
-
-      if (!isarray && !isbuffer && isobject && Object.keys(value).length &&
-        (!opts.maxDepth || currentDepth < maxDepth)) {
-        return step(value, newKey, currentDepth + 1)
-      }
-
-      output[newKey] = value
-    })
-  }
-
-  step(target)
-
-  return output
-}
-
-function unflatten(target, opts) {
-  opts = opts || {}
-
-  var delimiter = opts.delimiter || '.'
-  var overwrite = opts.overwrite || false
-  var result = {}
-
-  var isbuffer = isBuffer(target)
-  if (isbuffer || Object.prototype.toString.call(target) !== '[object Object]') {
-    return target
-  }
-
-  // safely ensure that the key is
-  // an integer.
-  function getkey(key) {
-    var parsedKey = Number(key)
-
-    return (
-      isNaN(parsedKey) ||
-      key.indexOf('.') !== -1
-    ) ? key
-      : parsedKey
-  }
-
-  Object.keys(target).forEach(function(key) {
-    var split = key.split(delimiter)
-    var key1 = getkey(split.shift())
-    var key2 = getkey(split[0])
-    var recipient = result
-
-    while (key2 !== undefined) {
-      var type = Object.prototype.toString.call(recipient[key1])
-      var isobject = (
-        type === "[object Object]" ||
-        type === "[object Array]"
-      )
-
-      // do not write over falsey, non-undefined values if overwrite is false
-      if (!overwrite && !isobject && typeof recipient[key1] !== 'undefined') {
-        return
-      }
-
-      if ((overwrite && !isobject) || (!overwrite && recipient[key1] == null)) {
-        recipient[key1] = (
-          typeof key2 === 'number' &&
-          !opts.object ? [] : {}
-        )
-      }
-
-      recipient = recipient[key1]
-      if (split.length > 0) {
-        key1 = getkey(split.shift())
-        key2 = getkey(split[0])
-      }
-    }
-
-    // unflatten again for 'messy objects'
-    recipient[key1] = unflatten(target[key], opts)
-  })
-
-  return result
-}
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
-}
-
-
-/***/ }),
-/* 24 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -19553,10 +18802,1081 @@ function isSlowBuffer (obj) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40), __webpack_require__(41)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42), __webpack_require__(43)(module)))
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2014-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ */
+
+
+
+// The Symbol used to tag the ReactElement type. If there is no native Symbol
+// nor polyfill, then a plain number is used for performance.
+
+var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 0xeac7;
+
+module.exports = REACT_ELEMENT_TYPE;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2014-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ */
+
+/**
+ * ReactElementValidator provides a wrapper around a element factory
+ * which validates the props passed to the element. This is intended to be
+ * used only in DEV and could be replaced by a static type checker for languages
+ * that support it.
+ */
+
+
+
+var ReactCurrentOwner = __webpack_require__(6);
+var ReactComponentTreeHook = __webpack_require__(10);
+var ReactElement = __webpack_require__(3);
+
+var checkReactTypeSpec = __webpack_require__(36);
+
+var canDefineProperty = __webpack_require__(13);
+var getIteratorFn = __webpack_require__(14);
+var warning = __webpack_require__(1);
+
+function getDeclarationErrorAddendum() {
+  if (ReactCurrentOwner.current) {
+    var name = ReactCurrentOwner.current.getName();
+    if (name) {
+      return ' Check the render method of `' + name + '`.';
+    }
+  }
+  return '';
+}
+
+/**
+ * Warn if there's no key explicitly set on dynamic arrays of children or
+ * object keys are not valid. This allows us to keep track of children between
+ * updates.
+ */
+var ownerHasKeyUseWarning = {};
+
+function getCurrentComponentErrorInfo(parentType) {
+  var info = getDeclarationErrorAddendum();
+
+  if (!info) {
+    var parentName = typeof parentType === 'string' ? parentType : parentType.displayName || parentType.name;
+    if (parentName) {
+      info = ' Check the top-level render call using <' + parentName + '>.';
+    }
+  }
+  return info;
+}
+
+/**
+ * Warn if the element doesn't have an explicit key assigned to it.
+ * This element is in an array. The array could grow and shrink or be
+ * reordered. All children that haven't already been validated are required to
+ * have a "key" property assigned to it. Error statuses are cached so a warning
+ * will only be shown once.
+ *
+ * @internal
+ * @param {ReactElement} element Element that requires a key.
+ * @param {*} parentType element's parent's type.
+ */
+function validateExplicitKey(element, parentType) {
+  if (!element._store || element._store.validated || element.key != null) {
+    return;
+  }
+  element._store.validated = true;
+
+  var memoizer = ownerHasKeyUseWarning.uniqueKey || (ownerHasKeyUseWarning.uniqueKey = {});
+
+  var currentComponentErrorInfo = getCurrentComponentErrorInfo(parentType);
+  if (memoizer[currentComponentErrorInfo]) {
+    return;
+  }
+  memoizer[currentComponentErrorInfo] = true;
+
+  // Usually the current owner is the offender, but if it accepts children as a
+  // property, it may be the creator of the child that's responsible for
+  // assigning it a key.
+  var childOwner = '';
+  if (element && element._owner && element._owner !== ReactCurrentOwner.current) {
+    // Give the component that originally created this child.
+    childOwner = ' It was passed a child from ' + element._owner.getName() + '.';
+  }
+
+  process.env.NODE_ENV !== 'production' ? warning(false, 'Each child in an array or iterator should have a unique "key" prop.' + '%s%s See https://fb.me/react-warning-keys for more information.%s', currentComponentErrorInfo, childOwner, ReactComponentTreeHook.getCurrentStackAddendum(element)) : void 0;
+}
+
+/**
+ * Ensure that every element either is passed in a static location, in an
+ * array with an explicit keys property defined, or in an object literal
+ * with valid key property.
+ *
+ * @internal
+ * @param {ReactNode} node Statically passed child of any type.
+ * @param {*} parentType node's parent's type.
+ */
+function validateChildKeys(node, parentType) {
+  if (typeof node !== 'object') {
+    return;
+  }
+  if (Array.isArray(node)) {
+    for (var i = 0; i < node.length; i++) {
+      var child = node[i];
+      if (ReactElement.isValidElement(child)) {
+        validateExplicitKey(child, parentType);
+      }
+    }
+  } else if (ReactElement.isValidElement(node)) {
+    // This element was passed in a valid location.
+    if (node._store) {
+      node._store.validated = true;
+    }
+  } else if (node) {
+    var iteratorFn = getIteratorFn(node);
+    // Entry iterators provide implicit keys.
+    if (iteratorFn) {
+      if (iteratorFn !== node.entries) {
+        var iterator = iteratorFn.call(node);
+        var step;
+        while (!(step = iterator.next()).done) {
+          if (ReactElement.isValidElement(step.value)) {
+            validateExplicitKey(step.value, parentType);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Given an element, validate that its props follow the propTypes definition,
+ * provided by the type.
+ *
+ * @param {ReactElement} element
+ */
+function validatePropTypes(element) {
+  var componentClass = element.type;
+  if (typeof componentClass !== 'function') {
+    return;
+  }
+  var name = componentClass.displayName || componentClass.name;
+  if (componentClass.propTypes) {
+    checkReactTypeSpec(componentClass.propTypes, element.props, 'prop', name, element, null);
+  }
+  if (typeof componentClass.getDefaultProps === 'function') {
+    process.env.NODE_ENV !== 'production' ? warning(componentClass.getDefaultProps.isReactClassApproved, 'getDefaultProps is only used on classic React.createClass ' + 'definitions. Use a static property named `defaultProps` instead.') : void 0;
+  }
+}
+
+var ReactElementValidator = {
+
+  createElement: function (type, props, children) {
+    var validType = typeof type === 'string' || typeof type === 'function';
+    // We warn in this case but don't throw. We expect the element creation to
+    // succeed and there will likely be errors in render.
+    if (!validType) {
+      if (typeof type !== 'function' && typeof type !== 'string') {
+        var info = '';
+        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
+        }
+        info += getDeclarationErrorAddendum();
+        process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', type == null ? type : typeof type, info) : void 0;
+      }
+    }
+
+    var element = ReactElement.createElement.apply(this, arguments);
+
+    // The result can be nullish if a mock or a custom function is used.
+    // TODO: Drop this when these are no longer allowed as the type argument.
+    if (element == null) {
+      return element;
+    }
+
+    // Skip key warning if the type isn't valid since our key validation logic
+    // doesn't expect a non-string/function type and can throw confusing errors.
+    // We don't want exception behavior to differ between dev and prod.
+    // (Rendering will throw with a helpful message and as soon as the type is
+    // fixed, the key warnings will appear.)
+    if (validType) {
+      for (var i = 2; i < arguments.length; i++) {
+        validateChildKeys(arguments[i], type);
+      }
+    }
+
+    validatePropTypes(element);
+
+    return element;
+  },
+
+  createFactory: function (type) {
+    var validatedFactory = ReactElementValidator.createElement.bind(null, type);
+    // Legacy hook TODO: Warn if this is accessed
+    validatedFactory.type = type;
+
+    if (process.env.NODE_ENV !== 'production') {
+      if (canDefineProperty) {
+        Object.defineProperty(validatedFactory, 'type', {
+          enumerable: false,
+          get: function () {
+            process.env.NODE_ENV !== 'production' ? warning(false, 'Factory.type is deprecated. Access the class directly ' + 'before passing it to createFactory.') : void 0;
+            Object.defineProperty(this, 'type', {
+              value: type
+            });
+            return type;
+          }
+        });
+      }
+    }
+
+    return validatedFactory;
+  },
+
+  cloneElement: function (element, props, children) {
+    var newElement = ReactElement.cloneElement.apply(this, arguments);
+    for (var i = 2; i < arguments.length; i++) {
+      validateChildKeys(arguments[i], newElement.type);
+    }
+    validatePropTypes(newElement);
+    return newElement;
+  }
+
+};
+
+module.exports = ReactElementValidator;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function createLinkElement(options) {
+	var linkElement = document.createElement("link");
+	linkElement.rel = "stylesheet";
+	insertStyleElement(options, linkElement);
+	return linkElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else if(obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function") {
+		styleElement = createLinkElement(options);
+		update = updateLink.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+			if(styleElement.href)
+				URL.revokeObjectURL(styleElement.href);
+		};
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		styleElement.setAttribute("media", media)
+	}
+
+	if(styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink(linkElement, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	if(sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = linkElement.href;
+
+	linkElement.href = URL.createObjectURL(blob);
+
+	if(oldSrc)
+		URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Import modules
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SmartDataTable = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _lodash = __webpack_require__(16);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _react = __webpack_require__(39);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _flat = __webpack_require__(25);
+
+var _flat2 = _interopRequireDefault(_flat);
+
+var _functions = __webpack_require__(22);
+
+var _styled = __webpack_require__(41);
+
+var _styled2 = _interopRequireDefault(_styled);
+
+var _basic = __webpack_require__(40);
+
+var _basic2 = _interopRequireDefault(_basic);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _React$PropTypes = _react2.default.PropTypes,
+    array = _React$PropTypes.array,
+    bool = _React$PropTypes.bool,
+    string = _React$PropTypes.string;
+
+var SmartDataTable = function (_React$Component) {
+  _inherits(SmartDataTable, _React$Component);
+
+  function SmartDataTable(props) {
+    _classCallCheck(this, SmartDataTable);
+
+    var _this = _possibleConstructorReturn(this, (SmartDataTable.__proto__ || Object.getPrototypeOf(SmartDataTable)).call(this, props));
+
+    _this.state = {
+      columns: [],
+      rows: [],
+      originalRows: [],
+      originalData: [],
+      sortDir: null
+    };
+    return _this;
+  }
+
+  _createClass(SmartDataTable, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var rawData = this.props.data;
+
+      var originalData = rawData.map(function (m) {
+        return _lodash2.default.isPlainObject(m) ? (0, _flat2.default)(m) : null;
+      }).filter(function (m) {
+        return !_lodash2.default.isNil(m) && !_lodash2.default.isEmpty(m);
+      });
+      var firstRow = originalData[0];
+      var columns = [];
+      var rows = [];
+
+      if (_lodash2.default.isPlainObject(firstRow)) {
+        _lodash2.default.forOwn(firstRow, function (value, key) {
+          return columns.push((0, _functions.parseHeader)(key));
+        });
+
+        if (!_lodash2.default.isEmpty(originalData)) {
+          rows = originalData.map(function (row) {
+            return Object.keys(row).map(function (key) {
+              return (0, _functions.parseCell)(row[key]);
+            });
+          });
+        } else {
+          console.error('Couldn\'t find Rows in the data supplied to SRDT');
+        }
+      } else {
+        console.error('Couldn\'t find Headers in the data supplied to SRDT');
+      }
+
+      this.setState({
+        columns: columns,
+        rows: rows,
+        originalRows: rows,
+        originalData: originalData
+      });
+    }
+  }, {
+    key: 'handleHeaderClick',
+    value: function handleHeaderClick(col) {
+      var sortable = this.props.sortable;
+
+      if (sortable) {
+        var _state = this.state,
+            originalRows = _state.originalRows,
+            sortDir = _state.sortDir;
+
+        var sortedRows = _lodash2.default.sortBy(originalRows, [col]);
+        var newSortDir = null;
+        if (sortDir === 'ASC') {
+          newSortDir = 'DESC';
+          _lodash2.default.reverse(sortedRows);
+        } else if (sortDir === 'DESC') {
+          newSortDir = null;
+          sortedRows = originalRows;
+        } else {
+          newSortDir = 'ASC';
+        }
+        this.setState({
+          rows: sortedRows,
+          sortDir: newSortDir
+        });
+      }
+    }
+  }, {
+    key: 'renderStyledTable',
+    value: function renderStyledTable() {
+      var _this2 = this;
+
+      var _props = this.props,
+          className = _props.className,
+          footer = _props.footer,
+          sortable = _props.sortable;
+      var _state2 = this.state,
+          columns = _state2.columns,
+          rows = _state2.rows;
+
+      var headClass = sortable ? ' sortable' : '';
+      var head = columns.map(function (header, i) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'rsdt cell' + headClass, key: 'rsdt-header-' + i, onClick: function onClick() {
+              return _this2.handleHeaderClick(i);
+            } },
+          header
+        );
+      });
+      var foot = columns.map(function (header, i) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'rsdt cell', key: 'rsdt-footer-' + i },
+          header
+        );
+      });
+      var body = rows.map(function (row, i) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'rsdt row', key: 'rsdt-row-' + i },
+          row.map(function (cell, j) {
+            return _react2.default.createElement(
+              'div',
+              { className: 'rsdt cell', key: 'rsdt-row-' + i + '-cell-' + j },
+              cell
+            );
+          })
+        );
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'rsdt table' },
+        _react2.default.createElement(
+          'div',
+          { className: 'rsdt head' },
+          _react2.default.createElement(
+            'div',
+            { className: 'rsdt row' },
+            head
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'rsdt body' },
+          body
+        ),
+        footer ? _react2.default.createElement(
+          'div',
+          { className: 'rsdt foot' },
+          _react2.default.createElement(
+            'div',
+            { className: 'rsdt row' },
+            foot
+          )
+        ) : null
+      );
+    }
+  }, {
+    key: 'renderHTMLTable',
+    value: function renderHTMLTable() {
+      var _this3 = this;
+
+      var _props2 = this.props,
+          className = _props2.className,
+          footer = _props2.footer,
+          sortable = _props2.sortable;
+      var _state3 = this.state,
+          columns = _state3.columns,
+          rows = _state3.rows;
+
+      var headClass = sortable ? 'sortable' : null;
+      var head = columns.map(function (header, i) {
+        return _react2.default.createElement(
+          'th',
+          { key: 'rsdt-header-' + i, className: headClass, onClick: function onClick() {
+              return _this3.handleHeaderClick(i);
+            } },
+          header
+        );
+      });
+      var foot = columns.map(function (header, i) {
+        return _react2.default.createElement(
+          'th',
+          { key: 'rsdt-footer-' + i },
+          header
+        );
+      });
+      var body = rows.map(function (row, i) {
+        return _react2.default.createElement(
+          'tr',
+          { key: 'rsdt-row-' + i },
+          row.map(function (cell, j) {
+            return _react2.default.createElement(
+              'td',
+              { key: 'rsdt-row-' + i + '-cell-' + j },
+              cell
+            );
+          })
+        );
+      });
+
+      return _react2.default.createElement(
+        'table',
+        { className: className },
+        _react2.default.createElement(
+          'thead',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            head
+          )
+        ),
+        _react2.default.createElement(
+          'tbody',
+          null,
+          body
+        ),
+        footer ? _react2.default.createElement(
+          'tfoot',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            foot
+          )
+        ) : null
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      /* get the data table name */
+      var _props3 = this.props,
+          name = _props3.name,
+          styled = _props3.styled;
+
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'rsdt', 'data-table-name': name },
+        styled ? this.renderStyledTable() : this.renderHTMLTable()
+      );
+    }
+  }]);
+
+  return SmartDataTable;
+}(_react2.default.Component);
+
+/* Defines the type of data expected in each passed prop */
+
+
+SmartDataTable.propTypes = {
+  data: array.isRequired,
+  name: string.isRequired,
+  styled: bool,
+  basic: bool,
+  footer: bool,
+  sortable: bool
+};
+
+/* Defines the default values for not passing a certain prop */
+SmartDataTable.defaultProps = {
+  data: [],
+  name: 'reactsmartdatatable',
+  styled: false,
+  basic: false,
+  footer: false,
+  sortable: false
+};
+
+exports.SmartDataTable = SmartDataTable;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseCell = exports.parseHeader = undefined;
+
+var _lodash = __webpack_require__(16);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function capitalizeAll(arr) {
+  return arr.map(function (m) {
+    return m ? _lodash2.default.capitalize(m) : '';
+  }).join(' ').trim();
+}
+
+function parseHeader(val) {
+
+  if (_lodash2.default.isString(val)) {
+    var camelCase = _lodash2.default.camelCase(val);
+    var parser = /^[a-z]+|[A-Z][a-z]*/g;
+
+    return capitalizeAll(camelCase.match(parser));
+  }
+
+  return '';
+}
+
+function parseCell(val) {
+  return val ? val : JSON.stringify(val);
+}
+
+exports.parseHeader = parseHeader;
+exports.parseCell = parseCell;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)();
+// imports
+
+
+// module
+exports.push([module.i, ".sortable {\n  cursor: pointer !important;\n  cursor: hand !important;\n  opacity: 1;\n}\n.sortable:hover {\n  opacity: 0.7;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)();
+// imports
+
+
+// module
+exports.push([module.i, ".rsdt .table {\n  display: table;\n  width: 100%;\n}\n\n.rsdt .head {\n  display: table-header-group;\n}\n\n.rsdt .body {\n  display: table-row-group;\n}\n\n.rsdt .foot {\n  display: table-footer-group;\n}\n\n.rsdt .row {\n  display: table-row;\n}\n\n.rsdt .cell {\n  display: table-cell;\n}\n\n.rsdt .head .cell {\n  font-weight: bold;\n}\n", ""]);
+
+// exports
+
 
 /***/ }),
 /* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isBuffer = __webpack_require__(26)
+
+var flat = module.exports = flatten
+flatten.flatten = flatten
+flatten.unflatten = unflatten
+
+function flatten(target, opts) {
+  opts = opts || {}
+
+  var delimiter = opts.delimiter || '.'
+  var maxDepth = opts.maxDepth
+  var output = {}
+
+  function step(object, prev, currentDepth) {
+    currentDepth = currentDepth ? currentDepth : 1
+    Object.keys(object).forEach(function(key) {
+      var value = object[key]
+      var isarray = opts.safe && Array.isArray(value)
+      var type = Object.prototype.toString.call(value)
+      var isbuffer = isBuffer(value)
+      var isobject = (
+        type === "[object Object]" ||
+        type === "[object Array]"
+      )
+
+      var newKey = prev
+        ? prev + delimiter + key
+        : key
+
+      if (!isarray && !isbuffer && isobject && Object.keys(value).length &&
+        (!opts.maxDepth || currentDepth < maxDepth)) {
+        return step(value, newKey, currentDepth + 1)
+      }
+
+      output[newKey] = value
+    })
+  }
+
+  step(target)
+
+  return output
+}
+
+function unflatten(target, opts) {
+  opts = opts || {}
+
+  var delimiter = opts.delimiter || '.'
+  var overwrite = opts.overwrite || false
+  var result = {}
+
+  var isbuffer = isBuffer(target)
+  if (isbuffer || Object.prototype.toString.call(target) !== '[object Object]') {
+    return target
+  }
+
+  // safely ensure that the key is
+  // an integer.
+  function getkey(key) {
+    var parsedKey = Number(key)
+
+    return (
+      isNaN(parsedKey) ||
+      key.indexOf('.') !== -1
+    ) ? key
+      : parsedKey
+  }
+
+  Object.keys(target).forEach(function(key) {
+    var split = key.split(delimiter)
+    var key1 = getkey(split.shift())
+    var key2 = getkey(split[0])
+    var recipient = result
+
+    while (key2 !== undefined) {
+      var type = Object.prototype.toString.call(recipient[key1])
+      var isobject = (
+        type === "[object Object]" ||
+        type === "[object Array]"
+      )
+
+      // do not write over falsey, non-undefined values if overwrite is false
+      if (!overwrite && !isobject && typeof recipient[key1] !== 'undefined') {
+        return
+      }
+
+      if ((overwrite && !isobject) || (!overwrite && recipient[key1] == null)) {
+        recipient[key1] = (
+          typeof key2 === 'number' &&
+          !opts.object ? [] : {}
+        )
+      }
+
+      recipient = recipient[key1]
+      if (split.length > 0) {
+        key1 = getkey(split.shift())
+        key2 = getkey(split[0])
+      }
+    }
+
+    // unflatten again for 'messy objects'
+    recipient[key1] = unflatten(target[key], opts)
+  })
+
+  return result
+}
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
+
+/***/ }),
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19620,7 +19940,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19738,7 +20058,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19756,16 +20076,16 @@ module.exports = PooledClass;
 
 var _assign = __webpack_require__(5);
 
-var ReactChildren = __webpack_require__(28);
+var ReactChildren = __webpack_require__(30);
 var ReactComponent = __webpack_require__(9);
-var ReactPureComponent = __webpack_require__(32);
-var ReactClass = __webpack_require__(29);
-var ReactDOMFactories = __webpack_require__(30);
+var ReactPureComponent = __webpack_require__(34);
+var ReactClass = __webpack_require__(31);
+var ReactDOMFactories = __webpack_require__(32);
 var ReactElement = __webpack_require__(3);
-var ReactPropTypes = __webpack_require__(31);
-var ReactVersion = __webpack_require__(33);
+var ReactPropTypes = __webpack_require__(33);
+var ReactVersion = __webpack_require__(35);
 
-var onlyChild = __webpack_require__(35);
+var onlyChild = __webpack_require__(37);
 var warning = __webpack_require__(1);
 
 var createElement = ReactElement.createElement;
@@ -19773,7 +20093,7 @@ var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactElementValidator = __webpack_require__(16);
+  var ReactElementValidator = __webpack_require__(18);
   createElement = ReactElementValidator.createElement;
   createFactory = ReactElementValidator.createFactory;
   cloneElement = ReactElementValidator.cloneElement;
@@ -19833,7 +20153,7 @@ module.exports = React;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19849,11 +20169,11 @@ module.exports = React;
 
 
 
-var PooledClass = __webpack_require__(26);
+var PooledClass = __webpack_require__(28);
 var ReactElement = __webpack_require__(3);
 
 var emptyFunction = __webpack_require__(7);
-var traverseAllChildren = __webpack_require__(36);
+var traverseAllChildren = __webpack_require__(38);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
 var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -20029,7 +20349,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20752,7 +21072,7 @@ module.exports = ReactClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20777,7 +21097,7 @@ var ReactElement = __webpack_require__(3);
  */
 var createDOMFactory = ReactElement.createFactory;
 if (process.env.NODE_ENV !== 'production') {
-  var ReactElementValidator = __webpack_require__(16);
+  var ReactElementValidator = __webpack_require__(18);
   createDOMFactory = ReactElementValidator.createFactory;
 }
 
@@ -20928,7 +21248,7 @@ module.exports = ReactDOMFactories;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20946,7 +21266,7 @@ module.exports = ReactDOMFactories;
 
 var ReactElement = __webpack_require__(3);
 var ReactPropTypeLocationNames = __webpack_require__(12);
-var ReactPropTypesSecret = __webpack_require__(17);
+var ReactPropTypesSecret = __webpack_require__(19);
 
 var emptyFunction = __webpack_require__(7);
 var getIteratorFn = __webpack_require__(14);
@@ -21368,7 +21688,7 @@ module.exports = ReactPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21415,7 +21735,7 @@ ReactPureComponent.prototype.isPureReactComponent = true;
 module.exports = ReactPureComponent;
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21434,7 +21754,7 @@ module.exports = ReactPureComponent;
 module.exports = '15.4.2';
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21453,7 +21773,7 @@ module.exports = '15.4.2';
 var _prodInvariant = __webpack_require__(4);
 
 var ReactPropTypeLocationNames = __webpack_require__(12);
-var ReactPropTypesSecret = __webpack_require__(17);
+var ReactPropTypesSecret = __webpack_require__(19);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(1);
@@ -21527,7 +21847,7 @@ module.exports = checkReactTypeSpec;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21571,7 +21891,7 @@ module.exports = onlyChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21590,11 +21910,11 @@ module.exports = onlyChild;
 var _prodInvariant = __webpack_require__(4);
 
 var ReactCurrentOwner = __webpack_require__(6);
-var REACT_ELEMENT_TYPE = __webpack_require__(15);
+var REACT_ELEMENT_TYPE = __webpack_require__(17);
 
 var getIteratorFn = __webpack_require__(14);
 var invariant = __webpack_require__(2);
-var KeyEscapeUtils = __webpack_require__(25);
+var KeyEscapeUtils = __webpack_require__(27);
 var warning = __webpack_require__(1);
 
 var SEPARATOR = '.';
@@ -21753,278 +22073,52 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(27);
+module.exports = __webpack_require__(29);
 
 
 /***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(20);
+var content = __webpack_require__(23);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(38)(content, {});
+var update = __webpack_require__(20)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!./basic.css", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!./basic.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(24);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(20)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -22041,7 +22135,7 @@ if(false) {
 }
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports) {
 
 var g;
@@ -22068,7 +22162,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -22096,7 +22190,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22106,7 +22200,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _SmartDataTable = __webpack_require__(18);
+var _SmartDataTable = __webpack_require__(21);
 
 Object.defineProperty(exports, 'SmartDataTable', {
   enumerable: true,

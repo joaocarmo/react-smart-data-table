@@ -1,10 +1,10 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A smart data table component for React.js meant to be configuration free",
   "main": "lib/index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "python -m SimpleHTTPServer 3000"
   },
   "repository": {
     "type": "git",

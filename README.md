@@ -16,12 +16,13 @@ $ npm install react-smart-data-table
 ```
 ## Props
 
-| Name   | Default             | Type      | Description                               |
-| :----- | :------------------ | :-------- | :---------------------------------------- |
-| data   | []                  | {array}   | An array of plain objects (can be nested) |
-| name   | reactsmartdatatable | {string}  | The name for the table                    |
-| styled | false               | {boolean} | Use divs instead of table tag             |
-| footer | false               | {boolean} | Copy the header to the footer             |
+| Name     | Default             | Type      | Description                               |
+| :------- | :------------------ | :-------- | :---------------------------------------- |
+| data     | []                  | {array}   | An array of plain objects (can be nested) |
+| name     | reactsmartdatatable | {string}  | The name for the table                    |
+| styled   | false               | {boolean} | Use divs instead of table tag             |
+| footer   | false               | {boolean} | Copy the header to the footer             |
+| sortable | false               | {boolean} | Makes the columns of the table sortable   |
 
 ## Example
 
@@ -50,7 +51,12 @@ for (var i=0; i<numResults; i++) {
 }
 
 ReactDOM.render(
-  <SmartDataTable data={testData} name='test-table' className={sematicUI} />,
+  <SmartDataTable
+    data={testData}
+    name='test-table'
+    className={sematicUI}
+    sortable
+  />,
   document.getElementById('app')
 )
 ```
