@@ -9,10 +9,16 @@ in the spirit of _plug and play_.
 Just feed it an array of equal JSON objects and it will created a template free
 table that can be customized easily with any framework.
 
+It currently supports:
+  1.  Humanized column names based on object keys
+  2.  Use `<div style={{display:'table'}}/>` instead of `<table/>`
+  3.  Sortable columns
+  4.  ~~Pagination~~
+
 ## Installation
 
 ``` bash
-$ npm install react-smart-data-table
+$ npm install --save react-smart-data-table
 ```
 ## Props
 
@@ -30,7 +36,7 @@ $ npm install react-smart-data-table
 import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
-import { SmartDataTable } from 'react-smart-data-table'
+import SmartDataTable from 'react-smart-data-table'
 
 var testData = []
 var numResults = 100

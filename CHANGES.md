@@ -1,3 +1,8 @@
+## 0.2.1
+> Mar 26, 2017
+
+- Added ReactSmartDataTable as a default export
+
 ## 0.2.0
 > Mar 25, 2017
 
