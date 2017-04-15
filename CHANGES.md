@@ -1,3 +1,8 @@
+## 0.2.3
+> Apr 15, 2017
+
+- Added live examples to _README.md_
+
 ## 0.2.2
 > Apr 15, 2017
 

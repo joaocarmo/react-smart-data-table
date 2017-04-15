@@ -66,3 +66,12 @@ ReactDOM.render(
   document.getElementById('app')
 )
 ```
+
+## Demo
+
+You can try _react-smart-data-table_ with different UI libraries or without
+using tables in the demo pages below.
+
+* [Semantic UI](https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
+* [Bootstrap](https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)
+* [Styled](https://joaocarmo.github.io/react-smart-data-table/examples/styled/)
