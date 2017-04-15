@@ -1,7 +1,12 @@
+## 0.2.2
+> Apr 15, 2017
+
+- Added PropTypes from the _prop-types_ npm module instead of the main _react_
+
 ## 0.2.1
 > Mar 26, 2017
 
-- Added ReactSmartDataTable as a default export
+- Added SmartDataTable as a default export
 
 ## 0.2.0
 > Mar 25, 2017
