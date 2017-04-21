@@ -27859,6 +27859,35 @@ var SmartDataTable = function (_React$Component) {
       });
     }
   }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var originalRows = this.state.originalRows;
+      var _filterValue = this.props.filterValue;
+      var filterValue = nextProps.filterValue;
+
+      if (_filterValue !== filterValue) {
+        this.setState({
+          rows: this.filterRows(filterValue, originalRows)
+        });
+      }
+    }
+  }, {
+    key: 'filterRows',
+    value: function filterRows(value, rows) {
+      if (!value) {
+        return rows;
+      } else {
+        return _lodash2.default.filter(rows, function (row) {
+          var regex = new RegExp('.*?' + value + '.*?', 'i');
+          var hasMatch = false;
+          _lodash2.default.forOwn(row, function (val, key) {
+            hasMatch = hasMatch || regex.test(val);
+          });
+          return hasMatch;
+        });
+      }
+    }
+  }, {
     key: 'handleHeaderClick',
     value: function handleHeaderClick(col) {
       var sortable = this.props.sortable;
@@ -28123,6 +28152,8 @@ exports.parseCell = parseCell;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(50);
 
 var _react2 = _interopRequireDefault(_react);
@@ -28140,6 +28171,12 @@ var _index = __webpack_require__(87);
 var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var testData = [];
 var numResults = 100;
@@ -28160,12 +28197,64 @@ for (var i = 0; i < numResults; i++) {
   });
 }
 
-_reactDom2.default.render(_react2.default.createElement(_index2.default, {
-  data: testData,
-  name: 'test-table',
-  className: sematicUI,
-  sortable: true
-}), document.getElementById('app'));
+var AppDemo = function (_React$Component) {
+  _inherits(AppDemo, _React$Component);
+
+  function AppDemo(props) {
+    _classCallCheck(this, AppDemo);
+
+    var _this = _possibleConstructorReturn(this, (AppDemo.__proto__ || Object.getPrototypeOf(AppDemo)).call(this, props));
+
+    _this.state = {
+      filterValue: ''
+    };
+
+    _this.handleOnChange = _this.handleOnChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AppDemo, [{
+    key: 'handleOnChange',
+    value: function handleOnChange(_ref) {
+      var target = _ref.target;
+
+      this.setState({
+        filterValue: target.value
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var filterValue = this.state.filterValue;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('input', {
+            type: 'text',
+            name: 'filter',
+            placeholder: 'Filter results...',
+            onChange: this.handleOnChange
+          })
+        ),
+        _react2.default.createElement(_index2.default, {
+          data: testData,
+          name: 'test-table',
+          className: sematicUI,
+          filterValue: filterValue,
+          sortable: true
+        })
+      );
+    }
+  }]);
+
+  return AppDemo;
+}(_react2.default.Component);
+
+_reactDom2.default.render(_react2.default.createElement(AppDemo, null), document.getElementById('app'));
 
 /***/ }),
 /* 93 */

@@ -13,7 +13,8 @@ It currently supports:
   1.  Humanized column names based on object keys
   2.  Use `<div style={{display:'table'}}/>` instead of `<table/>`
   3.  Sortable columns
-  4.  ~~Pagination~~
+  4.  Results filtering
+  5.  ~~Pagination~~
 
 ## Installation
 
@@ -22,13 +23,14 @@ $ npm install --save react-smart-data-table
 ```
 ## Props
 
-| Name     | Default             | Type      | Description                               |
-| :------- | :------------------ | :-------- | :---------------------------------------- |
-| data     | []                  | {array}   | An array of plain objects (can be nested) |
-| name     | reactsmartdatatable | {string}  | The name for the table                    |
-| styled   | false               | {boolean} | Use divs instead of table tag             |
-| footer   | false               | {boolean} | Copy the header to the footer             |
-| sortable | false               | {boolean} | Makes the columns of the table sortable   |
+| Name        | Default             | Type      | Description                               |
+| :---------- | :------------------ | :-------- | :---------------------------------------- |
+| data        | []                  | {array}   | An array of plain objects (can be nested) |
+| name        | reactsmartdatatable | {string}  | The name for the table                    |
+| styled      | false               | {boolean} | Use divs instead of table tag             |
+| footer      | false               | {boolean} | Copy the header to the footer             |
+| sortable    | false               | {boolean} | Makes the columns of the table sortable   |
+| filterValue | ''                  | {string}  | Filters all columns by its value          |
 
 ## Example
 

@@ -1,3 +1,9 @@
+## 0.3.0
+> Apr 21, 2017
+
+- Added filtering of all columns through a new prop _filterValue_ that accepts
+a string input as the value to use for the filter
+
 ## 0.2.3
 > Apr 15, 2017
 
