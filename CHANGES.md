@@ -1,3 +1,9 @@
+## 0.3.1
+> Apr 23, 2017
+
+- Fixed a bug where sorting would reset the filtering
+- Added a filtering example to _README.md_
+
 ## 0.3.0
 > Apr 21, 2017
 

@@ -27890,7 +27890,9 @@ var SmartDataTable = function (_React$Component) {
   }, {
     key: 'handleHeaderClick',
     value: function handleHeaderClick(col) {
-      var sortable = this.props.sortable;
+      var _props = this.props,
+          sortable = _props.sortable,
+          filterValue = _props.filterValue;
 
       if (sortable) {
         var _state = this.state,
@@ -27909,7 +27911,7 @@ var SmartDataTable = function (_React$Component) {
           newSortDir = 'ASC';
         }
         this.setState({
-          rows: sortedRows,
+          rows: this.filterRows(filterValue, sortedRows),
           sortDir: newSortDir
         });
       }
@@ -27919,10 +27921,10 @@ var SmartDataTable = function (_React$Component) {
     value: function renderStyledTable() {
       var _this2 = this;
 
-      var _props = this.props,
-          className = _props.className,
-          footer = _props.footer,
-          sortable = _props.sortable;
+      var _props2 = this.props,
+          className = _props2.className,
+          footer = _props2.footer,
+          sortable = _props2.sortable;
       var _state2 = this.state,
           columns = _state2.columns,
           rows = _state2.rows;
@@ -27991,10 +27993,10 @@ var SmartDataTable = function (_React$Component) {
     value: function renderHTMLTable() {
       var _this3 = this;
 
-      var _props2 = this.props,
-          className = _props2.className,
-          footer = _props2.footer,
-          sortable = _props2.sortable;
+      var _props3 = this.props,
+          className = _props3.className,
+          footer = _props3.footer,
+          sortable = _props3.sortable;
       var _state3 = this.state,
           columns = _state3.columns,
           rows = _state3.rows;
@@ -28062,9 +28064,9 @@ var SmartDataTable = function (_React$Component) {
     key: 'render',
     value: function render() {
       /* get the data table name */
-      var _props3 = this.props,
-          name = _props3.name,
-          styled = _props3.styled;
+      var _props4 = this.props,
+          name = _props4.name,
+          styled = _props4.styled;
 
 
       return _react2.default.createElement(
@@ -28087,7 +28089,8 @@ SmartDataTable.propTypes = {
   styled: _propTypes2.default.bool,
   basic: _propTypes2.default.bool,
   footer: _propTypes2.default.bool,
-  sortable: _propTypes2.default.bool
+  sortable: _propTypes2.default.bool,
+  filterValue: _propTypes2.default.string
 };
 
 /* Defines the default values for not passing a certain prop */
@@ -28097,7 +28100,8 @@ SmartDataTable.defaultProps = {
   styled: false,
   basic: false,
   footer: false,
-  sortable: false
+  sortable: false,
+  filterValue: ''
 };
 
 exports.default = SmartDataTable;
@@ -28180,7 +28184,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var testData = [];
 var numResults = 100;
-var sematicUI = 'ui compact selectable table';
+var sematicUI = {
+  segment: 'ui basic segment',
+  input: 'ui icon input',
+  searchIcon: 'search icon',
+  table: 'ui compact selectable table'
+};
 //var bootstrapUI = 'table table-condensed table-hover'
 
 for (var i = 0; i < numResults; i++) {
@@ -28232,18 +28241,23 @@ var AppDemo = function (_React$Component) {
         null,
         _react2.default.createElement(
           'div',
-          null,
-          _react2.default.createElement('input', {
-            type: 'text',
-            name: 'filter',
-            placeholder: 'Filter results...',
-            onChange: this.handleOnChange
-          })
+          { className: sematicUI.segment },
+          _react2.default.createElement(
+            'div',
+            { className: sematicUI.input },
+            _react2.default.createElement('input', {
+              type: 'text',
+              name: 'filter',
+              placeholder: 'Filter results...',
+              onChange: this.handleOnChange
+            }),
+            _react2.default.createElement('i', { className: sematicUI.searchIcon })
+          )
         ),
         _react2.default.createElement(_index2.default, {
           data: testData,
           name: 'test-table',
-          className: sematicUI,
+          className: sematicUI.table,
           filterValue: filterValue,
           sortable: true
         })
