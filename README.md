@@ -1,4 +1,5 @@
 # react-smart-data-table
+[![npm version](https://badge.fury.io/js/react-smart-data-table.svg)](https://badge.fury.io/js/react-smart-data-table)
 A smart data table component for React.js meant to be configuration free
 
 ## About
@@ -14,7 +15,8 @@ It currently supports:
   2.  Use `<div style={{display:'table'}}/>` instead of `<table/>`
   3.  Sortable columns
   4.  Results filtering
-  5.  ~~Pagination~~
+  5.  Column visibility toggles
+  6.  ~~Pagination~~
 
 ## Installation
 
@@ -30,6 +32,7 @@ $ npm install --save react-smart-data-table
 | styled      | false               | {boolean} | Use divs instead of table tag             |
 | footer      | false               | {boolean} | Copy the header to the footer             |
 | sortable    | false               | {boolean} | Makes the columns of the table sortable   |
+| withToggles | false               | {boolean} | Enables the column visibility toggles     |
 | filterValue | ''                  | {string}  | Filters all columns by its value          |
 
 ## Examples
@@ -76,7 +79,7 @@ ReactDOM.render(
 import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
-import SmartDataTable from './index'
+import SmartDataTable from 'react-smart-data-table'
 
 var testData = []
 var numResults = 100

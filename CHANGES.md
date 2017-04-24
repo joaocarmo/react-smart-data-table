@@ -1,3 +1,9 @@
+## 0.3.2
+> Apr 24, 2017
+
+- Added column visibility toggles
+  - Bug: need to fix compatibility with sorting
+
 ## 0.3.1
 > Apr 23, 2017
 
