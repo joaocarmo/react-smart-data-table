@@ -1,3 +1,9 @@
+## 0.3.3
+> Apr 25, 2017
+
+- Fixed the toggles and sorting compatibility bug
+- Added documentation for toggles
+
 ## 0.3.2
 > Apr 24, 2017
 

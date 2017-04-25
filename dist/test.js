@@ -27947,10 +27947,11 @@ var SmartDataTable = function (_React$Component) {
 
       if (sortable) {
         var _state = this.state,
+            columns = _state.columns,
             originalRows = _state.originalRows,
             sortDir = _state.sortDir;
 
-        var sortedRows = _lodash2.default.sortBy(originalRows, [col]);
+        var sortedRows = _lodash2.default.sortBy(originalRows, [(0, _functions.absCol)(col, columns)]);
         var newSortDir = null;
         if (sortDir === 'ASC') {
           newSortDir = 'DESC';
@@ -28315,7 +28316,7 @@ exports.default = Toggles;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.filterVisibleRows = exports.filterRowsByValue = exports.parseCell = exports.parseHeader = undefined;
+exports.absCol = exports.filterVisibleRows = exports.filterRowsByValue = exports.parseCell = exports.parseHeader = undefined;
 
 var _lodash = __webpack_require__(35);
 
@@ -28370,10 +28371,24 @@ function filterVisibleRows(rows, columns) {
   return visibleRows;
 }
 
+function absCol(idx, columns) {
+  var col = 0;
+  for (var i = 0, N = columns.length; i < N; i++) {
+    if (idx > 0) {
+      col += 1;
+      if (columns[i].visible) {
+        idx -= 1;
+      }
+    }
+  }
+  return col;
+}
+
 exports.parseHeader = parseHeader;
 exports.parseCell = parseCell;
 exports.filterRowsByValue = filterRowsByValue;
 exports.filterVisibleRows = filterVisibleRows;
+exports.absCol = absCol;
 
 /***/ }),
 /* 94 */
