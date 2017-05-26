@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "python -m SimpleHTTPServer 3000"
@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
-    "babel-loader": "^6.4.1",
     "flat": "^2.0.1",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.8"
@@ -35,14 +34,14 @@
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
-    "babel-loader": "^6.2.10",
+    "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "css-loader": "^0.28.0",
     "faker": "^4.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "style-loader": "^0.16.0",
+    "style-loader": "^0.18.0",
     "webpack": "^2.2.1"
   }
 }

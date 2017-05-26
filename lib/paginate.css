@@ -1,0 +1,32 @@
+.rsdt.paginate {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.rsdt.paginate.first,
+.rsdt.paginate.last,
+.rsdt.paginate.previous,
+.rsdt.paginate.next,
+.rsdt.paginate.link,
+.rsdt.paginate.current {
+  padding: 5px;
+}
+
+.rsdt.paginate.first,
+.rsdt.paginate.last,
+.rsdt.paginate.previous,
+.rsdt.paginate.next,
+.rsdt.paginate.link {
+  color: darkgrey;
+}
+
+.rsdt.paginate.first:hover,
+.rsdt.paginate.last:hover,
+.rsdt.paginate.previous:hover,
+.rsdt.paginate.next:hover,
+.rsdt.paginate.link:hover {
+  cursor: pointer;
+  color: lightskyblue;
+}

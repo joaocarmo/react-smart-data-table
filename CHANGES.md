@@ -1,3 +1,13 @@
+## 0.4.0
+> May 26, 2017
+
+- Added pagination support
+
+## 0.3.4
+> May 6, 2017
+
+- Package dependencies updated
+
 ## 0.3.3
 > Apr 25, 2017
 
