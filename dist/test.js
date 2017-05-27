@@ -28235,7 +28235,7 @@ var SmartDataTable = function (_React$Component) {
         return column.visible;
       });
       var visibleRows = (0, _functions.filterVisibleRows)(rows, columns);
-      var slicedRows = (0, _functions.sliceRowsPerPage)(rows, currentPage, perPage);
+      var slicedRows = (0, _functions.sliceRowsPerPage)(visibleRows, currentPage, perPage);
       var head = visibleColumns.map(function (header, i) {
         return _react2.default.createElement(
           'div',
@@ -28314,7 +28314,7 @@ var SmartDataTable = function (_React$Component) {
         return column.visible;
       });
       var visibleRows = (0, _functions.filterVisibleRows)(rows, columns);
-      var slicedRows = (0, _functions.sliceRowsPerPage)(rows, currentPage, perPage);
+      var slicedRows = (0, _functions.sliceRowsPerPage)(visibleRows, currentPage, perPage);
       var head = visibleColumns.map(function (header, i) {
         return _react2.default.createElement(
           'th',

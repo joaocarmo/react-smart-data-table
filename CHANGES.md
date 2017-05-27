@@ -1,3 +1,9 @@
+## 0.4.1
+> May 27, 2017
+
+- Fixed a bug where the visibility toggles wouldn't function introduced by the
+pagination support
+
 ## 0.4.0
 > May 26, 2017
 
