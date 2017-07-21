@@ -1,3 +1,10 @@
+## 0.5.0
+> Jul 21, 2017
+
+- Complete re-write of the whole component, makes the internal gears more
+flexible for future improvements
+- Removed the _styled_ prop and the ability to render the table using _div_'s
+
 ## 0.4.1
 > May 27, 2017
 

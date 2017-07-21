@@ -8,7 +8,7 @@ var devConfig = {
     filename: 'react.smart.data.table.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         exclude: /node_modules/,
@@ -33,7 +33,7 @@ var testConfig = {
     filename: 'test.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         exclude: /node_modules/,
@@ -58,7 +58,7 @@ var prodConfig = {
     filename: 'react.smart.data.table.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         exclude: /node_modules/,

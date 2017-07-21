@@ -1,8 +1,21 @@
-.sortable {
-  cursor: pointer !important;
-  cursor: hand !important;
-  opacity: 1;
+.rsdt.sortable {
+  margin-left: 10px;
 }
-.sortable:hover {
-  opacity: 0.7;
+.rsdt.sortable-icon:after {
+  font-size: 20px;
+  font-style: normal;
+  content: "\21D5";
+  cursor: pointer;
+}
+.rsdt.sortable-asc:after {
+  font-size: 20px;
+  font-style: normal;
+  content: "\2193";
+  cursor: pointer;
+}
+.rsdt.sortable-desc:after {
+  font-size: 20px;
+  font-style: normal;
+  content: "\2191";
+  cursor: pointer;
 }
