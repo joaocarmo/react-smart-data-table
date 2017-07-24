@@ -4,6 +4,10 @@
 - Complete re-write of the whole component, makes the internal gears more
 flexible for future improvements
 - Removed the _styled_ prop and the ability to render the table using _div_'s
+- Removed sorting by clicking on table header
+- Added sorting by clicking on table header sorting icon
+- Added different icons to represent sorting directions
+- Added string highlight to search filter
 
 ## 0.4.1
 > May 27, 2017
