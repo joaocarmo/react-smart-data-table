@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
-    "flat": "^3.0.0",
+    "flat": "^4.0.0",
+    "linkifyjs": "^2.1.4",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.8"
   },

@@ -8,6 +8,7 @@ flexible for future improvements
 - Added sorting by clicking on table header sorting icon
 - Added different icons to represent sorting directions
 - Added string highlight to search filter
+- Added _withLinks_ prop that detects and converts links to <a /> tags
 
 ## 0.4.1
 > May 27, 2017
