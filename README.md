@@ -81,8 +81,5 @@ ReactDOM.render(
 You can try _react-smart-data-table_ with different UI libraries in the demo
 pages below. You can experiment with different features as well.
 
-* [Semantic UI](https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
-* [Bootstrap](https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)
-* [Filterable](https://joaocarmo.github.io/react-smart-data-table/examples/filterable/)
-* [Toggles](https://joaocarmo.github.io/react-smart-data-table/examples/toggles/)
-* [Pagination](https://joaocarmo.github.io/react-smart-data-table/examples/pagination/)
+* [Semantic UI: All Features](https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
+* [Bootstrap: Sortable](https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)

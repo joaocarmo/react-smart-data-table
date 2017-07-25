@@ -11,6 +11,7 @@ flexible for future improvements
 - Added _withLinks_ prop that detects and converts links to <a /> tags
 - Column toggles no longer require the custom component, it's built-in
 - Added example with per page dropdown selection
+- Converted pagination _span_ tags to _a_ tags
 
 ## 0.4.1
 > May 27, 2017
