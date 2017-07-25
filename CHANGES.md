@@ -1,5 +1,5 @@
 ## 0.5.0
-> Jul 21, 2017
+> Jul 25, 2017
 
 - Complete re-write of the whole component, makes the internal gears more
 flexible for future improvements
