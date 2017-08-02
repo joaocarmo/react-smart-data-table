@@ -1,3 +1,8 @@
+## 0.5.1
+> Aug 2, 2017
+
+- Highlighting text now works with _withLinks_
+
 ## 0.5.0
 > Jul 25, 2017
 
