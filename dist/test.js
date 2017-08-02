@@ -114556,6 +114556,7 @@ var SmartDataTable = function (_React$Component) {
         rows: rows,
         originalRows: rows
       });
+      this.showWarnings();
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -114569,6 +114570,14 @@ var SmartDataTable = function (_React$Component) {
           rows: (0, _functions.filterRows)(filterValue, originalRows)
         });
       }
+    }
+  }, {
+    key: 'showWarnings',
+    value: function showWarnings() {
+      var styled = this.props.styled;
+
+      var styledError = '[SmartDataTable] The styled prop has been deprecated in v0.5 and is no longer valid.';
+      if (styled) console.error(styledError);
     }
   }, {
     key: 'handleColumnToggle',

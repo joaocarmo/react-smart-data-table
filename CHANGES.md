@@ -2,6 +2,8 @@
 > Aug 2, 2017
 
 - Highlighting text now works with _withLinks_
+- Added pagination with ellipsis for large amounts of data
+- Added deprecation warning for _styled_ prop
 
 ## 0.5.0
 > Jul 25, 2017
