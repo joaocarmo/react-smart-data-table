@@ -13157,7 +13157,7 @@ module.exports = castFunction;
 /***/ (function(module, exports, __webpack_require__) {
 
 var toString = __webpack_require__(34),
-    upperFirst = __webpack_require__(1408);
+    upperFirst = __webpack_require__(1412);
 
 /**
  * Converts the first character of `string` to upper case and the remaining
@@ -114502,9 +114502,9 @@ var _Paginate = __webpack_require__(1401);
 
 var _Paginate2 = _interopRequireDefault(_Paginate);
 
-var _functions = __webpack_require__(1405);
+var _functions = __webpack_require__(1409);
 
-__webpack_require__(1431);
+__webpack_require__(1435);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -119374,11 +119374,23 @@ var _propTypes = __webpack_require__(44);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _times = __webpack_require__(1402);
+var _segmentize = __webpack_require__(1402);
+
+var _segmentize2 = _interopRequireDefault(_segmentize);
+
+var _times = __webpack_require__(1403);
 
 var _times2 = _interopRequireDefault(_times);
 
-__webpack_require__(1403);
+var _last = __webpack_require__(1404);
+
+var _last2 = _interopRequireDefault(_last);
+
+var _first = __webpack_require__(1405);
+
+var _first2 = _interopRequireDefault(_first);
+
+__webpack_require__(1407);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -119423,9 +119435,97 @@ var Paginate = function (_React$Component) {
       onPageClick(nextPage || _nextPage);
     }
   }, {
+    key: 'pageToLink',
+    value: function pageToLink(page) {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'a',
+        { href: '/', className: 'rsdt rsdt-paginate link', key: page, onClick: function onClick(e) {
+            e.preventDefault();_this2.handlePageClick(null, null, null, page);
+          } },
+        page
+      );
+    }
+  }, {
+    key: 'centerPage',
+    value: function centerPage(page) {
+      return _react2.default.createElement(
+        'span',
+        { className: 'rsdt rsdt-paginate current', key: page },
+        page
+      );
+    }
+  }, {
+    key: 'ellipsis',
+    value: function ellipsis(position) {
+      return _react2.default.createElement(
+        'span',
+        { className: 'rsdt rsdt-paginate ellipsis', key: 'ellipsis' + position },
+        '\u2026'
+      );
+    }
+  }, {
+    key: 'renderInnerPages',
+    value: function renderInnerPages(currentPage, numPages) {
+      var _this3 = this;
+
+      if (numPages < 9) {
+        return this.renderInnerPagesFew(currentPage, numPages);
+      } else {
+        var pagination = [];
+        var segments = (0, _segmentize2.default)({
+          page: currentPage,
+          pages: numPages,
+          beginPages: 2,
+          endPages: 2,
+          sidePages: 1
+        });
+        segments.beginPages.forEach(function (page) {
+          return pagination.push(_this3.pageToLink(page));
+        });
+        if ((0, _first2.default)(segments.previousPages) - 1 > (0, _last2.default)(segments.beginPages)) pagination.push(this.ellipsis('begin'));
+        segments.previousPages.forEach(function (page) {
+          return pagination.push(_this3.pageToLink(page));
+        });
+        segments.centerPage.forEach(function (page) {
+          return pagination.push(_this3.centerPage(page));
+        });
+        segments.nextPages.forEach(function (page) {
+          return pagination.push(_this3.pageToLink(page));
+        });
+        if ((0, _last2.default)(segments.nextPages) + 1 < (0, _first2.default)(segments.endPages)) pagination.push(this.ellipsis('end'));
+        segments.endPages.forEach(function (page) {
+          return pagination.push(_this3.pageToLink(page));
+        });
+        return pagination;
+      }
+    }
+  }, {
+    key: 'renderInnerPagesFew',
+    value: function renderInnerPagesFew(currentPage, numPages) {
+      var _this4 = this;
+
+      return (0, _times2.default)(numPages, function (i) {
+        var page = i + 1;
+        if (page === currentPage) return _react2.default.createElement(
+          'span',
+          { className: 'rsdt rsdt-paginate current', key: page },
+          page
+        );
+        return _react2.default.createElement(
+          'a',
+          { href: '/', className: 'rsdt rsdt-paginate link', key: page, onClick: function onClick(e) {
+              e.preventDefault();_this4.handlePageClick(null, currentPage, numPages, page);
+            } },
+          page
+        );
+      });
+    }
+  }, {
     key: 'renderPaginate',
     value: function renderPaginate() {
-      var _this2 = this;
+      var _this5 = this;
 
       var _props = this.props,
           rows = _props.rows,
@@ -119440,43 +119540,29 @@ var Paginate = function (_React$Component) {
         _react2.default.createElement(
           'a',
           { href: '/', className: 'rsdt rsdt-paginate first', onClick: function onClick(e) {
-              e.preventDefault();_this2.handlePageClick('first', currentPage, numPages);
+              e.preventDefault();_this5.handlePageClick('first', currentPage, numPages);
             } },
           'First'
         ),
         _react2.default.createElement(
           'a',
           { href: '/', className: 'rsdt rsdt-paginate previous', onClick: function onClick(e) {
-              e.preventDefault();_this2.handlePageClick('previous', currentPage, numPages);
+              e.preventDefault();_this5.handlePageClick('previous', currentPage, numPages);
             } },
           'Previous'
         ),
-        (0, _times2.default)(numPages, function (i) {
-          var page = i + 1;
-          if (page === currentPage) return _react2.default.createElement(
-            'span',
-            { className: 'rsdt rsdt-paginate current', key: page },
-            page
-          );
-          return _react2.default.createElement(
-            'a',
-            { href: '/', className: 'rsdt rsdt-paginate link', key: page, onClick: function onClick(e) {
-                e.preventDefault();_this2.handlePageClick(null, currentPage, numPages, page);
-              } },
-            page
-          );
-        }),
+        this.renderInnerPages(currentPage, numPages),
         _react2.default.createElement(
           'a',
           { href: '/', className: 'rsdt rsdt-paginate next', onClick: function onClick(e) {
-              e.preventDefault();_this2.handlePageClick('next', currentPage, numPages);
+              e.preventDefault();_this5.handlePageClick('next', currentPage, numPages);
             } },
           'Next'
         ),
         _react2.default.createElement(
           'a',
           { href: '/', className: 'rsdt rsdt-paginate last', onClick: function onClick(e) {
-              e.preventDefault();_this2.handlePageClick('last', currentPage, numPages);
+              e.preventDefault();_this5.handlePageClick('last', currentPage, numPages);
             } },
           'Last'
         )
@@ -119512,6 +119598,51 @@ exports.default = Paginate;
 
 /***/ }),
 /* 1402 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (o) {
+  var pages = o.pages;
+  var page = Math.min(Math.max(o.page, 1), pages);
+  var previousPages = o.sidePages ?
+    range(Math.max(page - o.sidePages, 1), page) : [];
+  var nextPages = o.sidePages ?
+    range(page + 1, Math.min(page + o.sidePages + 1, pages)) : [];
+  var beginPages = o.beginPages ? range(1, Math.min(o.beginPages, pages) + 1) : [];
+  var endPages = o.endPages ? range(Math.max(pages - o.endPages + 1, 0), pages + 1) : [];
+
+  return {
+    beginPages: difference(beginPages, range(page, Math.max(pages, o.beginPages) + 1)),
+    previousPages: difference(previousPages, beginPages),
+    centerPage: [page],
+    nextPages: difference(nextPages, endPages),
+    endPages: difference(endPages, range(0, page + 1))
+  };
+};
+
+function range(a, b) {
+  var len = b ? b : a;
+  var ret = [];
+  var i = b ? a : 0;
+
+  for (; i < len; i++) {
+    ret.push(i);
+  }
+
+  return ret;
+}
+
+function difference(a, b) {
+  return a.filter(function (v) {
+    return b.indexOf(v) < 0;
+  });
+}
+
+
+/***/ }),
+/* 1403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseTimes = __webpack_require__(125),
@@ -119568,13 +119699,75 @@ module.exports = times;
 
 
 /***/ }),
-/* 1403 */
+/* 1404 */
+/***/ (function(module, exports) {
+
+/**
+ * Gets the last element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the last element of `array`.
+ * @example
+ *
+ * _.last([1, 2, 3]);
+ * // => 3
+ */
+function last(array) {
+  var length = array == null ? 0 : array.length;
+  return length ? array[length - 1] : undefined;
+}
+
+module.exports = last;
+
+
+/***/ }),
+/* 1405 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(1406);
+
+
+/***/ }),
+/* 1406 */
+/***/ (function(module, exports) {
+
+/**
+ * Gets the first element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @alias first
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the first element of `array`.
+ * @example
+ *
+ * _.head([1, 2, 3]);
+ * // => 1
+ *
+ * _.head([]);
+ * // => undefined
+ */
+function head(array) {
+  return (array && array.length) ? array[0] : undefined;
+}
+
+module.exports = head;
+
+
+/***/ }),
+/* 1407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(1404);
+var content = __webpack_require__(1408);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -119599,7 +119792,7 @@ if(false) {
 }
 
 /***/ }),
-/* 1404 */
+/* 1408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(81)(undefined);
@@ -119613,7 +119806,7 @@ exports.push([module.i, ".rsdt.rsdt-paginate {\n  text-align: center;\n  margin-
 
 
 /***/ }),
-/* 1405 */
+/* 1409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -119632,7 +119825,7 @@ exports.filterRowsByValue = filterRowsByValue;
 exports.filterRows = filterRows;
 exports.sliceRowsPerPage = sliceRowsPerPage;
 
-var _flat = __webpack_require__(1406);
+var _flat = __webpack_require__(1410);
 
 var _flat2 = _interopRequireDefault(_flat);
 
@@ -119640,19 +119833,19 @@ var _capitalize = __webpack_require__(143);
 
 var _capitalize2 = _interopRequireDefault(_capitalize);
 
-var _isString = __webpack_require__(1415);
+var _isString = __webpack_require__(1419);
 
 var _isString2 = _interopRequireDefault(_isString);
 
-var _camelCase = __webpack_require__(1416);
+var _camelCase = __webpack_require__(1420);
 
 var _camelCase2 = _interopRequireDefault(_camelCase);
 
-var _filter = __webpack_require__(1426);
+var _filter = __webpack_require__(1430);
 
 var _filter2 = _interopRequireDefault(_filter);
 
-var _forOwn = __webpack_require__(1428);
+var _forOwn = __webpack_require__(1432);
 
 var _forOwn2 = _interopRequireDefault(_forOwn);
 
@@ -119664,7 +119857,7 @@ var _isArray = __webpack_require__(8);
 
 var _isArray2 = _interopRequireDefault(_isArray);
 
-var _isPlainObject = __webpack_require__(1429);
+var _isPlainObject = __webpack_require__(1433);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
@@ -119760,10 +119953,10 @@ function sliceRowsPerPage(rows, currentPage, perPage) {
 }
 
 /***/ }),
-/* 1406 */
+/* 1410 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isBuffer = __webpack_require__(1407)
+var isBuffer = __webpack_require__(1411)
 
 module.exports = flatten
 flatten.flatten = flatten
@@ -119876,7 +120069,7 @@ function unflatten (target, opts) {
 
 
 /***/ }),
-/* 1407 */
+/* 1411 */
 /***/ (function(module, exports) {
 
 /*!
@@ -119903,10 +120096,10 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 1408 */
+/* 1412 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createCaseFirst = __webpack_require__(1409);
+var createCaseFirst = __webpack_require__(1413);
 
 /**
  * Converts the first character of `string` to upper case.
@@ -119931,12 +120124,12 @@ module.exports = upperFirst;
 
 
 /***/ }),
-/* 1409 */
+/* 1413 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castSlice = __webpack_require__(1410),
+var castSlice = __webpack_require__(1414),
     hasUnicode = __webpack_require__(144),
-    stringToArray = __webpack_require__(1412),
+    stringToArray = __webpack_require__(1416),
     toString = __webpack_require__(34);
 
 /**
@@ -119970,10 +120163,10 @@ module.exports = createCaseFirst;
 
 
 /***/ }),
-/* 1410 */
+/* 1414 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSlice = __webpack_require__(1411);
+var baseSlice = __webpack_require__(1415);
 
 /**
  * Casts `array` to a slice if it's needed.
@@ -119994,7 +120187,7 @@ module.exports = castSlice;
 
 
 /***/ }),
-/* 1411 */
+/* 1415 */
 /***/ (function(module, exports) {
 
 /**
@@ -120031,12 +120224,12 @@ module.exports = baseSlice;
 
 
 /***/ }),
-/* 1412 */
+/* 1416 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var asciiToArray = __webpack_require__(1413),
+var asciiToArray = __webpack_require__(1417),
     hasUnicode = __webpack_require__(144),
-    unicodeToArray = __webpack_require__(1414);
+    unicodeToArray = __webpack_require__(1418);
 
 /**
  * Converts `string` to an array.
@@ -120055,7 +120248,7 @@ module.exports = stringToArray;
 
 
 /***/ }),
-/* 1413 */
+/* 1417 */
 /***/ (function(module, exports) {
 
 /**
@@ -120073,7 +120266,7 @@ module.exports = asciiToArray;
 
 
 /***/ }),
-/* 1414 */
+/* 1418 */
 /***/ (function(module, exports) {
 
 /** Used to compose unicode character classes. */
@@ -120119,7 +120312,7 @@ module.exports = unicodeToArray;
 
 
 /***/ }),
-/* 1415 */
+/* 1419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(18),
@@ -120155,11 +120348,11 @@ module.exports = isString;
 
 
 /***/ }),
-/* 1416 */
+/* 1420 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var capitalize = __webpack_require__(143),
-    createCompounder = __webpack_require__(1417);
+    createCompounder = __webpack_require__(1421);
 
 /**
  * Converts `string` to [camel case](https://en.wikipedia.org/wiki/CamelCase).
@@ -120190,12 +120383,12 @@ module.exports = camelCase;
 
 
 /***/ }),
-/* 1417 */
+/* 1421 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayReduce = __webpack_require__(1418),
-    deburr = __webpack_require__(1419),
-    words = __webpack_require__(1422);
+var arrayReduce = __webpack_require__(1422),
+    deburr = __webpack_require__(1423),
+    words = __webpack_require__(1426);
 
 /** Used to compose unicode capture groups. */
 var rsApos = "['\u2019]";
@@ -120220,7 +120413,7 @@ module.exports = createCompounder;
 
 
 /***/ }),
-/* 1418 */
+/* 1422 */
 /***/ (function(module, exports) {
 
 /**
@@ -120252,10 +120445,10 @@ module.exports = arrayReduce;
 
 
 /***/ }),
-/* 1419 */
+/* 1423 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var deburrLetter = __webpack_require__(1420),
+var deburrLetter = __webpack_require__(1424),
     toString = __webpack_require__(34);
 
 /** Used to match Latin Unicode letters (excluding mathematical operators). */
@@ -120303,10 +120496,10 @@ module.exports = deburr;
 
 
 /***/ }),
-/* 1420 */
+/* 1424 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var basePropertyOf = __webpack_require__(1421);
+var basePropertyOf = __webpack_require__(1425);
 
 /** Used to map Latin Unicode letters to basic Latin letters. */
 var deburredLetters = {
@@ -120380,7 +120573,7 @@ module.exports = deburrLetter;
 
 
 /***/ }),
-/* 1421 */
+/* 1425 */
 /***/ (function(module, exports) {
 
 /**
@@ -120400,13 +120593,13 @@ module.exports = basePropertyOf;
 
 
 /***/ }),
-/* 1422 */
+/* 1426 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var asciiWords = __webpack_require__(1423),
-    hasUnicodeWord = __webpack_require__(1424),
+var asciiWords = __webpack_require__(1427),
+    hasUnicodeWord = __webpack_require__(1428),
     toString = __webpack_require__(34),
-    unicodeWords = __webpack_require__(1425);
+    unicodeWords = __webpack_require__(1429);
 
 /**
  * Splits `string` into an array of its words.
@@ -120441,7 +120634,7 @@ module.exports = words;
 
 
 /***/ }),
-/* 1423 */
+/* 1427 */
 /***/ (function(module, exports) {
 
 /** Used to match words composed of alphanumeric characters. */
@@ -120462,7 +120655,7 @@ module.exports = asciiWords;
 
 
 /***/ }),
-/* 1424 */
+/* 1428 */
 /***/ (function(module, exports) {
 
 /** Used to detect strings that need a more robust regexp to match words. */
@@ -120483,7 +120676,7 @@ module.exports = hasUnicodeWord;
 
 
 /***/ }),
-/* 1425 */
+/* 1429 */
 /***/ (function(module, exports) {
 
 /** Used to compose unicode character classes. */
@@ -120558,11 +120751,11 @@ module.exports = unicodeWords;
 
 
 /***/ }),
-/* 1426 */
+/* 1430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayFilter = __webpack_require__(124),
-    baseFilter = __webpack_require__(1427),
+    baseFilter = __webpack_require__(1431),
     baseIteratee = __webpack_require__(70),
     isArray = __webpack_require__(8);
 
@@ -120612,7 +120805,7 @@ module.exports = filter;
 
 
 /***/ }),
-/* 1427 */
+/* 1431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseEach = __webpack_require__(136);
@@ -120639,7 +120832,7 @@ module.exports = baseFilter;
 
 
 /***/ }),
-/* 1428 */
+/* 1432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseForOwn = __webpack_require__(137),
@@ -120681,11 +120874,11 @@ module.exports = forOwn;
 
 
 /***/ }),
-/* 1429 */
+/* 1433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(18),
-    getPrototype = __webpack_require__(1430),
+    getPrototype = __webpack_require__(1434),
     isObjectLike = __webpack_require__(19);
 
 /** `Object#toString` result references. */
@@ -120749,7 +120942,7 @@ module.exports = isPlainObject;
 
 
 /***/ }),
-/* 1430 */
+/* 1434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var overArg = __webpack_require__(130);
@@ -120761,13 +120954,13 @@ module.exports = getPrototype;
 
 
 /***/ }),
-/* 1431 */
+/* 1435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(1432);
+var content = __webpack_require__(1436);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -120792,7 +120985,7 @@ if(false) {
 }
 
 /***/ }),
-/* 1432 */
+/* 1436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(81)(undefined);

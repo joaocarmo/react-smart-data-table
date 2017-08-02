@@ -28,7 +28,8 @@
     "flat": "^4.0.0",
     "linkifyjs": "^2.1.4",
     "lodash": "^4.17.4",
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.5.8",
+    "segmentize": "^0.4.1"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0"
