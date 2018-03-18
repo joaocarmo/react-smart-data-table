@@ -1,9 +1,11 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
-    "start": "python -m SimpleHTTPServer 3000"
+    "start": "python -m SimpleHTTPServer 3000",
+    "test": "webpack --env=test --mode development",
+    "prd": "webpack --env=production --mode production"
   },
   "main": "lib/index.js",
   "repository": {
@@ -27,23 +29,24 @@
   "dependencies": {
     "flat": "^4.0.0",
     "linkifyjs": "^2.1.4",
-    "lodash": "^4.17.4",
-    "prop-types": "^15.5.8",
-    "segmentize": "^0.4.1"
+    "lodash": "^4.17.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "segmentize": "^0.4.1",
+    "style-loader": "^0.20.3"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.22.1",
-    "babel-loader": "^7.0.0",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.22.0",
-    "css-loader": "^0.28.0",
+    "css-loader": "^0.28.11",
     "faker": "^4.1.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "style-loader": "^0.18.0",
-    "webpack": "^3.4.1"
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12"
   }
 }

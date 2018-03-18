@@ -14,7 +14,7 @@ var devConfig = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: [ 'react', 'es2015' ]
+          presets: [ 'react', 'env' ]
         }
       },
       {
@@ -39,7 +39,7 @@ var testConfig = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: [ 'react', 'es2015' ]
+          presets: [ 'react', 'env' ]
         }
       },
       {
@@ -64,7 +64,7 @@ var prodConfig = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: [ 'react', 'es2015' ]
+          presets: [ 'react', 'env' ]
         }
       },
       {
@@ -72,24 +72,7 @@ var prodConfig = {
         use: [ 'style-loader', 'css-loader' ]
       }
     ]
-  },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true
-      },
-      compress: {
-        screw_ie8: true
-      },
-      comments: false
-    })
-  ]
+  }
 };
 
 function buildConfig(env) {

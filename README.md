@@ -83,3 +83,19 @@ pages below. You can experiment with different features as well.
 
 * [Semantic UI: All Features](https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
 * [Bootstrap: Sortable](https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)
+
+
+## Forking / Contributing
+
+If you want to fork or contribute, it's easy to test changes. Just run the
+_test_ compilation command and, if all goes well, run the _start_ command to
+start an HTTP server (requires _Python_) in the root folder where you can easily
+access the test subfolder from your browser.
+
+```
+npm run test
+
+npm start
+
+http://localhost:3000/test/
+```

@@ -1,3 +1,8 @@
+## 0.5.2
+> Mar 18, 2018
+
+- Tested and updated the dependencies, will bring improvements very soon
+
 ## 0.5.1
 > Aug 2, 2017
 
