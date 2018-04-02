@@ -1,3 +1,8 @@
+## 0.5.3
+> Apr 2, 2018
+
+- Added the prop _withHeaders_ (courtesy of [Derush](https://github.com/Derush))
+
 ## 0.5.2
 > Mar 18, 2018
 

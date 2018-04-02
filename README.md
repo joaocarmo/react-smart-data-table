@@ -22,21 +22,22 @@ It currently supports:
 ## Installation
 
 ``` bash
-$ npm install --save react-smart-data-table
+$ npm install react-smart-data-table
 ```
+
 ## Props
 
-| Name        | Default             | Type      | Description                                           |
-| :---------- | :------------------ | :-------- | :---------------------------------------------------- |
-| data        | []                  | {array}   | An array of plain objects (can be nested)             |
-| name        | reactsmartdatatable | {string}  | The name for the table                                |
-| ~~styled~~  | ~~false~~           | ~~{boolean}~~ | ~~Use divs instead of table tag~~                 |
-| footer      | false               | {boolean} | Copy the header to the footer                         |
-| sortable    | false               | {boolean} | Makes the columns of the table sortable               |
-| withToggles | false               | {boolean} | Enables the column visibility toggles                 |
-| withLinks   | false               | {boolean} | Converts e-mails and url addresses to links           |
-| filterValue | ''                  | {string}  | Filters all columns by its value                      |
-| perPage     | 0                   | {number}  | Paginates the results with the value as rows per page |
+| Name        | Default             | Type      | Description                                            |
+| :---------- | :------------------ | :-------- | :----------------------------------------------------- |
+| data        | []                  | {array}   | An array of plain objects (can be nested)              |
+| name        | reactsmartdatatable | {string}  | The name for the table                                 |
+| footer      | false               | {boolean} | Copy the header to the footer                          |
+| sortable    | false               | {boolean} | Makes the columns of the table sortable                |
+| withToggles | false               | {boolean} | Enables the column visibility toggles                  |
+| withLinks   | false               | {boolean} | Converts e-mails and url addresses to links            |
+| withHeaders | true                | {boolean} | Can be used to disable the rendering of column headers |
+| filterValue | ''                  | {string}  | Filters all columns by its value                       |
+| perPage     | 0                   | {number}  | Paginates the results with the value as rows per page  |
 
 ## Examples
 
@@ -87,15 +88,15 @@ pages below. You can experiment with different features as well.
 
 ## Forking / Contributing
 
-If you want to fork or contribute, it's easy to test changes. Just run the
+If you want to fork or contribute, it's easy to test your changes. Just run the
 _test_ compilation command and, if all goes well, run the _start_ command to
 start an HTTP server (requires _Python_) in the root folder where you can easily
 access the test subfolder from your browser.
 
-```
-npm run test
+``` bash
+$ npm test
 
-npm start
+$ npm start
 
 http://localhost:3000/test/
 ```
