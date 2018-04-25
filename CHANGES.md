@@ -1,3 +1,9 @@
+## 0.5.4
+> Apr 25, 2018
+
+- Exposed the library as a compiled bundle in order to avoid import errors due
+to the ES6 syntax
+
 ## 0.5.3
 > Apr 2, 2018
 

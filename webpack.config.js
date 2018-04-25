@@ -1,30 +1,5 @@
 var webpack = require('webpack');
 
-var devConfig = {
-  context: __dirname + '/lib',
-  entry: './index.js',
-  output: {
-    path: __dirname + '/dist',
-    filename: 'react.smart.data.table.js'
-  },
-  module: {
-    rules: [
-      {
-        test: /.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: [ 'react', 'env' ]
-        }
-      },
-      {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      }
-    ]
-  }
-};
-
 var testConfig = {
   context: __dirname + '/lib',
   entry: './test.js',
@@ -55,8 +30,11 @@ var prodConfig = {
   entry: './index.js',
   output: {
     path: __dirname + '/dist',
-    filename: 'react.smart.data.table.js'
+    filename: 'react.smart.data.table.js',
+    library: 'SmartDataTable',
+    libraryTarget: 'umd'
   },
+  // externals: {},
   module: {
     rules: [
       {
@@ -77,8 +55,6 @@ var prodConfig = {
 
 function buildConfig(env) {
   switch (env) {
-    case 'development':
-      return devConfig;
     case 'test':
       return testConfig;
     default:

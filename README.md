@@ -21,7 +21,7 @@ It currently supports:
 
 ## Installation
 
-``` bash
+```
 $ npm install react-smart-data-table
 ```
 
@@ -93,7 +93,7 @@ _test_ compilation command and, if all goes well, run the _start_ command to
 start an HTTP server (requires _Python_) in the root folder where you can easily
 access the test subfolder from your browser.
 
-``` bash
+```
 $ npm test
 
 $ npm start

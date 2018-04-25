@@ -1,13 +1,13 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "python -m SimpleHTTPServer 3000",
     "test": "webpack --env=test --mode development",
     "prd": "webpack --env=production --mode production"
   },
-  "main": "lib/index.js",
+  "main": "dist/react.smart.data.table.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joaocarmo/react-smart-data-table.git"
@@ -30,11 +30,7 @@
     "flat": "^4.0.0",
     "linkifyjs": "^2.1.4",
     "lodash": "^4.17.5",
-    "prop-types": "^15.6.1",
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
-    "segmentize": "^0.4.1",
-    "style-loader": "^0.20.3"
+    "segmentize": "^0.4.1"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
@@ -46,6 +42,10 @@
     "babel-preset-react": "^6.22.0",
     "css-loader": "^0.28.11",
     "faker": "^4.1.0",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "style-loader": "^0.21.0",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13"
   }
