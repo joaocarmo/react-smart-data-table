@@ -1,3 +1,8 @@
+## 0.5.5
+> Apr 30, 2018
+
+- Added an [Error Boundary](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html#introducing-error-boundaries)
+
 ## 0.5.4
 > Apr 25, 2018
 

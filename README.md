@@ -94,6 +94,8 @@ start an HTTP server (requires _Python_) in the root folder where you can easily
 access the test subfolder from your browser.
 
 ```
+$ npm build
+
 $ npm test
 
 $ npm start

@@ -12,9 +12,12 @@ var testConfig = {
       {
         test: /.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: [ 'react', 'env' ]
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [ '@babel/react', '@babel/env' ],
+            plugins: [ require('@babel/plugin-proposal-object-rest-spread') ]
+          }
         }
       },
       {
@@ -40,9 +43,12 @@ var prodConfig = {
       {
         test: /.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: [ 'react', 'env' ]
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [ '@babel/react', '@babel/env' ],
+            plugins: [ require('@babel/plugin-proposal-object-rest-spread') ]
+          }
         }
       },
       {
