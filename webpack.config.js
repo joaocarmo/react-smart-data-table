@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 var testConfig = {
   context: __dirname + '/lib',
-  entry: './test.js',
+  entry: [ './test.js' ],
   output: {
     path: __dirname + '/dist',
     filename: 'test.js'
@@ -15,7 +15,15 @@ var testConfig = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [ '@babel/react', '@babel/env' ],
+            presets: [
+              '@babel/react',
+              [
+                '@babel/env',
+                {
+                  'useBuiltIns': 'usage'
+                }
+              ]
+            ],
             plugins: [ require('@babel/plugin-proposal-object-rest-spread') ]
           }
         }
@@ -30,7 +38,7 @@ var testConfig = {
 
 var prodConfig = {
   context: __dirname + '/lib',
-  entry: './index.js',
+  entry: [ '@babel/polyfill', './index.js' ],
   output: {
     path: __dirname + '/dist',
     filename: 'react.smart.data.table.js',
@@ -46,7 +54,15 @@ var prodConfig = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [ '@babel/react', '@babel/env' ],
+            presets: [
+              '@babel/react',
+              [
+                '@babel/env',
+                {
+                  'useBuiltIns': 'usage'
+                }
+              ]
+            ],
             plugins: [ require('@babel/plugin-proposal-object-rest-spread') ]
           }
         }
