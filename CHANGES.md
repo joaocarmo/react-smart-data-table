@@ -1,3 +1,13 @@
+## 0.5.7
+> Jun 23, 2018
+
+- Added ESLint with babel-eslint and eslint-config-airbnb
+
+## 0.5.6
+> Jun 10, 2018
+
+- Added async data loading from remote url
+
 ## 0.5.5
 > Apr 30, 2018
 

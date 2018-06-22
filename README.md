@@ -60,6 +60,7 @@ response object. If it's in a different key, you can specify it with the
 }
 ```
 
+`component`
 ``` javascript
 <SmartDataTable
   data='/api/v1/data'
