@@ -40,6 +40,7 @@ $ npm install react-smart-data-table
 | withHeaders | true                | {boolean}           | Can be used to disable the rendering of column headers |
 | filterValue | ''                  | {string}            | Filters all columns by its value                       |
 | perPage     | 0                   | {number}            | Paginates the results with the value as rows per page  |
+| loader      | _null_              | {element}           | Element to be rendered while fetching async data       |
 
 ## Examples
 

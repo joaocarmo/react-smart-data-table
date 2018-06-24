@@ -2,6 +2,9 @@
 > Jun 23, 2018
 
 - Added ESLint with babel-eslint and eslint-config-airbnb
+- Added a new prop for a _loader_ component to be rendered while fetching async
+data
+- Added intelligence to parse boolean values
 
 ## 0.5.6
 > Jun 10, 2018

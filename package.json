@@ -36,13 +36,13 @@
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.49",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.49",
-    "@babel/polyfill": "^7.0.0-beta.49",
-    "@babel/preset-env": "^7.0.0-beta.49",
-    "@babel/preset-react": "^7.0.0-beta.49",
-    "babel-eslint": "^8.2.4",
-    "babel-loader": "^8.0.0-beta.3",
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.51",
+    "@babel/polyfill": "^7.0.0-beta.51",
+    "@babel/preset-env": "^7.0.0-beta.51",
+    "@babel/preset-react": "^7.0.0-beta.51",
+    "babel-eslint": "^8.2.5",
+    "babel-loader": "^8.0.0-beta.4",
     "core-js": "^2.5.7",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
@@ -51,11 +51,11 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.9.1",
     "faker": "^4.1.0",
-    "prop-types": "^15.6.1",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "style-loader": "^0.21.0",
-    "webpack": "^4.12.0",
-    "webpack-cli": "^2.1.5"
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.0.8"
   }
 }
