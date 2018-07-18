@@ -5,6 +5,7 @@
   "scripts": {
     "start": "python -m SimpleHTTPServer 3000",
     "build": "webpack --mode production",
+    "build-dev": "webpack --mode development",
     "test": "webpack --env=test --mode development"
   },
   "main": "dist/react.smart.data.table.js",
@@ -27,35 +28,36 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
-    "flat": "^4.0.0",
+    "flat": "^4.1.0",
     "linkifyjs": "^2.1.4",
     "lodash": "^4.17.10",
+    "memoize-one": "^4.0.0",
     "segmentize": "^0.4.1"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.51",
-    "@babel/polyfill": "^7.0.0-beta.51",
-    "@babel/preset-env": "^7.0.0-beta.51",
-    "@babel/preset-react": "^7.0.0-beta.51",
-    "babel-eslint": "^8.2.5",
+    "@babel/core": "^7.0.0-beta.54",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.54",
+    "@babel/polyfill": "^7.0.0-beta.54",
+    "@babel/preset-env": "^7.0.0-beta.54",
+    "@babel/preset-react": "^7.0.0-beta.54",
+    "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.0-beta.4",
     "core-js": "^2.5.7",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.9.1",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
     "faker": "^4.1.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "style-loader": "^0.21.0",
-    "webpack": "^4.12.1",
+    "webpack": "^4.16.1",
     "webpack-cli": "^3.0.8"
   }
 }

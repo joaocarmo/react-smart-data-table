@@ -1,11 +1,11 @@
-var webpack = require('webpack');
+const path = require('path')
 
-var testConfig = {
-  context: __dirname + '/lib',
-  entry: [ './test.js' ],
+const testConfig = {
+  context: path.join(__dirname, '/lib'),
+  entry: ['./test.js'],
   output: {
-    path: __dirname + '/dist',
-    filename: 'test.js'
+    path: path.join(__dirname, '/dist'),
+    filename: 'test.js',
   },
   module: {
     rules: [
@@ -20,30 +20,33 @@ var testConfig = {
               [
                 '@babel/env',
                 {
-                  'useBuiltIns': 'usage'
-                }
-              ]
+                  useBuiltIns: 'usage',
+                },
+              ],
             ],
-            plugins: [ require('@babel/plugin-proposal-object-rest-spread') ]
-          }
-        }
+            plugins: [require('@babel/plugin-proposal-object-rest-spread')],
+          },
+        },
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      }
-    ]
-  }
-};
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+}
 
-var prodConfig = {
-  context: __dirname + '/lib',
-  entry: [ '@babel/polyfill', './index.js' ],
+const prodConfig = {
+  context: path.join(__dirname, '/lib'),
+  entry: [
+    '@babel/polyfill',
+    './index.js',
+  ],
   output: {
-    path: __dirname + '/dist',
+    path: path.join(__dirname, '/dist'),
     filename: 'react.smart.data.table.js',
     library: 'SmartDataTable',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
   // externals: {},
   module: {
@@ -59,29 +62,29 @@ var prodConfig = {
               [
                 '@babel/env',
                 {
-                  'useBuiltIns': 'usage'
-                }
-              ]
+                  useBuiltIns: 'usage',
+                },
+              ],
             ],
-            plugins: [ require('@babel/plugin-proposal-object-rest-spread') ]
-          }
-        }
+            plugins: [require('@babel/plugin-proposal-object-rest-spread')],
+          },
+        },
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      }
-    ]
-  }
-};
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+}
 
 function buildConfig(env) {
   switch (env) {
     case 'test':
-      return testConfig;
+      return testConfig
     default:
-      return prodConfig;
+      return prodConfig
   }
 }
 
-module.exports = buildConfig;
+module.exports = buildConfig
