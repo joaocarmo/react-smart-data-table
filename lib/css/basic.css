@@ -1,21 +1,30 @@
+.rsdt.rsdt-container {
+  overflow: auto;
+}
+
 .rsdt.rsdt-highlight {
   background-color: yellow;
 }
+
 .rsdt.rsdt-sortable {
   margin-left: 10px;
 }
+
 .rsdt.rsdt-sortable-icon:after {
   font-size: 20px;
   font-style: normal;
   content: "\21D5";
   cursor: pointer;
+
 }
+
 .rsdt.rsdt-sortable-asc:after {
   font-size: 20px;
   font-style: normal;
   content: "\2193";
   cursor: pointer;
 }
+
 .rsdt.rsdt-sortable-desc:after {
   font-size: 20px;
   font-style: normal;

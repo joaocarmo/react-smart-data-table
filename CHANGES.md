@@ -1,27 +1,9 @@
-## 0.6.0
-> Jul 30, 2018
-
-- Added the possibility to convert _true_ and _false_ to _Yes_ and _No_ when the
-value is of _Boolean_ type
-- Added a parser for images and the possibility to render the image instead of
-displaying the URL
-
-**Bug fixes**
-
-- When filtering by value, reset the page
-
-**Breaking Changes**
-
-- Removed the _styled_ prop deprecation warning
-- Added the _footer_ deprecation warning
-- Added the _withHeaders_ deprecation warning
-- Added the _withFooter_ prop as the flag to render the footer in convergence
-with the _withHeader_ prop
-
 ## 0.5.8
 > Jul 18, 2018
 
-- The RSDT now correctly reloads when data is changed in props
+- The RSDT now correctly re-renders when data is changed in props and the loader
+is correctly called, it also correctly re-renders even when the data type is
+changed
 
 ## 0.5.7
 > Jun 24, 2018
