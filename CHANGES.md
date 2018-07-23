@@ -1,3 +1,8 @@
+## 0.5.9
+> Jul 23, 2018
+
+- Added a condition to reload the async data if the URL changes
+
 ## 0.5.8
 > Jul 18, 2018
 

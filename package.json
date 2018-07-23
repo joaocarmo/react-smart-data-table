@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "python -m SimpleHTTPServer 3000",
