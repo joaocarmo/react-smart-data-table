@@ -1,3 +1,10 @@
+## 0.5.10
+> Aug 1, 2018
+
+**Bug fixes**
+
+- When filtering by value, reset the page (pagination) back to 1
+
 ## 0.5.9
 > Jul 23, 2018
 

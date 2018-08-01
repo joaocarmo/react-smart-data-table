@@ -7,10 +7,6 @@ value is of _Boolean_ type
 displaying the URL
 - Added the event _onRowClick_
 
-**Bug fixes**
-
-- When filtering by value, reset the page (pagination)
-
 **Breaking Changes**
 
 - Removed the _styled_ prop deprecation warning
