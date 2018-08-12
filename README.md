@@ -18,7 +18,8 @@ It currently supports:
   4.  Search term highlight in the results
   5.  Column visibility toggles
   6.  Automatic pagination
-  7.  Server-side data
+  7.  Server-side/remote data
+  8.  Control over row clicks
 
 ## Installation
 
@@ -41,6 +42,16 @@ $ npm install react-smart-data-table
 | filterValue | ''                  | {string}            | Filters all columns by its value                       |
 | perPage     | 0                   | {number}            | Paginates the results with the value as rows per page  |
 | loader      | _null_              | {element}           | Element to be rendered while fetching async data       |
+| onRowClick  | _undefined_         | {function}          | If present, it will execute on every row click         |
+
+### onRowClick()
+
+```javascript
+const onRowClick = (event, { rowData, rowIndex, tableData }) => {
+  // The following results should be identical
+  console.log(rowData, tableData[rowIndex])
+}
+```
 
 ## Examples
 

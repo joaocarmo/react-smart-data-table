@@ -1,3 +1,9 @@
+## 0.5.11
+> Aug 12, 2018
+
+- Added _onRowClick_ prop, check the [README](README.md) for the function
+signature
+
 ## 0.5.10
 > Aug 1, 2018
 

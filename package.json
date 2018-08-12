@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "python -m SimpleHTTPServer 3000",
@@ -38,16 +38,15 @@
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.55",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.55",
-    "@babel/polyfill": "^7.0.0-beta.55",
-    "@babel/preset-env": "^7.0.0-beta.55",
-    "@babel/preset-react": "^7.0.0-beta.55",
+    "@babel/core": "^7.0.0-rc.1",
+    "@babel/polyfill": "^7.0.0-rc.1",
+    "@babel/preset-env": "^7.0.0-rc.1",
+    "@babel/preset-react": "^7.0.0-rc.1",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.0-beta.4",
     "core-js": "^2.5.7",
     "css-loader": "^1.0.0",
-    "eslint": "^5.2.0",
+    "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
@@ -56,8 +55,8 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "style-loader": "^0.21.0",
-    "webpack": "^4.16.3",
+    "style-loader": "^0.22.1",
+    "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
   }
 }
