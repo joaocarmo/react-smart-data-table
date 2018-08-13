@@ -43,6 +43,7 @@ $ npm install react-smart-data-table
 | perPage     | 0                   | {number}            | Paginates the results with the value as rows per page  |
 | loader      | _null_              | {element}           | Element to be rendered while fetching async data       |
 | onRowClick  | _undefined_         | {function}          | If present, it will execute on every row click         |
+| parseBool   | false               | {boolean}           | When true, boolean values will be converted to Yes/No  |
 
 ### onRowClick()
 

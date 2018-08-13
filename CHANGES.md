@@ -1,3 +1,9 @@
+## 0.5.12
+> Aug 14, 2018
+
+- Added the possibility to convert _true_ and _false_ to _Yes_ and _No_ when the
+value is of _Boolean_ type through the _parseBool_ prop
+
 ## 0.5.11
 > Aug 12, 2018
 
