@@ -1,9 +1,6 @@
 ## 0.6.0
 > work in progress
 
-- Added the possibility to convert _true_ and _false_ to _[Yes Word]_ and
-_[No Word]_ when the value is of _Boolean_ type where each can be customized
-by supplying an object to the _parseBool_ prop
 - Added a parser for images and the possibility to render the image instead of
 displaying the URL
 - Added memoization

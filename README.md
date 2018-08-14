@@ -29,21 +29,21 @@ $ npm install react-smart-data-table
 
 ## Props
 
-| Name        | Default             | Type                | Description                                            |
-| :---------- | :------------------ | :------------------ | :----------------------------------------------------- |
-| data        | []                  | {array&#124;string} | An array of plain objects (can be nested) or a URL     |
-| dataKey     | 'data'              | {string}            | The object key where the async data is available       |
-| name        | reactsmartdatatable | {string}            | The name for the table                                 |
-| footer      | false               | {boolean}           | Copy the header to the footer                          |
-| sortable    | false               | {boolean}           | Makes the columns of the table sortable                |
-| withToggles | false               | {boolean}           | Enables the column visibility toggles                  |
-| withLinks   | false               | {boolean}           | Converts e-mails and url addresses to links            |
-| withHeaders | true                | {boolean}           | Can be used to disable the rendering of column headers |
-| filterValue | ''                  | {string}            | Filters all columns by its value                       |
-| perPage     | 0                   | {number}            | Paginates the results with the value as rows per page  |
-| loader      | _null_              | {element}           | Element to be rendered while fetching async data       |
-| onRowClick  | _undefined_         | {function}          | If present, it will execute on every row click         |
-| parseBool   | false               | {boolean}           | When true, boolean values will be converted to Yes/No  |
+| Name        | Default             | Type                  | Description                                            |
+| :---------- | :------------------ | :-------------------- | :----------------------------------------------------- |
+| data        | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL     |
+| dataKey     | 'data'              | {string}              | The object key where the async data is available       |
+| name        | reactsmartdatatable | {string}              | The name for the table                                 |
+| footer      | false               | {boolean}             | Copy the header to the footer                          |
+| sortable    | false               | {boolean}             | Makes the columns of the table sortable                |
+| withToggles | false               | {boolean}             | Enables the column visibility toggles                  |
+| withLinks   | false               | {boolean}             | Converts e-mails and url addresses to links            |
+| withHeaders | true                | {boolean}             | Can be used to disable the rendering of column headers |
+| filterValue | ''                  | {string}              | Filters all columns by its value                       |
+| perPage     | 0                   | {number}              | Paginates the results with the value as rows per page  |
+| loader      | _null_              | {element}             | Element to be rendered while fetching async data       |
+| onRowClick  | _undefined_         | {function}            | If present, it will execute on every row click         |
+| parseBool   | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No  |
 
 ### onRowClick()
 
@@ -51,6 +51,16 @@ $ npm install react-smart-data-table
 const onRowClick = (event, { rowData, rowIndex, tableData }) => {
   // The following results should be identical
   console.log(rowData, tableData[rowIndex])
+}
+```
+
+### parseBool
+
+```javascript
+// Default
+const parseBool = {
+  yesWord: 'Yes',
+  noWord: 'No'
 }
 ```
 

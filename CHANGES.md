@@ -1,3 +1,10 @@
+## 0.5.13
+> Aug 14, 2018
+
+- Added the possibility to convert _true_ and _false_ to _[Yes Word]_ and
+_[No Word]_ when the value is of _Boolean_ type where each can be customized
+by supplying an object to the _parseBool_ prop
+
 ## 0.5.12
 > Aug 14, 2018
 
