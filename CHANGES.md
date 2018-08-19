@@ -1,3 +1,11 @@
+## 0.5.15
+> Aug 19, 2018
+
+- Added _className_ to options that can be provided to _parseImg_ to be passed
+down to the _img_ tag
+- Several minor enhancements, bug fixes and code reduction
+- Added memoization through [memoize-one](https://github.com/alexreardon/memoize-one)
+
 ## 0.5.14
 > Aug 19, 2018
 

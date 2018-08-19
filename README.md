@@ -21,10 +21,10 @@ It currently supports:
   7.  Server-side/remote data
   8.  Control over row clicks
   9.  Smart data rendering
-    *  URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
-    `<a />`
-    *  _boolean_ value parsing to yes/no word
-    * Image URLs rendered as the _src_ for an image tag `<img />`
+      *  URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
+      `<a />`
+      *  _boolean_ value parsing to yes/no word
+      * Image URLs rendered as the _src_ for an image tag `<img />`
 
 ## Installation
 
@@ -74,6 +74,7 @@ const parseBool = {
 
 ```javascript
 // You can pass a regular style object that will be passed down to <img />
+// Or a Class Name
 const parseImg = {
   style: {
     border: '1px solid #ddd',
@@ -81,6 +82,7 @@ const parseImg = {
     padding: '5px',
     width: '150px',
   },
+  className: 'my-custom-image-style',
 }
 ```
 
@@ -165,9 +167,9 @@ start an HTTP server (requires _Python_) in the root folder where you can easily
 access the test subfolder from your browser.
 
 ```
-$ npm run build
+$ npm run build-dev
 
-$ npm test
+$ npm run test-dev
 
 $ npm start
 

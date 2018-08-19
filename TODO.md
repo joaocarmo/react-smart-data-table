@@ -1,7 +1,12 @@
-## 0.6.0
+## 0.6.1
 > work in progress
 
-- Added memoization
+- Added prop to pass custom header options
+- Added option to pass _first_, _next_, _previous_ and _last_ words to be
+rendered in the pagination
+
+## 0.6.0
+> work in progress
 
 **Breaking Changes**
 

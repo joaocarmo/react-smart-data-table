@@ -1,12 +1,13 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.5.14",
+  "version": "0.5.15",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "python -m SimpleHTTPServer 3000",
     "build": "webpack --mode production",
     "build-dev": "webpack --mode development",
-    "test": "webpack --env=test --mode development"
+    "test": "webpack --env=test --mode production",
+    "test-dev": "webpack --env=test --mode development"
   },
   "main": "dist/react.smart.data.table.js",
   "repository": {
