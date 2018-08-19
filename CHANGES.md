@@ -1,3 +1,17 @@
+## 0.5.14
+> Aug 19, 2018
+
+- Added a parser for images and the possibility to render the image instead of
+displaying the URL which also accepts an object with a _style_ key containing a
+_style object_ which will be passed down to the `<img />` tag with the CSS
+attributes as defined in
+[Common CSS Properties Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference)
+
+**Bug Fixes**
+
+- Stopped the event propagation to _onRowClick_ when links rendered with
+_withLinks_ are clicked
+
 ## 0.5.13
 > Aug 14, 2018
 
@@ -15,7 +29,7 @@ value is of _Boolean_ type through the _parseBool_ prop
 > Aug 12, 2018
 
 - Added _onRowClick_ prop, check the [README](README.md) for the function
-signature
+signature (courtesy of [occult](https://github.com/occult))
 
 ## 0.5.10
 > Aug 1, 2018

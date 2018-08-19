@@ -1,8 +1,6 @@
 ## 0.6.0
 > work in progress
 
-- Added a parser for images and the possibility to render the image instead of
-displaying the URL
 - Added memoization
 
 **Breaking Changes**

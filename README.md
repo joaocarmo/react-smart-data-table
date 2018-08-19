@@ -20,6 +20,11 @@ It currently supports:
   6.  Automatic pagination
   7.  Server-side/remote data
   8.  Control over row clicks
+  9.  Smart data rendering
+    *  URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
+    `<a />`
+    *  _boolean_ value parsing to yes/no word
+    * Image URLs rendered as the _src_ for an image tag `<img />`
 
 ## Installation
 
@@ -44,6 +49,7 @@ $ npm install react-smart-data-table
 | loader      | _null_              | {element}             | Element to be rendered while fetching async data       |
 | onRowClick  | _undefined_         | {function}            | If present, it will execute on every row click         |
 | parseBool   | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No  |
+| parseImg    | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag |
 
 ### onRowClick()
 
@@ -60,7 +66,21 @@ const onRowClick = (event, { rowData, rowIndex, tableData }) => {
 // Default
 const parseBool = {
   yesWord: 'Yes',
-  noWord: 'No'
+  noWord: 'No',
+}
+```
+
+### parseImg
+
+```javascript
+// You can pass a regular style object that will be passed down to <img />
+const parseImg = {
+  style: {
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    padding: '5px',
+    width: '150px',
+  },
 }
 ```
 
