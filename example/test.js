@@ -45,11 +45,6 @@ const generateData = (numResults) => {
   return data
 }
 
-const onRowClick = (event, { rowData, rowIndex, tableData }) => {
-  // The following results should be identical
-  console.log(rowData, tableData[rowIndex])
-}
-
 class AppDemo extends React.Component {
   constructor(props) {
     super(props)
@@ -62,6 +57,7 @@ class AppDemo extends React.Component {
       data: [],
       filterValue: '',
       perPage: 0,
+      showOnRowClick: true,
     }
 
     this.setNewData = this.setNewData.bind(this)
@@ -69,6 +65,8 @@ class AppDemo extends React.Component {
     this.changeData = this.changeData.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnPerPage = this.handleOnPerPage.bind(this)
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+    this.onRowClick = this.onRowClick.bind(this)
   }
 
   componentDidMount() {
@@ -110,10 +108,27 @@ class AppDemo extends React.Component {
     })
   }
 
+  handleCheckboxChange() {
+    const { showOnRowClick } = this.state
+    this.setState({ showOnRowClick: !showOnRowClick })
+  }
+
+  onRowClick(event, { rowData, rowIndex, tableData }) {
+    const { showOnRowClick } = this.state
+    if (showOnRowClick) {
+      const { fullName } = rowData
+      window.alert(`You clicked ${fullName}'s row !`)
+    } else {
+      // The following results should be identical
+      console.log(rowData, tableData[rowIndex])
+    }
+  }
+
   render() {
     const {
-      useApi, apiData, data, filterValue, perPage,
+      useApi, apiData, data, filterValue, perPage, showOnRowClick,
     } = this.state
+    const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
     return (
       <div>
         <div className={sematicUI.segment}>
@@ -127,7 +142,7 @@ class AppDemo extends React.Component {
             />
             <i className={sematicUI.searchIcon} />
           </div>
-          {' '}
+          {divider}
           <select
             name='perPage'
             value={perPage}
@@ -150,7 +165,7 @@ class AppDemo extends React.Component {
               100
             </option>
           </select>
-          {' '}
+          {divider}
           {!useApi && (
             <button type='button' className={sematicUI.refresh} onClick={this.setNewData}>
               <i className={sematicUI.refreshIcon} />
@@ -163,11 +178,23 @@ class AppDemo extends React.Component {
               New API URL
             </button>
           )}
-          {' '}
+          {divider}
           <button type='button' className={sematicUI.change} onClick={this.changeData}>
             <i className={sematicUI.changeIcon} />
             {useApi ? 'Use Faker' : 'Use Async API'}
           </button>
+          {divider}
+          <div className='ui toggle checkbox'>
+            <input
+              type='checkbox'
+              name='showOnRowClick'
+              onChange={this.handleCheckboxChange}
+              checked={showOnRowClick}
+            />
+            <label>
+              Show alert on row click
+            </label>
+          </div>
         </div>
         <SmartDataTable
           data={useApi ? apiData : data}
@@ -179,13 +206,13 @@ class AppDemo extends React.Component {
           sortable
           withToggles
           withLinks
-          withHeaders
+          withHeader
           loader={(
             <div className={sematicUI.loader}>
               Loading...
             </div>
           )}
-          onRowClick={onRowClick}
+          onRowClick={this.onRowClick}
           parseBool={{
             yesWord: 'Indeed',
             noWord: 'Nope',

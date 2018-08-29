@@ -1,3 +1,20 @@
+## 0.6.0
+> Aug 29, 2018
+
+- Webpack reorganization
+- Package structure reorganization
+
+**Breaking Changes**
+
+- Removed the _styled_ prop deprecation warning
+- Added the _footer_ deprecation warning
+- Added the _withHeaders_ deprecation warning
+- Added the _withFooter_ prop as the flag to render the footer in convergence
+with the _withHeader_ prop
+
+_Note_: This version is exactly the same as `0.5.15` with some props name
+changes. If this breaks your app, keep using the previous version.
+
 ## 0.5.15
 > Aug 19, 2018
 

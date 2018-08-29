@@ -3,16 +3,12 @@ const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
-  context: path.join(__dirname, '/lib'),
+  context: path.join(__dirname, '/example'),
   entry: [
-    '@babel/polyfill',
-    './SmartDataTable.js',
+    './test.js',
   ],
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'react-smart-data-table.js',
-    library: 'SmartDataTable',
-    // libraryTarget: 'umd',
-    libraryTarget: 'commonjs',
+    filename: 'test.js',
   },
 })
