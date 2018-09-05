@@ -13,13 +13,16 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/react',
               [
-                '@babel/env',
+                '@babel/preset-env',
                 {
                   useBuiltIns: 'usage',
                 },
               ],
+              '@babel/preset-react',
+            ],
+            plugins: [
+              '@babel/plugin-transform-runtime',
             ],
           },
         },

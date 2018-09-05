@@ -6,13 +6,22 @@ module.exports = merge(common, {
   context: path.join(__dirname, '/lib'),
   entry: [
     '@babel/polyfill',
-    './SmartDataTable.js',
+    './index.js',
   ],
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'react-smart-data-table.js',
     library: 'SmartDataTable',
-    // libraryTarget: 'umd',
-    libraryTarget: 'commonjs',
+    libraryTarget: 'umd',
   },
+  externals: [
+    {
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+      },
+    },
+  ],
 })

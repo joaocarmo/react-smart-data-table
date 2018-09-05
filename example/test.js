@@ -14,6 +14,7 @@ const sematicUI = {
   refreshIcon: 'sync alternate icon',
   change: 'ui labeled secondary icon button',
   changeIcon: 'exchange icon',
+  checkbox: 'ui toggle checkbox',
   loader: 'ui active text loader',
 }
 
@@ -116,8 +117,13 @@ class AppDemo extends React.Component {
   onRowClick(event, { rowData, rowIndex, tableData }) {
     const { showOnRowClick } = this.state
     if (showOnRowClick) {
-      const { fullName } = rowData
-      window.alert(`You clicked ${fullName}'s row !`)
+      const { fullName, name, id } = rowData
+      let value = fullName || name || id
+      if (!value) {
+        const [key] = Object.keys(rowData)
+        value = `${key}: ${rowData[key]}`
+      }
+      window.alert(`You clicked ${value}'s row !`)
     } else {
       // The following results should be identical
       console.log(rowData, tableData[rowIndex])
@@ -184,7 +190,7 @@ class AppDemo extends React.Component {
             {useApi ? 'Use Faker' : 'Use Async API'}
           </button>
           {divider}
-          <div className='ui toggle checkbox'>
+          <div className={sematicUI.checkbox}>
             <input
               type='checkbox'
               name='showOnRowClick'

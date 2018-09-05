@@ -1,15 +1,15 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "python -m SimpleHTTPServer 3000",
-    "build": "NODE_ENV=production webpack --mode production",
-    "build-dev": "NODE_ENV=development webpack --mode development",
+    "build": "NODE_ENV=production webpack --mode production --config webpack.config.js",
+    "build-dev": "NODE_ENV=development webpack --mode development --config webpack.config.js",
     "test": "NODE_ENV=production webpack --mode production --config webpack.test.js",
     "test-dev": "NODE_ENV=development webpack --mode development --config webpack.test.js"
   },
-  "main": "lib/SmartDataTable.js",
+  "main": "dist/react-smart-data-table.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joaocarmo/react-smart-data-table.git"
@@ -29,23 +29,24 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
-    "babel-eslint": "^9.0.0",
     "flat": "^4.1.0",
     "linkifyjs": "^2.1.4",
     "lodash": "^4.17.10",
     "memoize-one": "^4.0.0",
-    "segmentize": "^0.4.1",
-    "style-loader": "^0.23.0"
+    "segmentize": "^0.4.1"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.0",
+    "@babel/core": "^7.0.0-rc.1",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/polyfill": "^7.0.0-rc.1",
+    "@babel/preset-env": "^7.0.0-rc.1",
+    "@babel/preset-react": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^8.0.0-beta.4",
     "core-js": "^2.5.7",
     "css-loader": "^1.0.0",
     "eslint": "^5.4.0",
@@ -57,7 +58,8 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "webpack": "^4.17.1",
+    "style-loader": "^0.22.1",
+    "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
     "webpack-merge": "^4.1.4"
   }
