@@ -162,9 +162,9 @@ pages below. You can experiment with different features as well.
 ## Forking / Contributing
 
 If you want to fork or contribute, it's easy to test your changes. Just run the
-_test_ compilation command and, if all goes well, run the _start_ command to
-start an HTTP server (requires _Python_) in the root folder where you can easily
-access the test subfolder from your browser.
+following compilation commands in sequence and then the _start_ command to run
+a development HTTP server in your computer accessible from your browser at the
+address `http://localhost:3000/`.
 
 ```
 $ npm run build-dev
@@ -172,6 +172,4 @@ $ npm run build-dev
 $ npm run test-dev
 
 $ npm start
-
-http://localhost:3000/test/
 ```

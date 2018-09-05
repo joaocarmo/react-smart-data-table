@@ -1,7 +1,13 @@
+## 0.6.2
+> Sep 5, 2018
+
+- Removed the _Python_ dependency and replaced the development server with
+_webpack-dev-server_
+
 ## 0.6.1
 > Sep 5, 2018
 
-- Fixes https://github.com/joaocarmo/react-smart-data-table/issues/12
+- Fixes [Issue \#12](https://github.com/joaocarmo/react-smart-data-table/issues/12)
 
 ## 0.6.0
 > Aug 29, 2018
