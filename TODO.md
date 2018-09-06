@@ -1,4 +1,4 @@
-## 0.6.1
+## 0.6.3
 > work in progress
 
 - Added prop to pass custom header options

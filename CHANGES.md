@@ -1,8 +1,10 @@
 ## 0.6.2
-> Sep 5, 2018
+> Sep 6, 2018
 
 - Removed the _Python_ dependency and replaced the development server with
 _webpack-dev-server_
+- Updated the _webpack_ configuration for the new _babel-loader_
+- Helper functions improvements
 
 ## 0.6.1
 > Sep 5, 2018

@@ -1,6 +1,6 @@
 const { NODE_ENV } = process.env
 
-const mode = NODE_ENV || 'production'
+const mode = NODE_ENV || 'development'
 
 module.exports = {
   mode,
@@ -17,6 +17,7 @@ module.exports = {
                 '@babel/preset-env',
                 {
                   useBuiltIns: 'usage',
+                  modules: 'umd',
                 },
               ],
               '@babel/preset-react',

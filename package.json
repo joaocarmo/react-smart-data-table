@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --config webpack.config.js",
@@ -30,6 +30,7 @@
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
     "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.2",
     "flat": "^4.1.0",
     "linkifyjs": "^2.1.7",
     "lodash": "^4.17.10",
@@ -41,13 +42,12 @@
     "react": "^16.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-rc.1",
+    "@babel/core": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
-    "@babel/polyfill": "^7.0.0-rc.1",
-    "@babel/preset-env": "^7.0.0-rc.1",
-    "@babel/preset-react": "^7.0.0-rc.1",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.0.0",
-    "babel-loader": "^8.0.0-beta.4",
     "core-js": "^2.5.7",
     "css-loader": "^1.0.0",
     "eslint": "^5.5.0",
@@ -57,11 +57,11 @@
     "eslint-plugin-react": "^7.11.1",
     "faker": "^4.1.0",
     "prop-types": "^15.6.2",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.7",
+    "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4"
   }
 }
