@@ -25,6 +25,7 @@ It currently supports:
       `<a />`
       *  _boolean_ value parsing to yes/no word
       * Image URLs rendered as the _src_ for an image tag `<img />`
+  10. Custom override if the default behavior is unwanted for some columns
 
 ## Installation
 
@@ -38,6 +39,7 @@ $ npm install react-smart-data-table
 | :---------- | :------------------ | :-------------------- | :----------------------------------------------------- |
 | data        | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL     |
 | dataKey     | 'data'              | {string}              | The object key where the async data is available       |
+| headers     | {}                  | {object}              | The object that override column default behavior       |
 | name        | reactsmartdatatable | {string}              | The name for the table                                 |
 | sortable    | false               | {boolean}             | Makes the columns of the table sortable                |
 | withToggles | false               | {boolean}             | Enables the column visibility toggles                  |
@@ -50,6 +52,36 @@ $ npm install react-smart-data-table
 | onRowClick  | _undefined_         | {function}            | If present, it will execute on every row click         |
 | parseBool   | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No  |
 | parseImg    | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag |
+| dynamic     | false               | {boolean}             | Use this if your column structure changes dynamically  |
+
+### headers
+
+```javascript
+/*
+  Use the following structure to overwrite the default behavior for columns
+  Undefined column keys will present the default behavior
+    text:       Humanized text based on the column key name
+    invisible:  Columns are visible by default
+    sortable:   Columns are sortable by default
+    filterable: Columns are filterable by default
+  Nested structures can be defined by a string-dot representation
+    'key1.key2.key3.[...].key99'
+*/
+const headers = {
+  columnKey: {
+    text: 'Column 1',
+    invisible: false,
+    sortable: true,
+    filterable: true,
+  },
+  'nested.columnKey': {
+    text: 'Nested Column',
+    invisible: false,
+    sortable: true,
+    filterable: true,
+  },
+}
+```
 
 ### onRowClick()
 

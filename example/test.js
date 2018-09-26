@@ -92,6 +92,40 @@ class AppDemo extends React.Component {
     this.setState({ apiData, apiIdx })
   }
 
+  getHeaders() {
+    return {
+      id: {
+        text: 'Identifier',
+        invisible: true,
+        filterable: false,
+      },
+      _id: {
+        text: 'Identifier',
+        invisible: true,
+        filterable: false,
+      },
+      avatar: {
+        text: 'Profile Pic',
+        sortable: false,
+        filterable: false,
+      },
+      'address.city': {
+        text: 'City',
+      },
+      'address.state': {
+        text: 'State',
+      },
+      'address.country': {
+        text: 'Country',
+      },
+      url: {
+        text: 'Web Page',
+        sortable: false,
+        filterable: false,
+      },
+    }
+  }
+
   handleOnChange({ target: { name, value } }) {
     this.setState({ [name]: value })
   }
@@ -135,6 +169,7 @@ class AppDemo extends React.Component {
       useApi, apiData, data, filterValue, perPage, showOnRowClick,
     } = this.state
     const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
+    const headers = this.getHeaders()
     return (
       <div>
         <div className={sematicUI.segment}>
@@ -205,6 +240,7 @@ class AppDemo extends React.Component {
         <SmartDataTable
           data={useApi ? apiData : data}
           dataKey=''
+          headers={headers}
           name='test-table'
           className={sematicUI.table}
           filterValue={filterValue}

@@ -1,3 +1,12 @@
+## 0.6.3
+> Sep 28, 2018
+
+- Added prop to pass custom _header_ prop with options to override individual
+columns default behavior
+- Added the _dynamic_ prop
+- Added a _.npmignore_ file to reduce the package size by excluding examples
+and tests
+
 ## 0.6.2
 > Sep 6, 2018
 
