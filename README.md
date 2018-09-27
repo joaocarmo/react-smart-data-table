@@ -64,6 +64,10 @@ $ npm install react-smart-data-table
     invisible:  Columns are visible by default
     sortable:   Columns are sortable by default
     filterable: Columns are filterable by default
+    isImg:      Will force the render as an image, e.g. for dynamic URLs
+    transform:  Allows the custom rendering of the cells content
+                Should be a function and these are the arguments passed:
+                  (value, index, row)
   Nested structures can be defined by a string-dot representation
     'key1.key2.key3.[...].key99'
 */
@@ -79,6 +83,22 @@ const headers = {
     invisible: false,
     sortable: true,
     filterable: true,
+  },
+  // If a dummy column is inserted into the data, it can be used to customize
+  // the table by allowing actions per row to be implemented, for example
+  tableActions: {
+    text: 'Actions',
+    invisible: false,
+    sortable: false,
+    filterable: false,
+    transform: (value, index, row) => {
+      // The following results should be identical
+      console.log(value, row.tableActions)
+      // Example of table actions: Delete row from data by row index
+      <button onClick={() => deleteRow(index)}>
+        Delete Row
+      </button>
+    },
   },
 }
 ```

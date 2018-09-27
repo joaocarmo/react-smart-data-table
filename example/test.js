@@ -6,6 +6,7 @@ import SmartDataTable from '..'
 
 const sematicUI = {
   segment: 'ui basic segment',
+  message: 'ui message',
   input: 'ui icon input',
   searchIcon: 'search icon',
   table: 'ui compact selectable table',
@@ -16,6 +17,7 @@ const sematicUI = {
   changeIcon: 'exchange icon',
   checkbox: 'ui toggle checkbox',
   loader: 'ui active text loader',
+  deleteIcon: 'trash red icon',
 }
 
 const apiDataUrls = [
@@ -41,6 +43,7 @@ const generateData = (numResults) => {
       },
       url: faker.internet.url(),
       isMarried: faker.random.boolean(),
+      actions: null,
     })
   }
   return data
@@ -54,7 +57,7 @@ class AppDemo extends React.Component {
       useApi: false,
       apiData: '',
       apiIdx: -1,
-      numResults: 100,
+      numResults: 10,
       data: [],
       filterValue: '',
       perPage: 0,
@@ -92,17 +95,27 @@ class AppDemo extends React.Component {
     this.setState({ apiData, apiIdx })
   }
 
+  handleDelete(event, idx) {
+    event.preventDefault()
+    event.stopPropagation()
+    const { data } = this.state
+    data.splice(idx, 1)
+    this.setState({ data })
+  }
+
   getHeaders() {
     return {
       id: {
         text: 'Identifier',
         invisible: true,
         filterable: false,
+        transform: value => `Row #${value + 1}`,
       },
       _id: {
         text: 'Identifier',
         invisible: true,
         filterable: false,
+        transform: value => `Row #${value}`,
       },
       avatar: {
         text: 'Profile Pic',
@@ -122,6 +135,27 @@ class AppDemo extends React.Component {
         text: 'Web Page',
         sortable: false,
         filterable: false,
+      },
+      actions: {
+        text: 'Actions',
+        sortable: false,
+        filterable: false,
+        transform: (value, idx) => (
+          <i
+            className={sematicUI.deleteIcon}
+            style={{ cursor: 'pointer' }}
+            onClick={e => this.handleDelete(e, idx)}
+            onKeyDown={e => this.handleDelete(e, idx)}
+            role='button'
+            tabIndex='0'
+          />
+        ),
+      },
+      thumbnailUrl: {
+        text: 'Thumbnail',
+        sortable: false,
+        filterable: false,
+        isImg: true,
       },
     }
   }
@@ -237,6 +271,13 @@ class AppDemo extends React.Component {
             </label>
           </div>
         </div>
+        <div className={sematicUI.message}>
+          <p>
+            {useApi
+              ? 'While using async data, the state is controlled internally by the table'
+              : `Total rows in the table: ${data.length}`}
+          </p>
+        </div>
         <SmartDataTable
           data={useApi ? apiData : data}
           dataKey=''
@@ -270,6 +311,7 @@ class AppDemo extends React.Component {
             className: 'ui avatar image',
             */
           }}
+          dynamic
         />
       </div>
     )

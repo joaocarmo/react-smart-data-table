@@ -1,3 +1,9 @@
+## 0.6.4
+> Sep 28, 2018
+
+- Added _transform_ and _isImage_ properties to the _headers_ prop accepted
+options
+
 ## 0.6.3
 > Sep 28, 2018
 

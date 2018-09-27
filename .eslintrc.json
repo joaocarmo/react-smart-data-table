@@ -26,6 +26,7 @@
     "jsx-a11y/alt-text": 1,
     "jsx-a11y/label-has-for": 0,
     "jsx-a11y/role-has-required-aria-props": 1,
+    "jsx-a11y/label-has-associated-control": 0,
     "import/no-dynamic-require": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
