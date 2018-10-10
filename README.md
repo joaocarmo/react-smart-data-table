@@ -35,24 +35,25 @@ $ npm install react-smart-data-table
 
 ## Props
 
-| Name        | Default             | Type                  | Description                                            |
-| :---------- | :------------------ | :-------------------- | :----------------------------------------------------- |
-| data        | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL     |
-| dataKey     | 'data'              | {string}              | The object key where the async data is available       |
-| headers     | {}                  | {object}              | The object that override column default behavior       |
-| name        | reactsmartdatatable | {string}              | The name for the table                                 |
-| sortable    | false               | {boolean}             | Makes the columns of the table sortable                |
-| withToggles | false               | {boolean}             | Enables the column visibility toggles                  |
-| withLinks   | false               | {boolean}             | Converts e-mails and url addresses to links            |
-| withHeader  | true                | {boolean}             | Can be used to disable the rendering of column headers |
-| withFooter  | false               | {boolean}             | Copy the header to the footer                          |
-| filterValue | ''                  | {string}              | Filters all columns by its value                       |
-| perPage     | 0                   | {number}              | Paginates the results with the value as rows per page  |
-| loader      | _null_              | {element}             | Element to be rendered while fetching async data       |
-| onRowClick  | _undefined_         | {function}            | If present, it will execute on every row click         |
-| parseBool   | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No  |
-| parseImg    | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag |
-| dynamic     | false               | {boolean}             | Use this if your column structure changes dynamically  |
+| Name        | Default             | Type                  | Description                                              |
+| :---------- | :------------------ | :-------------------- | :------------------------------------------------------- |
+| data        | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL       |
+| dataKey     | 'data'              | {string}              | The object key where the async data is available         |
+| headers     | {}                  | {object}              | The object that override column default behavior         |
+| name        | reactsmartdatatable | {string}              | The name for the table                                   |
+| sortable    | false               | {boolean}             | Makes the columns of the table sortable                  |
+| withToggles | false               | {boolean}             | Enables the column visibility toggles                    |
+| withLinks   | false               | {boolean}             | Converts e-mails and url addresses to links              |
+| withHeader  | true                | {boolean}             | Can be used to disable the rendering of column headers   |
+| withFooter  | false               | {boolean}             | Copy the header to the footer                            |
+| filterValue | ''                  | {string}              | Filters all columns by its value                         |
+| perPage     | 0                   | {number}              | Paginates the results with the value as rows per page    |
+| loader      | _null_              | {element}             | Element to be rendered while fetching async data         |
+| onRowClick  | _undefined_         | {function}            | If present, it will execute on every row click           |
+| parseBool   | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No    |
+| parseImg    | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag   |
+| dynamic     | false               | {boolean}             | Use this if your column structure changes dynamically    |
+| emptyTable  | _null_              | {element}             | Pass a renderable object to render when there is no data |
 
 ### headers
 
@@ -95,9 +96,11 @@ const headers = {
       // The following results should be identical
       console.log(value, row.tableActions)
       // Example of table actions: Delete row from data by row index
-      <button onClick={() => deleteRow(index)}>
-        Delete Row
-      </button>
+      return (
+        <button onClick={() => deleteRow(index)}>
+          Delete Row
+        </button>
+      )
     },
   },
 }
@@ -136,6 +139,17 @@ const parseImg = {
   },
   className: 'my-custom-image-style',
 }
+```
+
+### emptyTable
+
+```javascript
+// Any renderable object can be passed
+const emptyTable = (
+  <div>
+    There is no data available at the time.
+  </div>
+)
 ```
 
 ## Examples
@@ -210,6 +224,8 @@ pages below. You can experiment with different features as well.
 * [Semantic UI: All Features](https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
 * [Bootstrap: Sortable](https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)
 
+Take a look at the full featured example's
+[source code](https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js).
 
 ## Forking / Contributing
 

@@ -1,3 +1,9 @@
+## 0.6.5
+> Oct 10, 2018
+
+- Added the prop _emptyTable_ to display a message when the table is empty
+(Fixes [Issue \#13](https://github.com/joaocarmo/react-smart-data-table/issues/13))
+
 ## 0.6.4
 > Sep 28, 2018
 

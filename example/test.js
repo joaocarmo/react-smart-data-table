@@ -9,6 +9,7 @@ const sematicUI = {
   message: 'ui message',
   input: 'ui icon input',
   searchIcon: 'search icon',
+  rowsIcon: 'numbered list icon',
   table: 'ui compact selectable table',
   select: 'ui dropdown',
   refresh: 'ui labeled primary icon button',
@@ -27,9 +28,13 @@ const apiDataUrls = [
   'https://jsonplaceholder.typicode.com/photos',
 ]
 
-const generateData = (numResults) => {
+const generateData = (numResults = 0) => {
+  let total = numResults || 0
+  if (typeof numResults === 'string') {
+    total = parseInt(numResults, 10)
+  }
   const data = []
-  for (let i = 0; i < numResults; i += 1) {
+  for (let i = 0; i < total; i += 1) {
     data.push({
       _id: i,
       avatar: faker.image.avatar(),
@@ -161,7 +166,9 @@ class AppDemo extends React.Component {
   }
 
   handleOnChange({ target: { name, value } }) {
-    this.setState({ [name]: value })
+    this.setState({ [name]: value }, () => {
+      if (name === 'numResults') this.setNewData()
+    })
   }
 
   handleOnPerPage({ target: { name, value } }) {
@@ -200,7 +207,7 @@ class AppDemo extends React.Component {
 
   render() {
     const {
-      useApi, apiData, data, filterValue, perPage, showOnRowClick,
+      useApi, apiData, data, filterValue, perPage, numResults, showOnRowClick,
     } = this.state
     const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
     const headers = this.getHeaders()
@@ -258,6 +265,22 @@ class AppDemo extends React.Component {
             <i className={sematicUI.changeIcon} />
             {useApi ? 'Use Faker' : 'Use Async API'}
           </button>
+          {!useApi && (
+            <span>
+              {divider}
+              <div className={sematicUI.input}>
+                <input
+                  type='text'
+                  name='numResults'
+                  value={numResults}
+                  placeholder='# Rows'
+                  onChange={this.handleOnChange}
+                  style={{ width: '80px' }}
+                />
+                <i className={sematicUI.rowsIcon} />
+              </div>
+            </span>
+          )}
           {divider}
           <div className={sematicUI.checkbox}>
             <input
@@ -312,6 +335,11 @@ class AppDemo extends React.Component {
             */
           }}
           dynamic
+          emptyTable={(
+            <div className={sematicUI.message}>
+              There is no data available to display.
+            </div>
+          )}
         />
       </div>
     )
