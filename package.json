@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --config webpack.config.js",
@@ -29,39 +29,40 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
+    "escape-string-regexp": "^1.0.5",
     "flat": "^4.1.0",
     "linkifyjs": "^2.1.7",
     "lodash": "^4.17.11",
-    "memoize-one": "^4.0.2",
+    "memoize-one": "^5.0.0",
     "segmentize": "^0.4.1"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/polyfill": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.1.2",
+    "@babel/runtime": "^7.2.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
-    "core-js": "^2.5.7",
-    "css-loader": "^1.0.0",
-    "eslint": "^5.6.1",
+    "core-js": "^2.6.1",
+    "css-loader": "^2.0.1",
+    "eslint": "^5.10.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "faker": "^4.1.0",
     "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "style-loader": "^0.23.1",
-    "webpack": "^4.20.2",
+    "webpack": "^4.28.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-merge": "^4.1.4"
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.5"
   }
 }

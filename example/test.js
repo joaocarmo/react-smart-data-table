@@ -39,6 +39,8 @@ const generateData = (numResults = 0) => {
       _id: i,
       avatar: faker.image.avatar(),
       fullName: faker.name.findName(),
+      _username: faker.internet.userName(),
+      password_: faker.internet.password(),
       'email.address': faker.internet.email(),
       phone_number: faker.phone.phoneNumber(),
       address: {
@@ -114,18 +116,24 @@ class AppDemo extends React.Component {
         text: 'Identifier',
         invisible: true,
         filterable: false,
-        transform: value => `Row #${value + 1}`,
+        transform: value => `Row #${value}`,
       },
       _id: {
         text: 'Identifier',
         invisible: true,
         filterable: false,
-        transform: value => `Row #${value}`,
+        transform: value => `Row #${value + 1}`,
       },
       avatar: {
         text: 'Profile Pic',
         sortable: false,
         filterable: false,
+      },
+      _username: {
+        invisible: true,
+      },
+      password_: {
+        invisible: true,
       },
       'address.city': {
         text: 'City',

@@ -1,3 +1,8 @@
+## 0.6.6
+> Dec 20, 2018
+
+- Fixes [Issue \#14](https://github.com/joaocarmo/react-smart-data-table/issues/14)
+
 ## 0.6.5
 > Oct 10, 2018
 
