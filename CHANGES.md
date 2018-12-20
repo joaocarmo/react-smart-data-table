@@ -1,3 +1,8 @@
+## 0.7.0
+> Dec 21, 2018
+
+- Removed the _lodash_ dependency completely
+
 ## 0.6.6
 > Dec 20, 2018
 

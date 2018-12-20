@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.6.6",
+  "version": "0.7.0",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --config webpack.config.js",
@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
+    "camelcase": "^5.0.0",
     "escape-string-regexp": "^1.0.5",
     "flat": "^4.1.0",
     "linkifyjs": "^2.1.7",
-    "lodash": "^4.17.11",
     "memoize-one": "^5.0.0",
     "segmentize": "^0.4.1"
   },
