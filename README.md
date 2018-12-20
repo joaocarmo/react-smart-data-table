@@ -1,5 +1,5 @@
 # react-smart-data-table
-[![npm version](https://badge.fury.io/js/react-smart-data-table.svg)](https://badge.fury.io/js/react-smart-data-table)
+[![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][1]
 
 A smart data table component for React.js meant to be configuration free
 
@@ -14,7 +14,7 @@ table that can be customized easily with any framework (or custom CSS).
 It currently supports:
   1.  Humanized column names based on object keys
   2.  Sortable columns
-  3.  Results filtering
+  3.  Rows filtering / searchable
   4.  Search term highlight in the results
   5.  Column visibility toggles
   6.  Automatic pagination
@@ -39,7 +39,7 @@ $ npm install react-smart-data-table
 | :---------- | :------------------ | :-------------------- | :------------------------------------------------------- |
 | data        | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL       |
 | dataKey     | 'data'              | {string}              | The object key where the async data is available         |
-| headers     | {}                  | {object}              | The object that override column default behavior         |
+| headers     | {}                  | {object}              | The object that overrides default column behavior        |
 | name        | reactsmartdatatable | {string}              | The name for the table                                   |
 | sortable    | false               | {boolean}             | Makes the columns of the table sortable                  |
 | withToggles | false               | {boolean}             | Enables the column visibility toggles                    |
@@ -157,7 +157,7 @@ const emptyTable = (
 ### Async data loading (fetch)
 
 By passing a string to the `data` prop, the component will interpret it as an
-URL and try to load the data from that location using _fetch()_. If a successful
+URL and try to load the data from that location using _[fetch][2]_. If a successful
 request is returned, the data will be extracted from the `data` key in the
 response object. If it's in a different key, you can specify it with the
 `dataKey` prop.
@@ -221,11 +221,10 @@ ReactDOM.render(
 You can try _react-smart-data-table_ with different UI libraries in the demo
 pages below. You can experiment with different features as well.
 
-* [Semantic UI: All Features](https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
-* [Bootstrap: Sortable](https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)
+* [Semantic UI: All Features][3]
+* [Bootstrap: Sortable][4]
 
-Take a look at the full featured example's
-[source code](https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js).
+Take a look at the full featured example's [source code][5].
 
 ## Forking / Contributing
 
@@ -241,3 +240,9 @@ $ npm run test-dev
 
 $ npm start
 ```
+
+[1]:(https://badge.fury.io/js/react-smart-data-table)
+[2]:(https://fetch.spec.whatwg.org/)
+[3]:(https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
+[4]:(https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)
+[5]:(https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js)
