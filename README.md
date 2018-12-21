@@ -241,8 +241,8 @@ $ npm run test-dev
 $ npm start
 ```
 
-[1]:(https://badge.fury.io/js/react-smart-data-table)
-[2]:(https://fetch.spec.whatwg.org/)
-[3]:(https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/)
-[4]:(https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/)
-[5]:(https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js)
+[1]: https://badge.fury.io/js/react-smart-data-table
+[2]: https://fetch.spec.whatwg.org/
+[3]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
+[4]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
+[5]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js

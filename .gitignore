@@ -38,6 +38,3 @@ jspm_packages
 
 # Mac files
 .DS_Store
-
-# Distribution builds
-dist
