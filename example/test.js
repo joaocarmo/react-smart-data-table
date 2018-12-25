@@ -102,11 +102,15 @@ class AppDemo extends React.Component {
     this.setState({ apiData, apiIdx })
   }
 
-  handleDelete(event, idx) {
+  handleDelete(event, idx, row) {
     event.preventDefault()
     event.stopPropagation()
     const { data } = this.state
-    data.splice(idx, 1)
+    const { _id, id } = row
+    let orgInd
+    if (_id) orgInd = data.findIndex(({ _id: thisId }) => thisId === _id)
+    if (id) orgInd = data.findIndex(({ id: thisId }) => thisId === id)
+    data.splice(orgInd, 1)
     this.setState({ data })
   }
 
@@ -153,12 +157,12 @@ class AppDemo extends React.Component {
         text: 'Actions',
         sortable: false,
         filterable: false,
-        transform: (value, idx) => (
+        transform: (value, idx, row) => (
           <i
             className={sematicUI.deleteIcon}
             style={{ cursor: 'pointer' }}
-            onClick={e => this.handleDelete(e, idx)}
-            onKeyDown={e => this.handleDelete(e, idx)}
+            onClick={e => this.handleDelete(e, idx, row)}
+            onKeyDown={e => this.handleDelete(e, idx, row)}
             role='button'
             tabIndex='0'
           />

@@ -69,6 +69,8 @@ $ npm install react-smart-data-table
     transform:  Allows the custom rendering of the cells content
                 Should be a function and these are the arguments passed:
                   (value, index, row)
+                The index is the position of the row as being rendered and
+                not the index of the row in the original data
   Nested structures can be defined by a string-dot representation
     'key1.key2.key3.[...].key99'
 */
@@ -97,7 +99,7 @@ const headers = {
       console.log(value, row.tableActions)
       // Example of table actions: Delete row from data by row index
       return (
-        <button onClick={() => deleteRow(index)}>
+        <button onClick={() => deleteRow(row)}>
           Delete Row
         </button>
       )

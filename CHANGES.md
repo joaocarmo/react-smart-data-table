@@ -1,7 +1,12 @@
-## 0.7.0
-> Dec 21, 2018
+## 0.6.7
+> Dec 25, 2018
 
 - Removed the _lodash_ dependency completely
+- Fixed a bug where the rows, when filtered, would cause the sorting to not work
+- Didn't change the behavior where the _index_ passed down to _transform_
+function in the _headers_ does not correspond to the index of the original data,
+but of the sorted data instead, because a different algorithm can be used to
+achieve the same result (example in the documentation)
 
 ## 0.6.6
 > Dec 20, 2018
