@@ -1,0 +1,40 @@
+.rsdt-paginate {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+button.rsdt-paginate.button {
+  font-family: inherit;
+  font-size: 100%;
+  padding: .5em 1em;
+  color: #666 !important;
+  color: rgba(0,0,0,.8);
+  border: 1px solid #999;
+  border: transparent;
+  background-color: #F9F9F9;
+  text-decoration: none;
+  border-radius: 2px;
+  display: inline-block;
+  zoom: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+button.rsdt-paginate.button:hover {
+  color: #444 !important;
+  background-color: #DFDFDF;
+}
+
+button.rsdt-paginate.active {
+  color: #333 !important;
+  background-color: #E9E9E9;
+}

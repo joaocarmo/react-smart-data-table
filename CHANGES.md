@@ -1,3 +1,10 @@
+## 0.7.0
+> Feb 4, 2019
+
+- Added the possibility of passing a custom _Paginator_ component to render the
+pagination
+- Removed the _segmentize_ dependency
+
 ## 0.6.7
 > Dec 25, 2018
 
