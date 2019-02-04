@@ -26,6 +26,8 @@ It currently supports:
       *  _boolean_ value parsing to yes/no word
       * Image URLs rendered as the _src_ for an image tag `<img />`
   10. Custom override if the default behavior is unwanted for some columns
+  11. Custom components
+      * Paginator
 
 ## Installation
 
@@ -54,6 +56,7 @@ $ npm install react-smart-data-table
 | parseImg    | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag   |
 | dynamic     | false               | {boolean}             | Use this if your column structure changes dynamically    |
 | emptyTable  | _null_              | {element}             | Pass a renderable object to render when there is no data |
+| paginator   | _elements_          | {element}             | Pass a renderable object handle table pagination         |
 
 ### headers
 
@@ -152,6 +155,31 @@ const emptyTable = (
     There is no data available at the time.
   </div>
 )
+```
+
+### paginator
+
+The _CustomComponent_ passed down as a prop will be rendered with the following
+props which can be used to perform all the necessary calculations and makes it
+fully compatible with Semantic UI's [Pagination](https://react.semantic-ui.com/addons/pagination/)
+component.
+
+```javascript
+const CustomComponent = ({
+  activePage, totalPages, rows, perPage, onPageChange,
+}) => (/* ... */)
+
+<SmartDataTable
+  ...
+  paginator={CustomComponent}
+/>
+
+// To change the page, call the onPageChange function with the next activePage
+
+<MyCustomElement
+  ...
+  onClick={e => this.onPageChange(e, { activePage: nextActivePage })}
+/>
 ```
 
 ## Examples
