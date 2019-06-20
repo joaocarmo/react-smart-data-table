@@ -18,6 +18,7 @@ module.exports = {
                 {
                   useBuiltIns: 'usage',
                   modules: 'umd',
+                  corejs: '3',
                 },
               ],
               '@babel/preset-react',

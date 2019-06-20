@@ -1,3 +1,11 @@
+## 0.7.1
+> Jun 20, 2019
+
+- Updated the dependencies due to:
+  - [CVE-2019-11358](https://nvd.nist.gov/vuln/detail/CVE-2019-11358)
+  - [WS-2019-0032](https://github.com/nodeca/js-yaml/issues/475)
+- Replaced _@babel/polyfill_ with _core-js/stable_
+
 ## 0.7.0
 > Feb 4, 2019
 

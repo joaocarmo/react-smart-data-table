@@ -5,7 +5,7 @@ const common = require('./webpack.common.js')
 module.exports = merge(common, {
   context: path.join(__dirname, '/lib'),
   entry: [
-    '@babel/polyfill',
+    'core-js/stable',
     './index.js',
   ],
   output: {
@@ -25,11 +25,13 @@ module.exports = merge(common, {
     },
   ],
   devServer: {
+    compress: true,
     contentBase: [
       path.join(__dirname, 'dist'),
       path.join(__dirname, 'test'),
     ],
-    compress: true,
+    open: true,
+    overlay: true,
     port: 3000,
   },
 })

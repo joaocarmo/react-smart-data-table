@@ -11,6 +11,11 @@ in the spirit of _plug and play_.
 Just feed it an array of equal JSON objects and it will create a template free
 table that can be customized easily with any framework (or custom CSS).
 
+If you want more control over the data rendering process or don't need the
+_smarts_, check out [react-very-simple-data-table][2]
+
+## Features
+
 It currently supports:
   1.  Humanized column names based on object keys
   2.  Sortable columns
@@ -187,7 +192,7 @@ const CustomComponent = ({
 ### Async data loading (fetch)
 
 By passing a string to the `data` prop, the component will interpret it as an
-URL and try to load the data from that location using _[fetch][2]_. If a successful
+URL and try to load the data from that location using _[fetch][3]_. If a successful
 request is returned, the data will be extracted from the `data` key in the
 response object. If it's in a different key, you can specify it with the
 `dataKey` prop.
@@ -251,10 +256,10 @@ ReactDOM.render(
 You can try _react-smart-data-table_ with different UI libraries in the demo
 pages below. You can experiment with different features as well.
 
-* [Semantic UI: All Features][3]
-* [Bootstrap: Sortable][4]
+* [Semantic UI: All Features][4]
+* [Bootstrap: Sortable][5]
 
-Take a look at the full featured example's [source code][5].
+Take a look at the full featured example's [source code][6].
 
 ## Forking / Contributing
 
@@ -272,7 +277,8 @@ $ npm start
 ```
 
 [1]: https://badge.fury.io/js/react-smart-data-table
-[2]: https://fetch.spec.whatwg.org/
-[3]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
-[4]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
-[5]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
+[2]: https://github.com/joaocarmo/react-very-simple-data-table
+[3]: https://fetch.spec.whatwg.org/
+[4]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
+[5]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
+[6]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
