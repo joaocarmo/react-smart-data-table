@@ -9,10 +9,14 @@
     "prd": "npm run build && npm run test",
     "build": "NODE_ENV=production webpack --mode production --config webpack.config.js",
     "build-dev": "NODE_ENV=development webpack --mode development --config webpack.config.js",
-    "test": "NODE_ENV=production webpack --mode production --config webpack.test.js",
-    "test-dev": "NODE_ENV=development webpack --mode development --config webpack.test.js"
+    "build-test": "NODE_ENV=production webpack --mode production --config webpack.test.js",
+    "build-test-dev": "NODE_ENV=development webpack --mode development --config webpack.test.js",
+    "test": "jest --passWithNoTests"
   },
   "main": "dist/react-smart-data-table.js",
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/jest.config.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joaocarmo/react-smart-data-table.git"
@@ -36,33 +40,37 @@
     "escape-string-regexp": "^2.0.0",
     "flat": "^4.1.0",
     "linkifyjs": "^2.1.8",
-    "memoize-one": "^5.0.4"
+    "memoize-one": "^5.0.5"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^16.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.4.5",
+    "@babel/runtime": "^7.5.5",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "core-js": "^3.1.4",
-    "css-loader": "^3.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0",
+    "css-loader": "^3.1.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.14.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "faker": "^4.1.0",
+    "jest": "^24.8.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "style-loader": "^0.23.1",
-    "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.4",
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^4.2.1"
   }

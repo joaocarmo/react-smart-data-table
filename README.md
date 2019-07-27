@@ -1,5 +1,6 @@
 # react-smart-data-table
 [![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][1]
+[![jest](https://jestjs.io/img/jest-badge.svg)](https://github.com/facebook/jest)
 
 A smart data table component for React.js meant to be configuration free
 
@@ -12,7 +13,7 @@ Just feed it an array of equal JSON objects and it will create a template free
 table that can be customized easily with any framework (or custom CSS).
 
 If you want more control over the data rendering process or don't need the
-_smarts_, check out [react-very-simple-data-table][2]
+_smarts_, check out [react-very-simple-data-table][2].
 
 ## Features
 
@@ -271,7 +272,7 @@ address `http://localhost:3000/`.
 ```
 $ npm run build-dev
 
-$ npm run test-dev
+$ npm run build-test-dev
 
 $ npm start
 ```

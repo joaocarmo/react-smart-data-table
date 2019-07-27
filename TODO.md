@@ -3,3 +3,4 @@
 
 - Improve performance
 - Allow custom elements: _ErrorBoundary_, _Toggles_, _TableCell_
+- Allow column ordering
