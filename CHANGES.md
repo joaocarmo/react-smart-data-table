@@ -1,3 +1,10 @@
+## 0.7.2
+> Sep 14, 2019
+
+- Removed the deprecation warning for _footer_ and _withHeaders_
+- Added the _orderedHeaders_ prop that allows to customize the headers order
+- Added the _hideUnordered_ prop that allows to hide unordered headers
+
 ## 0.7.1
 > Jun 20, 2019
 

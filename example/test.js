@@ -37,12 +37,6 @@ const generateData = (numResults = 0) => {
   for (let i = 0; i < total; i += 1) {
     data.push({
       _id: i,
-      avatar: faker.image.avatar(),
-      fullName: faker.name.findName(),
-      _username: faker.internet.userName(),
-      password_: faker.internet.password(),
-      'email.address': faker.internet.email(),
-      phone_number: faker.phone.phoneNumber(),
       address: {
         city: faker.address.city(),
         state: faker.address.state(),
@@ -51,6 +45,12 @@ const generateData = (numResults = 0) => {
       url: faker.internet.url(),
       isMarried: faker.random.boolean(),
       actions: null,
+      avatar: faker.image.avatar(),
+      fullName: faker.name.findName(),
+      _username: faker.internet.userName(),
+      password_: faker.internet.password(),
+      'email.address': faker.internet.email(),
+      phone_number: faker.phone.phoneNumber(),
     })
   }
   return data
@@ -120,13 +120,13 @@ class AppDemo extends React.Component {
         text: 'Identifier',
         invisible: true,
         filterable: false,
-        transform: value => `Row #${value}`,
+        transform: (value) => `Row #${value}`,
       },
       _id: {
         text: 'Identifier',
         invisible: true,
         filterable: false,
-        transform: value => `Row #${value + 1}`,
+        transform: (value) => `Row #${value + 1}`,
       },
       avatar: {
         text: 'Profile Pic',
@@ -161,10 +161,11 @@ class AppDemo extends React.Component {
           <i
             className={sematicUI.deleteIcon}
             style={{ cursor: 'pointer' }}
-            onClick={e => this.handleDelete(e, idx, row)}
-            onKeyDown={e => this.handleDelete(e, idx, row)}
+            onClick={(e) => this.handleDelete(e, idx, row)}
+            onKeyDown={(e) => this.handleDelete(e, idx, row)}
             role='button'
             tabIndex='0'
+            aria-label='delete row'
           />
         ),
       },
@@ -224,7 +225,7 @@ class AppDemo extends React.Component {
     const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
     const headers = this.getHeaders()
     return (
-      <div>
+      <>
         <div className={sematicUI.segment}>
           <div className={sematicUI.input}>
             <input
@@ -317,6 +318,21 @@ class AppDemo extends React.Component {
           data={useApi ? apiData : data}
           dataKey=''
           headers={headers}
+          orderedHeaders={[
+            '_id',
+            'avatar',
+            'fullName',
+            '_username',
+            'password_',
+            'email.address',
+            'phone_number',
+            'address.city',
+            'address.state',
+            'address.country',
+            'url',
+            'isMarried',
+            'actions',
+          ]}
           name='test-table'
           className={sematicUI.table}
           filterValue={filterValue}
@@ -353,7 +369,7 @@ class AppDemo extends React.Component {
             </div>
           )}
         />
-      </div>
+      </>
     )
   }
 }

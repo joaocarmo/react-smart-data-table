@@ -34,6 +34,8 @@ It currently supports:
   10. Custom override if the default behavior is unwanted for some columns
   11. Custom components
       * Paginator
+  12. Control the order of the columns
+      * Using the above, it's also possible to select which columns to display
 
 ## Installation
 
@@ -43,26 +45,28 @@ $ npm install react-smart-data-table
 
 ## Props
 
-| Name        | Default             | Type                  | Description                                              |
-| :---------- | :------------------ | :-------------------- | :------------------------------------------------------- |
-| data        | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL       |
-| dataKey     | 'data'              | {string}              | The object key where the async data is available         |
-| headers     | {}                  | {object}              | The object that overrides default column behavior        |
-| name        | reactsmartdatatable | {string}              | The name for the table                                   |
-| sortable    | false               | {boolean}             | Makes the columns of the table sortable                  |
-| withToggles | false               | {boolean}             | Enables the column visibility toggles                    |
-| withLinks   | false               | {boolean}             | Converts e-mails and url addresses to links              |
-| withHeader  | true                | {boolean}             | Can be used to disable the rendering of column headers   |
-| withFooter  | false               | {boolean}             | Copy the header to the footer                            |
-| filterValue | ''                  | {string}              | Filters all columns by its value                         |
-| perPage     | 0                   | {number}              | Paginates the results with the value as rows per page    |
-| loader      | _null_              | {element}             | Element to be rendered while fetching async data         |
-| onRowClick  | _undefined_         | {function}            | If present, it will execute on every row click           |
-| parseBool   | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No    |
-| parseImg    | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag   |
-| dynamic     | false               | {boolean}             | Use this if your column structure changes dynamically    |
-| emptyTable  | _null_              | {element}             | Pass a renderable object to render when there is no data |
-| paginator   | _elements_          | {element}             | Pass a renderable object handle table pagination         |
+| Name           | Default             | Type                  | Description                                              |
+| :------------- | :------------------ | :-------------------- | :------------------------------------------------------- |
+| data           | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL       |
+| dataKey        | 'data'              | {string}              | The object key where the async data is available         |
+| headers        | {}                  | {object}              | The object that overrides default column behavior        |
+| name           | reactsmartdatatable | {string}              | The name for the table                                   |
+| sortable       | false               | {boolean}             | Makes the columns of the table sortable                  |
+| withToggles    | false               | {boolean}             | Enables the column visibility toggles                    |
+| withLinks      | false               | {boolean}             | Converts e-mails and url addresses to links              |
+| withHeader     | true                | {boolean}             | Can be used to disable the rendering of column headers   |
+| withFooter     | false               | {boolean}             | Copy the header to the footer                            |
+| filterValue    | ''                  | {string}              | Filters all columns by its value                         |
+| perPage        | 0                   | {number}              | Paginates the results with the value as rows per page    |
+| loader         | _null_              | {element}             | Element to be rendered while fetching async data         |
+| onRowClick     | _undefined_         | {function}            | If present, it will execute on every row click           |
+| parseBool      | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No    |
+| parseImg       | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag   |
+| dynamic        | false               | {boolean}             | Use this if your column structure changes dynamically    |
+| emptyTable     | _null_              | {element}             | Pass a renderable object to render when there is no data |
+| paginator      | _elements_          | {element}             | Pass a renderable object handle table pagination         |
+| orderedHeaders | []                  | {array}               | An ordered array of the column keys                      |
+| hideUnordered  | false               | {boolean}             | Hides all the columns not passed to _orderedHeaders_     |
 
 ### headers
 

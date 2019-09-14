@@ -13,4 +13,5 @@
   margin-left: 5px;
   cursor: pointer !important;
   cursor: hand !important;
+  user-select: none;
 }
