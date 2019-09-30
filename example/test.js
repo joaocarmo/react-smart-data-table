@@ -5,9 +5,10 @@ import faker from 'faker'
 import SmartDataTable from '..'
 
 const sematicUI = {
-  segment: 'ui basic segment',
+  segment: 'ui segment',
   message: 'ui message',
-  input: 'ui icon input',
+  labeledInput: 'ui right labeled input',
+  iconInput: 'ui icon input',
   searchIcon: 'search icon',
   rowsIcon: 'numbered list icon',
   table: 'ui compact selectable table',
@@ -69,6 +70,23 @@ class AppDemo extends React.Component {
       filterValue: '',
       perPage: 0,
       showOnRowClick: true,
+      changeOrder: false,
+      orderedHeaders: [
+        '_id',
+        'avatar',
+        'fullName',
+        '_username',
+        'password_',
+        'email.address',
+        'phone_number',
+        'address.city',
+        'address.state',
+        'address.country',
+        'url',
+        'isMarried',
+        'actions',
+      ],
+      hideUnordered: false,
     }
 
     this.setNewData = this.setNewData.bind(this)
@@ -78,6 +96,7 @@ class AppDemo extends React.Component {
     this.handleOnPerPage = this.handleOnPerPage.bind(this)
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
     this.onRowClick = this.onRowClick.bind(this)
+    this.handleOnChangeOrder = this.handleOnChangeOrder.bind(this)
   }
 
   componentDidMount() {
@@ -184,6 +203,22 @@ class AppDemo extends React.Component {
     })
   }
 
+  handleOnChangeOrder(now, next) {
+    const { orderedHeaders } = this.state
+    const N = orderedHeaders.length
+    let nextPos = next
+    if (next < 0) {
+      nextPos = N
+    }
+    if (next >= N) {
+      nextPos = 0
+    }
+    const newOrderedHeaders = [...orderedHeaders]
+    const mvElement = newOrderedHeaders.splice(now, 1)[0]
+    newOrderedHeaders.splice(nextPos, 0, mvElement)
+    this.setState({ orderedHeaders: newOrderedHeaders })
+  }
+
   handleOnPerPage({ target: { name, value } }) {
     this.setState({ [name]: parseInt(value, 10) })
   }
@@ -197,9 +232,8 @@ class AppDemo extends React.Component {
     })
   }
 
-  handleCheckboxChange() {
-    const { showOnRowClick } = this.state
-    this.setState({ showOnRowClick: !showOnRowClick })
+  handleCheckboxChange({ target: { name, checked } }) {
+    this.setState({ [name]: checked })
   }
 
   onRowClick(event, { rowData, rowIndex, tableData }) {
@@ -221,13 +255,14 @@ class AppDemo extends React.Component {
   render() {
     const {
       useApi, apiData, data, filterValue, perPage, numResults, showOnRowClick,
+      changeOrder, orderedHeaders, hideUnordered,
     } = this.state
     const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
     const headers = this.getHeaders()
     return (
       <>
         <div className={sematicUI.segment}>
-          <div className={sematicUI.input}>
+          <div className={sematicUI.iconInput}>
             <input
               type='text'
               name='filterValue'
@@ -281,7 +316,7 @@ class AppDemo extends React.Component {
           {!useApi && (
             <span>
               {divider}
-              <div className={sematicUI.input}>
+              <div className={sematicUI.iconInput}>
                 <input
                   type='text'
                   name='numResults'
@@ -306,7 +341,42 @@ class AppDemo extends React.Component {
               Show alert on row click
             </label>
           </div>
+          {divider}
+          <div className={sematicUI.checkbox}>
+            <input
+              type='checkbox'
+              name='changeOrder'
+              onChange={this.handleCheckboxChange}
+              checked={changeOrder}
+            />
+            <label>
+              Change header order
+            </label>
+          </div>
         </div>
+        {changeOrder && (
+          <div className={sematicUI.segment}>
+            {orderedHeaders.map((header, idx) => (
+              <div key={header} style={{ marginBottom: '4px' }}>
+                <div className={sematicUI.labeledInput} style={{ marginRight: '8px' }}>
+                  <input
+                    type='text'
+                    name={header}
+                    value={idx}
+                    placeholder='Index'
+                    style={{ width: '80px' }}
+                    disabled
+                  />
+                  <div className='ui label'>
+                    {header}
+                  </div>
+                </div>
+                <button type='button' onClick={() => this.handleOnChangeOrder(idx, idx - 1)}>before</button>
+                <button type='button' onClick={() => this.handleOnChangeOrder(idx, idx + 1)}>after</button>
+              </div>
+            ))}
+          </div>
+        )}
         <div className={sematicUI.message}>
           <p>
             {useApi
@@ -318,21 +388,8 @@ class AppDemo extends React.Component {
           data={useApi ? apiData : data}
           dataKey=''
           headers={headers}
-          orderedHeaders={[
-            '_id',
-            'avatar',
-            'fullName',
-            '_username',
-            'password_',
-            'email.address',
-            'phone_number',
-            'address.city',
-            'address.state',
-            'address.country',
-            'url',
-            'isMarried',
-            'actions',
-          ]}
+          orderedHeaders={orderedHeaders}
+          hideUnordered={hideUnordered}
           name='test-table'
           className={sematicUI.table}
           filterValue={filterValue}

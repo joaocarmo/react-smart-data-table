@@ -192,14 +192,31 @@ const CustomComponent = ({
 />
 ```
 
+### orderedHeaders / hideUnordered
+
+If you want to control the order of the columns, simply pass an array containing
+the keys in the desired order. All the omitted headers will be appended
+afterwards unpredictably. Additionally, you can pass the _hideUnordered_ in
+order to render only the headers in _orderedHeaders_ and hide the remaining.
+
+```javascript
+const hideUnordered = true
+
+const orderedHeaders = [
+  'key1',
+  'key2.subkey3',
+  ...
+]
+```
+
 ## Examples
 
 ### Async data loading (fetch)
 
 By passing a string to the `data` prop, the component will interpret it as an
-URL and try to load the data from that location using _[fetch][3]_. If a successful
-request is returned, the data will be extracted from the `data` key in the
-response object. If it's in a different key, you can specify it with the
+URL and try to load the data from that location using _[fetch][3]_. If a
+successful request is returned, the data will be extracted from the `data` key
+in the response object. If it's in a different key, you can specify it with the
 `dataKey` prop.
 
 `response`
