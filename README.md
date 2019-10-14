@@ -176,7 +176,7 @@ component.
 
 ```javascript
 const CustomComponent = ({
-  activePage, totalPages, rows, perPage, onPageChange,
+  activePage, totalPages, onPageChange,
 }) => (/* ... */)
 
 <SmartDataTable
