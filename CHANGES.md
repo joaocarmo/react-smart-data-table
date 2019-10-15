@@ -1,3 +1,13 @@
+## 0.7.3
+> Oct 15, 2019
+
+- Merged
+[Pull \#20](https://github.com/joaocarmo/react-smart-data-table/pull/20)
+to fix
+[Issue \#19](https://github.com/joaocarmo/react-smart-data-table/issues/19)
+([\@tisoap](https://github.com/tisoap))
+- Added support for the _parseImg_ option to parse Data URLs as well
+
 ## 0.7.2
 > Sep 29, 2019
 

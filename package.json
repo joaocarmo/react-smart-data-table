@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "A smart data table component for React.js meant to be configuration free",
   "scripts": {
     "start": "npm run build && npm run server",
