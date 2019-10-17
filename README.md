@@ -283,6 +283,11 @@ pages below. You can experiment with different features as well.
 
 Take a look at the full featured example's [source code][6].
 
+Also, see it in full integration with a simple user/group management dashboard
+application. Feel free to play around with it, it's built with hot reloading.
+
+* [Somewhere I Belong][7]
+
 ## Forking / Contributing
 
 If you want to fork or contribute, it's easy to test your changes. Just run the
@@ -304,3 +309,4 @@ $ npm start
 [4]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
 [5]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
 [6]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
+[7]: https://github.com/joaocarmo/somewhere-i-belong

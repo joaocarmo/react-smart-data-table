@@ -46,7 +46,7 @@ const generateData = (numResults = 0) => {
       url: faker.internet.url(),
       isMarried: faker.random.boolean(),
       actions: null,
-      avatar: faker.image.avatar(),
+      avatar: faker.random.boolean() ? faker.image.avatar() : faker.image.dataUri(),
       fullName: faker.name.findName(),
       _username: faker.internet.userName(),
       password_: faker.internet.password(),
@@ -245,9 +245,11 @@ class AppDemo extends React.Component {
         const [key] = Object.keys(rowData)
         value = `${key}: ${rowData[key]}`
       }
+      /* eslint-disable no-alert */
       window.alert(`You clicked ${value}'s row !`)
     } else {
       // The following results should be identical
+      /* eslint-disable no-console */
       console.log(rowData, tableData[rowIndex])
     }
   }
