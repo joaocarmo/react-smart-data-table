@@ -1,5 +1,5 @@
 ## 0.7.3
-> Oct 17, 2019
+> Oct 18, 2019
 
 - Merged
 [Pull \#20](https://github.com/joaocarmo/react-smart-data-table/pull/20)

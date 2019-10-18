@@ -373,8 +373,18 @@ class AppDemo extends React.Component {
                     {header}
                   </div>
                 </div>
-                <button type='button' onClick={() => this.handleOnChangeOrder(idx, idx - 1)}>before</button>
-                <button type='button' onClick={() => this.handleOnChangeOrder(idx, idx + 1)}>after</button>
+                <button
+                  type='button'
+                  onClick={() => this.handleOnChangeOrder(idx, idx - 1)}
+                >
+                  before
+                </button>
+                <button
+                  type='button'
+                  onClick={() => this.handleOnChangeOrder(idx, idx + 1)}
+                >
+                  after
+                </button>
               </div>
             ))}
           </div>
