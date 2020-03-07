@@ -19,4 +19,4 @@ Make use of the _pull request template_ if you don't know where to start.
 Respect the community and follow the guidelines in the [code of conduct][2].
 
 [1]: http://semver.org/
-[2]: ../code_of_conduct.md
+[2]: ./code_of_conduct.md

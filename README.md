@@ -294,10 +294,10 @@ application. Feel free to play around with it, it's built with hot reloading.
 
 ## Forking / Contributing
 
-If you want to fork or contribute, it's easy to test your changes. Just run the
-following compilation commands in sequence and then the _start_ command to run
-a development HTTP server in your computer accessible from your browser at the
-address `http://localhost:3000/`.
+If you want to fork or [contribute][10], it's easy to test your changes. Just
+run the following compilation commands in sequence and then the _start_ command
+to run a development HTTP server in your computer accessible from your browser
+at the address `http://localhost:3000/`.
 
 ```sh
 npm run build-dev
@@ -309,10 +309,11 @@ npm start
 
 [1]: https://badge.fury.io/js/react-smart-data-table
 [2]: https://github.com/facebook/jest
-[3]: code_of_conduct.md
+[3]: ./code_of_conduct.md
 [4]: https://github.com/joaocarmo/react-very-simple-data-table
 [5]: https://fetch.spec.whatwg.org/
 [6]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
 [7]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
 [8]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
 [9]: https://github.com/joaocarmo/somewhere-i-belong
+[10]: ./contributing.md
