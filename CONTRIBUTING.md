@@ -14,6 +14,8 @@ Make use of the _pull request template_ if you don't know where to start.
 
 3. When introducing breaking changes, make a _very good_ case for it.
 
+4. Write unit/functional tests, if possible.
+
 ## Code of conduct
 
 Respect the community and follow the guidelines in the [code of conduct][2].
