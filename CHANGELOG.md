@@ -1,3 +1,13 @@
+## no-release
+> Mar 7, 2020
+
+- Updated the dependencies due to:
+  - [CVE-2019-16769](https://nvd.nist.gov/vuln/detail/CVE-2019-16769)
+- Improved the docs
+- Added a `code of conduct`
+- Added `contributing guidelines`
+- Added a `pull request template`
+
 ## 0.7.3
 > Oct 18, 2019
 

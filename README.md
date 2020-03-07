@@ -1,6 +1,7 @@
 # react-smart-data-table
 [![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][1]
-[![jest](https://jestjs.io/img/jest-badge.svg)](https://github.com/facebook/jest)
+[![jest](https://jestjs.io/img/jest-badge.svg)][2]
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)][3]
 
 A smart data table component for React.js meant to be configuration free
 
@@ -13,23 +14,24 @@ Just feed it an array of equal JSON objects and it will create a template free
 table that can be customized easily with any framework (or custom CSS).
 
 If you want more control over the data rendering process or don't need the
-_smarts_, check out [react-very-simple-data-table][2].
+_smarts_, check out [react-very-simple-data-table][4].
 
 ## Features
 
 It currently supports:
-  1.  Humanized column names based on object keys
-  2.  Sortable columns
-  3.  Rows filtering / searchable
-  4.  Search term highlight in the results
-  5.  Column visibility toggles
-  6.  Automatic pagination
-  7.  Server-side/remote data
-  8.  Control over row clicks
-  9.  Smart data rendering
-      *  URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
+
+  1. Humanized column names based on object keys
+  2. Sortable columns
+  3. Rows filtering / searchable
+  4. Search term highlight in the results
+  5. Column visibility toggles
+  6. Automatic pagination
+  7. Server-side/remote data
+  8. Control over row clicks
+  9. Smart data rendering
+      * URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
       `<a />`
-      *  _boolean_ value parsing to yes/no word
+      * _boolean_ value parsing to yes/no word
       * Image URLs rendered as the _src_ for an image tag `<img />`
   10. Custom override if the default behavior is unwanted for some columns
   11. Custom components
@@ -39,8 +41,8 @@ It currently supports:
 
 ## Installation
 
-```
-$ npm install react-smart-data-table
+```sh
+npm install react-smart-data-table
 ```
 
 ## Props
@@ -180,14 +182,14 @@ const CustomComponent = ({
 }) => (/* ... */)
 
 <SmartDataTable
-  ...
+  // ...
   paginator={CustomComponent}
 />
 
 // To change the page, call the onPageChange function with the next activePage
 
 <MyCustomElement
-  ...
+  // ...
   onClick={e => this.onPageChange(e, { activePage: nextActivePage })}
 />
 ```
@@ -214,13 +216,14 @@ const orderedHeaders = [
 ### Async data loading (fetch)
 
 By passing a string to the `data` prop, the component will interpret it as an
-URL and try to load the data from that location using _[fetch][3]_. If a
+URL and try to load the data from that location using _[fetch][5]_. If a
 successful request is returned, the data will be extracted from the `data` key
 in the response object. If it's in a different key, you can specify it with the
 `dataKey` prop.
 
 `response`
-``` json
+
+```json
 {
   "status": "success",
   "message": "",
@@ -229,7 +232,8 @@ in the response object. If it's in a different key, you can specify it with the
 ```
 
 `component`
-``` javascript
+
+```javascript
 <SmartDataTable
   data='/api/v1/data'
   dataKey='data'
@@ -278,15 +282,15 @@ ReactDOM.render(
 You can try _react-smart-data-table_ with different UI libraries in the demo
 pages below. You can experiment with different features as well.
 
-* [Semantic UI: All Features][4]
-* [Bootstrap: Sortable][5]
+* [Semantic UI: All Features][6]
+* [Bootstrap: Sortable][7]
 
-Take a look at the full featured example's [source code][6].
+Take a look at the full featured example's [source code][8].
 
 Also, see it in full integration with a simple user/group management dashboard
 application. Feel free to play around with it, it's built with hot reloading.
 
-* [Somewhere I Belong][7]
+* [Somewhere I Belong][9]
 
 ## Forking / Contributing
 
@@ -295,18 +299,20 @@ following compilation commands in sequence and then the _start_ command to run
 a development HTTP server in your computer accessible from your browser at the
 address `http://localhost:3000/`.
 
-```
-$ npm run build-dev
+```sh
+npm run build-dev
 
-$ npm run build-test-dev
+npm run build-test-dev
 
-$ npm start
+npm start
 ```
 
 [1]: https://badge.fury.io/js/react-smart-data-table
-[2]: https://github.com/joaocarmo/react-very-simple-data-table
-[3]: https://fetch.spec.whatwg.org/
-[4]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
-[5]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
-[6]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
-[7]: https://github.com/joaocarmo/somewhere-i-belong
+[2]: https://github.com/facebook/jest
+[3]: code_of_conduct.md
+[4]: https://github.com/joaocarmo/react-very-simple-data-table
+[5]: https://fetch.spec.whatwg.org/
+[6]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
+[7]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
+[8]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
+[9]: https://github.com/joaocarmo/somewhere-i-belong
