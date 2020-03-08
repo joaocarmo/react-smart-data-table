@@ -1,4 +1,10 @@
 ## no-release
+> Mar 8, 2020
+
+- Added some unit tests
+- Added [husky](https://github.com/typicode/husky) for pre-commit hooks
+
+## no-release
 > Mar 7, 2020
 
 - Updated the dependencies due to:

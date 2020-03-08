@@ -11,7 +11,13 @@
     "build-dev": "NODE_ENV=development webpack --mode development --config webpack.config.js",
     "build-test": "NODE_ENV=production webpack --mode production --config webpack.test.js",
     "build-test-dev": "NODE_ENV=development webpack --mode development --config webpack.test.js",
+    "lint": "scripts/lint",
     "test": "jest --passWithNoTests"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test"
+    }
   },
   "main": "dist/react-smart-data-table.js",
   "jest": {
@@ -65,6 +71,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "faker": "^4.1.0",
+    "husky": "^4.2.3",
     "jest": "^25.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",

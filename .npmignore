@@ -42,7 +42,8 @@ jspm_packages
 # Development helpers
 npm-reinstall
 
-# Test and development stuff
+# Test, deployment and development stuff
 dist/test.*
 example/
 test/
+scripts/
