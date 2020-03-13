@@ -1,4 +1,4 @@
-const babelOptions = require('babel.config')
+const babelOptions = require('./babel.config')
 
 const { NODE_ENV } = process.env
 
