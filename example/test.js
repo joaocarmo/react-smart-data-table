@@ -2,6 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
+import { imgb64 } from '../lib/helpers/tests'
 import SmartDataTable from '..'
 
 const sematicUI = {
@@ -46,7 +47,7 @@ const generateData = (numResults = 0) => {
       url: faker.internet.url(),
       isMarried: faker.random.boolean(),
       actions: null,
-      avatar: faker.random.boolean() ? faker.image.avatar() : faker.image.dataUri(),
+      avatar: faker.random.boolean() ? faker.image.avatar() : imgb64,
       fullName: faker.name.findName(),
       _username: faker.internet.userName(),
       password_: faker.internet.password(),

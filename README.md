@@ -295,16 +295,12 @@ application. Feel free to play around with it, it's built with hot reloading.
 ## Forking / Contributing
 
 If you want to fork or [contribute][10], it's easy to test your changes. Just
-run the following compilation commands in sequence and then the _start_ command
-to run a development HTTP server in your computer accessible from your browser
-at the address `http://localhost:3000/`.
+run the following development commands. The _start_ instruction will start a
+development HTTP server in your computer accessible from your browser at the
+address `http://localhost:3000/`.
 
 ```sh
-npm run build-dev
-
-npm run build-test-dev
-
-npm start
+npm run dev && npm start
 ```
 
 [1]: https://badge.fury.io/js/react-smart-data-table
