@@ -1,3 +1,12 @@
+## 0.7.4
+> Mar 20, 2020
+
+- Improved the tests
+- Fixes
+[Issue \#22](https://github.com/joaocarmo/react-smart-data-table/issues/22)
+- Updated the dependencies due to:
+  - [CVE-2020-7598](https://nvd.nist.gov/vuln/detail/CVE-2020-7598)
+
 ## no-release
 > Mar 8, 2020
 
