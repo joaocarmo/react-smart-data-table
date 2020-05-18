@@ -4,6 +4,7 @@
 - Switched from _npm_ to _yarn_
 - Updated the dependencies
 - Fixed the example
+- Added _GitHub_ workflows for _push_ and _PR_ to `master`
 
 ## 0.7.4
 > Mar 20, 2020

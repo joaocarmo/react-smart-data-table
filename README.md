@@ -2,6 +2,7 @@
 [![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][1]
 [![jest](https://jestjs.io/img/jest-badge.svg)][2]
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)][3]
+![Workflow Status](https://github.com/joaocarmo/react-smart-data-table/workflows/RSDT-CI/badge.svg)
 
 A smart data table component for React.js meant to be configuration free
 
