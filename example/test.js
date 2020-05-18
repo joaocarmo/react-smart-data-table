@@ -53,7 +53,6 @@ const generateData = (numResults = 0) => {
       password_: faker.internet.password(),
       'email.address': faker.internet.email(),
       phone_number: faker.phone.phoneNumber(),
-      last_1k_p99_requests: faker.random.number(),
     })
   }
   return data
