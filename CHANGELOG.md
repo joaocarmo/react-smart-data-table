@@ -1,3 +1,10 @@
+## no-release
+> May 18, 2020
+
+- Switched from _npm_ to _yarn_
+- Updated the dependencies
+- Fixed the example
+
 ## 0.7.4
 > Mar 20, 2020
 
