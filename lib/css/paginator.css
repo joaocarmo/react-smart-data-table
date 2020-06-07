@@ -8,12 +8,12 @@
 button.rsdt-paginate.button {
   font-family: inherit;
   font-size: 100%;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   color: #666 !important;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, 0.8);
   border: 1px solid #999;
   border: transparent;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   text-decoration: none;
   border-radius: 2px;
   display: inline-block;
@@ -31,10 +31,10 @@ button.rsdt-paginate.button {
 
 button.rsdt-paginate.button:hover {
   color: #444 !important;
-  background-color: #DFDFDF;
+  background-color: #dfdfdf;
 }
 
 button.rsdt-paginate.active {
   color: #333 !important;
-  background-color: #E9E9E9;
+  background-color: #e9e9e9;
 }
