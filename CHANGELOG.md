@@ -1,4 +1,9 @@
 ## no-release
+> Jun 7, 2020
+
+- Started to add component testing using _enzyme_
+
+## no-release
 > May 18, 2020
 
 - Switched from _npm_ to _yarn_

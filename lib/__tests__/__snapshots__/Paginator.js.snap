@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`'Paginator' component (snapshot) 1`] = `
+<Paginator
+  activePage={3}
+  totalPages={10}
+>
+  <div
+    className="rsdt rsdt-paginate"
+  >
+    <PaginatorItem
+      active={false}
+      key="<<"
+      onPageChange={[Function]}
+      text="<<"
+      value={1}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        &lt;&lt;
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key="<"
+      onPageChange={[Function]}
+      text="<"
+      value={2}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        &lt;
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key="1"
+      onPageChange={[Function]}
+      text="1"
+      value={1}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        1
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key="2"
+      onPageChange={[Function]}
+      text="2"
+      value={2}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        2
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={true}
+      key="3"
+      onPageChange={[Function]}
+      text="3"
+      value={3}
+    >
+      <button
+        className="rsdt rsdt-paginate active button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        3
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key="4"
+      onPageChange={[Function]}
+      text="4"
+      value={4}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        4
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key="ellipsis-6"
+      onPageChange={[Function]}
+      text="..."
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        ...
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key="10"
+      onPageChange={[Function]}
+      text="10"
+      value={10}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        10
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key=">"
+      onPageChange={[Function]}
+      text=">"
+      value={4}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        &gt;
+      </button>
+    </PaginatorItem>
+    <PaginatorItem
+      active={false}
+      key=">>"
+      onPageChange={[Function]}
+      text=">>"
+      value={10}
+    >
+      <button
+        className="rsdt rsdt-paginate button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        &gt;&gt;
+      </button>
+    </PaginatorItem>
+  </div>
+</Paginator>
+`;

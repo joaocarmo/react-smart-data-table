@@ -301,7 +301,7 @@ development HTTP server in your computer accessible from your browser at the
 address `http://localhost:3000/`.
 
 ```sh
-npm run dev && npm start
+yarn dev && yarn start
 ```
 
 [1]: https://badge.fury.io/js/react-smart-data-table
