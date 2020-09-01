@@ -1,6 +1,5 @@
 const path = require('path')
 const babelOptions = require('./babel.config')
-const pkg = require('./package.json')
 
 const exampleDir = path.join(__dirname, 'example')
 const distDir = path.join(__dirname, 'dist')
