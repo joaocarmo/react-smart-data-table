@@ -1,8 +1,11 @@
 # react-smart-data-table
+
 [![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][1]
 [![jest](https://jestjs.io/img/jest-badge.svg)][2]
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)][3]
-![Workflow Status](https://github.com/joaocarmo/react-smart-data-table/workflows/RSDT-CI/badge.svg)
+![Workflow Status](https://github.com/joaocarmo/react-smart-data-table/workflows/Tests/badge.svg)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][4]
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][5]
 
 A smart data table component for React.js meant to be configuration free
 
@@ -15,30 +18,30 @@ Just feed it an array of equal JSON objects and it will create a template free
 table that can be customized easily with any framework (or custom CSS).
 
 If you want more control over the data rendering process or don't need the
-_smarts_, check out [react-very-simple-data-table][4].
+_smarts_, check out [react-very-simple-data-table][6].
 
 ## Features
 
 It currently supports:
 
-  1. Humanized column names based on object keys
-  2. Sortable columns
-  3. Rows filtering / searchable
-  4. Search term highlight in the results
-  5. Column visibility toggles
-  6. Automatic pagination
-  7. Server-side/remote data
-  8. Control over row clicks
-  9. Smart data rendering
-      * URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
-      `<a />`
-      * _boolean_ value parsing to yes/no word
-      * Image URLs rendered as the _src_ for an image tag `<img />`
-  10. Custom override if the default behavior is unwanted for some columns
-  11. Custom components
-      * Paginator
-  12. Control the order of the columns
-      * Using the above, it's also possible to select which columns to display
+1. Humanized column names based on object keys
+2. Sortable columns
+3. Rows filtering / searchable
+4. Search term highlight in the results
+5. Column visibility toggles
+6. Automatic pagination
+7. Server-side/remote data
+8. Control over row clicks
+9. Smart data rendering
+   - URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
+     `<a />`
+   - _boolean_ value parsing to yes/no word
+   - Image URLs rendered as the _src_ for an image tag `<img />`
+10. Custom override if the default behavior is unwanted for some columns
+11. Custom components
+    - Paginator
+12. Control the order of the columns
+    - Using the above, it's also possible to select which columns to display
 
 ## Installation
 
@@ -114,11 +117,7 @@ const headers = {
       // The following results should be identical
       console.log(value, row.tableActions)
       // Example of table actions: Delete row from data by row index
-      return (
-        <button onClick={() => deleteRow(row)}>
-          Delete Row
-        </button>
-      )
+      return <button onClick={() => deleteRow(row)}>Delete Row</button>
     },
   },
 }
@@ -163,18 +162,14 @@ const parseImg = {
 
 ```javascript
 // Any renderable object can be passed
-const emptyTable = (
-  <div>
-    There is no data available at the time.
-  </div>
-)
+const emptyTable = <div>There is no data available at the time.</div>
 ```
 
 ### paginator
 
 The _CustomComponent_ passed down as a prop will be rendered with the following
 props which can be used to perform all the necessary calculations and makes it
-fully compatible with Semantic UI's [Pagination](https://react.semantic-ui.com/addons/pagination/)
+fully compatible with Semantic UI's [Pagination][7]
 component.
 
 ```javascript
@@ -217,7 +212,7 @@ const orderedHeaders = [
 ### Async data loading (fetch)
 
 By passing a string to the `data` prop, the component will interpret it as an
-URL and try to load the data from that location using _[fetch][5]_. If a
+URL and try to load the data from that location using _[fetch][8]_. If a
 successful request is returned, the data will be extracted from the `data` key
 in the response object. If it's in a different key, you can specify it with the
 `dataKey` prop.
@@ -228,23 +223,19 @@ in the response object. If it's in a different key, you can specify it with the
 {
   "status": "success",
   "message": "",
-  "data": [ { "id": 0, "other": "..." }, { "id": 1, "other": "..." }, "..." ]
+  "data": [{ "id": 0, "other": "..." }, { "id": 1, "other": "..." }, "..."]
 }
 ```
 
 `component`
 
 ```javascript
-<SmartDataTable
-  data='/api/v1/data'
-  dataKey='data'
-  name='test-table'
-/>
+<SmartDataTable data="/api/v1/data" dataKey="data" name="test-table" />
 ```
 
 ### Simple sortable table (with Semantic UI)
 
-``` javascript
+```javascript
 import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
@@ -253,7 +244,7 @@ import SmartDataTable from 'react-smart-data-table'
 var testData = []
 var numResults = 100
 
-for (var i=0; i<numResults; i++) {
+for (var i = 0; i < numResults; i++) {
   testData.push({
     _id: i,
     fullName: faker.name.findName(),
@@ -262,19 +253,19 @@ for (var i=0; i<numResults; i++) {
     address: {
       city: faker.address.city(),
       state: faker.address.state(),
-      country: faker.address.country()
-    }
+      country: faker.address.country(),
+    },
   })
 }
 
 ReactDOM.render(
   <SmartDataTable
     data={testData}
-    name='test-table'
-    className='ui compact selectable table'
+    name="test-table"
+    className="ui compact selectable table"
     sortable
   />,
-  document.getElementById('app')
+  document.getElementById('app'),
 )
 ```
 
@@ -283,19 +274,19 @@ ReactDOM.render(
 You can try _react-smart-data-table_ with different UI libraries in the demo
 pages below. You can experiment with different features as well.
 
-* [Semantic UI: All Features][6]
-* [Bootstrap: Sortable][7]
+- [Semantic UI: All Features][9]
+- [Bootstrap: Sortable][10]
 
-Take a look at the full featured example's [source code][8].
+Take a look at the full featured example's [source code][11].
 
 Also, see it in full integration with a simple user/group management dashboard
 application. Feel free to play around with it, it's built with hot reloading.
 
-* [Somewhere I Belong][9]
+- [Somewhere I Belong][12]
 
 ## Forking / Contributing
 
-If you want to fork or [contribute][10], it's easy to test your changes. Just
+If you want to fork or [contribute][13], it's easy to test your changes. Just
 run the following development commands. The _start_ instruction will start a
 development HTTP server in your computer accessible from your browser at the
 address `http://localhost:3000/`.
@@ -307,10 +298,13 @@ yarn dev && yarn start
 [1]: https://badge.fury.io/js/react-smart-data-table
 [2]: https://github.com/facebook/jest
 [3]: ./CODE_OF_CONDUCT.md
-[4]: https://github.com/joaocarmo/react-very-simple-data-table
-[5]: https://fetch.spec.whatwg.org/
-[6]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
-[7]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
-[8]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
-[9]: https://github.com/joaocarmo/somewhere-i-belong
-[10]: ./CONTRIBUTING.md
+[4]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/alerts/
+[5]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/context:javascript
+[6]: https://github.com/joaocarmo/react-very-simple-data-table
+[7]: https://react.semantic-ui.com/addons/pagination/
+[8]: https://fetch.spec.whatwg.org/
+[9]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
+[10]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
+[11]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
+[12]: https://github.com/joaocarmo/somewhere-i-belong
+[13]: ./CONTRIBUTING.md
