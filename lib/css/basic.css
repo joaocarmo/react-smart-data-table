@@ -13,20 +13,20 @@
 .rsdt.rsdt-sortable-icon::after {
   font-size: 20px;
   font-style: normal;
-  content: "\21D5";
+  content: '\21D5';
   cursor: pointer;
 }
 
 .rsdt.rsdt-sortable-asc::after {
   font-size: 20px;
   font-style: normal;
-  content: "\2193";
+  content: '\2193';
   cursor: pointer;
 }
 
 .rsdt.rsdt-sortable-desc::after {
   font-size: 20px;
   font-style: normal;
-  content: "\2191";
+  content: '\2191';
   cursor: pointer;
 }
