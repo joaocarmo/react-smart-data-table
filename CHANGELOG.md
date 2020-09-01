@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0
+
+> Sep 1, 2020
+
+### Breaking Changes
+
+- Removed the styling to a dedicated file
+
 ## no-release (2020-06-07)
 
 > Jun 7, 2020

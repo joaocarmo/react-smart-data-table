@@ -46,7 +46,20 @@ It currently supports:
 ## Installation
 
 ```sh
+yarn add react-smart-data-table
+
+# or
+
 npm install react-smart-data-table
+```
+
+There is some very basic styling you can use to get started, but since `v0.8.0`
+you need to import it specifically. You can also copy the file and use it as the
+basis for your own theme.
+
+```js
+// Import basic styling
+import 'react-smart-data-table/dist/react-smart-data-table.css'
 ```
 
 ## Props
