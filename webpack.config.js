@@ -1,13 +1,22 @@
 const path = require('path')
-const { merge } = require('webpack-merge')
-const common = require('./webpack.common')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const babelOptions = require('./babel.config')
+const pkg = require('./package.json')
 
-module.exports = merge(common, {
-  context: path.join(__dirname, 'lib'),
+const libDir = path.join(__dirname, 'lib')
+const distDir = path.join(__dirname, 'dist')
+const testDir = path.join(__dirname, 'test')
+
+const { NODE_ENV } = process.env
+
+const mode = NODE_ENV || 'development'
+
+module.exports = {
+  context: libDir,
   entry: ['core-js/stable', './index.js'],
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'react-smart-data-table.js',
+    path: distDir,
+    filename: `${pkg.name}.js`,
     library: 'SmartDataTable',
     libraryTarget: 'umd',
   },
@@ -26,11 +35,40 @@ module.exports = merge(common, {
       },
     },
   ],
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: babelOptions,
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: mode === 'development',
+            },
+          },
+          'css-loader',
+        ],
+      },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: `${pkg.name}.css`,
+    }),
+  ],
   devServer: {
     compress: true,
-    contentBase: [path.join(__dirname, 'dist'), path.join(__dirname, 'test')],
+    contentBase: [distDir, testDir],
     open: true,
     overlay: true,
     port: 3000,
   },
-})
+}

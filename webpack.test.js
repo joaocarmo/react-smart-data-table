@@ -1,12 +1,30 @@
 const path = require('path')
-const { merge } = require('webpack-merge')
-const common = require('./webpack.common')
+const babelOptions = require('./babel.config')
 
-module.exports = merge(common, {
-  context: path.join(__dirname, '/example'),
+const exampleDir = path.join(__dirname, 'example')
+const distDir = path.join(__dirname, 'dist')
+
+module.exports = {
+  context: exampleDir,
   entry: ['./test.js'],
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: distDir,
     filename: 'test.js',
   },
-})
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: babelOptions,
+        },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+}
