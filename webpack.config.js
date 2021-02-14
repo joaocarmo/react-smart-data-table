@@ -5,7 +5,6 @@ const pkg = require('./package')
 
 const libDir = path.join(__dirname, 'lib')
 const distDir = path.join(__dirname, 'dist')
-const testDir = path.join(__dirname, 'test')
 
 const { NODE_ENV } = process.env
 
@@ -64,11 +63,4 @@ module.exports = {
       filename: `${pkg.name}.css`,
     }),
   ],
-  devServer: {
-    compress: true,
-    contentBase: [distDir, testDir],
-    open: true,
-    overlay: true,
-    port: 3000,
-  },
 }

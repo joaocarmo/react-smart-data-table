@@ -195,7 +195,7 @@ class SmartDataTable extends Component {
       return null
     })
 
-    return <tr>{headers}</tr>
+    return <Table.Row>{headers}</Table.Row>
   }
 
   renderRow(columns, row, i) {
@@ -247,7 +247,7 @@ class SmartDataTable extends Component {
       </Table.Row>
     ))
 
-    return <tbody>{tableRows}</tbody>
+    return <Table.Body>{tableRows}</Table.Body>
   }
 
   renderFooter(columns) {
@@ -358,7 +358,7 @@ class SmartDataTable extends Component {
     }
 
     return (
-      <div className="rsdt rsdt-container">
+      <section className="rsdt rsdt-container">
         {this.renderToggles(columns)}
         <Table data-table-name={name} className={className}>
           {withHeader && (
@@ -368,7 +368,7 @@ class SmartDataTable extends Component {
           <Table.Footer>{this.renderFooter(columns)}</Table.Footer>
         </Table>
         {this.renderPagination(rows)}
-      </div>
+      </section>
     )
   }
 }

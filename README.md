@@ -305,7 +305,7 @@ development HTTP server in your computer accessible from your browser at the
 address `http://localhost:3000/`.
 
 ```sh
-yarn dev && yarn start
+yarn start
 ```
 
 [1]: https://badge.fury.io/js/react-smart-data-table
@@ -318,6 +318,6 @@ yarn dev && yarn start
 [8]: https://fetch.spec.whatwg.org/
 [9]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
 [10]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
-[11]: https://github.com/joaocarmo/react-smart-data-table/blob/master/example/test.js
+[11]: ./example/index.js
 [12]: https://github.com/joaocarmo/somewhere-i-belong
 [13]: ./CONTRIBUTING.md

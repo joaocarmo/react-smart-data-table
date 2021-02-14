@@ -1,10 +1,8 @@
-// Import modules
 import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
 import { imgb64 } from '../lib/helpers/tests'
 import SmartDataTable from '../lib'
-import '../dist/react-smart-data-table.css'
 
 const sematicUI = {
   segment: 'ui segment',

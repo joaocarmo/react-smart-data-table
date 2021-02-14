@@ -1,51 +1,45 @@
-import { Component } from 'react'
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import '../css/toggles.css'
 
-class Toggles extends Component {
-  constructor(props) {
-    super(props)
+const Toggles = ({
+  columns,
+  colProperties,
+  handleColumnToggle: onColumnToggle,
+}) => {
+  const handleToggleClick = useCallback(
+    ({ target: { value } }) => onColumnToggle(value),
+    [onColumnToggle],
+  )
 
-    this.handleToggleClick = this.handleToggleClick.bind(this)
-  }
+  const isColumnVisible = useCallback(
+    (key) => {
+      const thisColProps = colProperties[key]
 
-  handleToggleClick({ target: { value } }) {
-    const { handleColumnToggle } = this.props
-    handleColumnToggle(value)
-  }
+      return !thisColProps || !thisColProps.invisible
+    },
+    [colProperties],
+  )
 
-  isColumnVisible(key) {
-    const { colProperties } = this.props
-    const thisColProps = colProperties[key]
-
-    return !thisColProps || !thisColProps.invisible
-  }
-
-  renderToggles() {
-    const { columns } = this.props
-
-    return columns.map((column) => (
-      <span className="rsdt rsdt-column-toggles toggle" key={column.key}>
-        <label htmlFor={column.key}>
-          <input
-            type="checkbox"
-            id={column.key}
-            value={column.key}
-            name={column.text}
-            checked={this.isColumnVisible(column.key)}
-            onChange={this.handleToggleClick}
-          />
-          {column.text}
-        </label>
-      </span>
-    ))
-  }
-
-  render() {
-    return (
-      <div className="rsdt rsdt-column-toggles">{this.renderToggles()}</div>
-    )
-  }
+  return (
+    <nav className="rsdt rsdt-column-toggles">
+      {columns.map(({ key, text } = {}) => (
+        <span className="rsdt rsdt-column-toggles toggle" key={key}>
+          <label htmlFor={key}>
+            <input
+              type="checkbox"
+              id={key}
+              value={key}
+              name={text}
+              checked={isColumnVisible(key)}
+              onChange={handleToggleClick}
+            />
+            {text}
+          </label>
+        </span>
+      ))}
+    </nav>
+  )
 }
 
 /* Defines the type of data expected in each passed prop */

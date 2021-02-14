@@ -119,7 +119,7 @@ class CellValue extends Component {
     )
   }
 
-  renderDisplayValue() {
+  render() {
     const { filterValue, withLinks, parseImg } = this.props
     const value = this.getRenderValue()
 
@@ -133,11 +133,7 @@ class CellValue extends Component {
       image = this.renderImage(value, parseImg)
     }
 
-    return image || this.highlightValue(value, filterValue)
-  }
-
-  render() {
-    return <span>{this.renderDisplayValue()}</span>
+    return <span>{image || this.highlightValue(value, filterValue)}</span>
   }
 }
 

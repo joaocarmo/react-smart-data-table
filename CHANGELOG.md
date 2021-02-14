@@ -7,7 +7,11 @@
 - Upgraded the codebase to the new [JSX transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
 - Removed the `memoize-one` dependency
 - Cleaned up the internal code
+- Refactored the dev workflow
 - Changed the files with `JSX` syntax to use the `.jsx` extension
+- Converted some Class Components to Functional Components
+  - Toggles
+- Converted some `div` elements to more semantic HTML elements
 
 ### Breaking Changes
 

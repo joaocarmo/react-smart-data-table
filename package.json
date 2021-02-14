@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A smart data table component for React.js meant to be configuration free",
   "private": false,
   "main": "dist/react-smart-data-table.js",
@@ -18,23 +18,22 @@
     "not dead"
   ],
   "scripts": {
-    "build:dev": "NODE_ENV=development webpack --mode development",
-    "build:test-dev": "NODE_ENV=development webpack --mode development --config webpack.test.js",
-    "build:test": "NODE_ENV=production webpack --mode production --config webpack.test.js",
-    "build": "NODE_ENV=production webpack --mode production",
+    "build:dev": "NODE_ENV=development webpack",
+    "build:example-dev": "NODE_ENV=development webpack --config webpack.dev.js",
+    "build:example": "NODE_ENV=production webpack --config webpack.dev.js",
+    "build": "NODE_ENV=production webpack",
     "clean": "rm -rf dist/",
-    "dev": "yarn build:dev && yarn build:test-dev",
+    "dev": "yarn build:dev && yarn build:example-dev",
     "lint-staged": "scripts/lint.sh",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
     "postinstall": "husky install",
     "postpublish": "pinst --enable",
-    "prd": "yarn build && yarn build:test",
+    "prd": "yarn build && yarn build:example",
     "prepublishOnly": "pinst --disable",
     "pretty:fix": "prettier --write .",
     "pretty": "prettier --check .",
-    "serve": "NODE_ENV=development webpack serve",
-    "start": "yarn build && yarn serve",
+    "start": "NODE_ENV=development webpack serve --config webpack.dev.js",
     "test": "jest --passWithNoTests"
   },
   "repository": {
