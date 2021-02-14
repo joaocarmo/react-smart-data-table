@@ -26,7 +26,6 @@ module.exports = {
       'escape-string-regexp': 'escape-string-regexp',
       flat: 'flat',
       linkifyjs: 'linkifyjs',
-      'memoize-one': 'memoize-one',
       'snake-case': 'snake-case',
       react: {
         root: 'React',

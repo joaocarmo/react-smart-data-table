@@ -5,6 +5,7 @@
 > Feb 14, 2021
 
 - Upgraded the codebase to the new [JSX transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
+- Removed the `memoize-one` dependency
 
 ## 0.8.0
 

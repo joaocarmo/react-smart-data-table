@@ -50,7 +50,6 @@
     "escape-string-regexp": "^4.0.0",
     "flat": "^5.0.2",
     "linkifyjs": "^2.1.8",
-    "memoize-one": "^5.1.1",
     "prop-types": "^15.7.2",
     "snake-case": "^3.0.3"
   },
