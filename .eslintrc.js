@@ -5,7 +5,13 @@ module.exports = {
     node: true,
     'jest/globals': true,
   },
-  extends: ['airbnb-base', 'plugin:jest/recommended', 'prettier'],
+  extends: [
+    'plugin:react/recommended',
+    'plugin:jest/recommended',
+    'airbnb-base',
+    'prettier',
+    'prettier/react',
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
