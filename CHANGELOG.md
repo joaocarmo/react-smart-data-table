@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1
+
+> Feb 14, 2021
+
+- Upgraded the codebase to the new [JSX transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
+
 ## 0.8.0
 
 > Sep 1, 2020

@@ -8,7 +8,7 @@ module.exports = {
       '<rootDir>/lib/__mocks__/fileMock.js',
     '\\.(css|less)$': 'identity-obj-proxy',
   },
-  setupFilesAfterEnv: ['jest-enzyme'],
+  setupFilesAfterEnv: ['jest-enzyme', '<rootDir>/jest.setup.js'],
   snapshotSerializers: ['enzyme-to-json/serializer'],
   testEnvironment: 'enzyme',
   testRegex: '(/__tests__/.*)\\.[jt]sx?$',

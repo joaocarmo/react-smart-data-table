@@ -12,6 +12,7 @@ const { NODE_ENV } = process.env
 const mode = NODE_ENV || 'development'
 
 module.exports = {
+  mode,
   context: libDir,
   entry: ['core-js/stable', './index.js'],
   output: {
@@ -50,9 +51,6 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: mode === 'development',
-            },
           },
           'css-loader',
         ],
