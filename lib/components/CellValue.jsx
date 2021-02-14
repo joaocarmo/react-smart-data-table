@@ -1,13 +1,8 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as linkify from 'linkifyjs'
-import {
-  head,
-  highlightValueParts,
-  isDataURL,
-  isEmpty,
-  isImage,
-} from '../helpers/functions'
+import HighlightValue from './HighlightValue'
+import { head, isDataURL, isEmpty, isImage } from '../helpers/functions'
 import {
   DEFAULT_IMG_ALT,
   DEFAULT_NO_WORD,
@@ -58,19 +53,7 @@ class CellValue extends Component {
       return value
     }
 
-    const { first, highlight, last } = highlightValueParts(value, filterValue)
-
-    if (!first && !highlight && !last) {
-      return value
-    }
-
-    return (
-      <span>
-        {first}
-        <span className="rsdt rsdt-highlight">{highlight}</span>
-        {last}
-      </span>
-    )
+    return <HighlightValue filterValue={filterValue}>{value}</HighlightValue>
   }
 
   renderImage(value, parseImg = {}, bypass = false) {
@@ -137,7 +120,6 @@ class CellValue extends Component {
   }
 }
 
-// Defines the type of data expected in each passed prop
 CellValue.propTypes = {
   content: PropTypes.string,
   filterValue: PropTypes.string,
@@ -149,7 +131,6 @@ CellValue.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
 }
 
-// Defines the default values for not passing a certain prop
 CellValue.defaultProps = {
   content: '',
   filterValue: '',

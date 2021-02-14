@@ -8,7 +8,6 @@ import Table from './components/Table'
 import Toggles from './components/Toggles'
 import withPagination from './components/helpers/with-pagination'
 import {
-  debugPrint,
   fetchData,
   isEmpty,
   isFunction,
@@ -18,7 +17,7 @@ import {
   sliceRowsPerPage,
   sortData,
 } from './helpers/functions'
-import { ORDER_ASC, ORDER_DESC } from './helpers/constants'
+import { DEFAULT_DATA_KEY, ORDER_ASC, ORDER_DESC } from './helpers/constants'
 import './css/basic.css'
 
 class SmartDataTable extends Component {
@@ -78,20 +77,27 @@ class SmartDataTable extends Component {
     this.setState({ colProperties: headers })
   }
 
-  fetchData() {
+  async fetchData() {
     const { data, dataKey } = this.props
 
     if (isString(data)) {
       this.setState({ isLoading: true })
-      fetchData(data, dataKey)
-        .then((asyncData) => {
-          this.setState({
-            asyncData,
-            isLoading: false,
-            columns: this.getColumns(true),
-          })
+
+      try {
+        const asyncData = await fetchData(data, dataKey)
+
+        this.setState({
+          asyncData,
+          isLoading: false,
+          columns: this.getColumns(true),
         })
-        .catch(debugPrint)
+      } catch (err) {
+        this.setState({
+          isLoading: false,
+        })
+
+        throw new Error(err)
+      }
     }
   }
 
@@ -401,7 +407,7 @@ SmartDataTable.propTypes = {
 
 // Defines the default values for not passing a certain prop
 SmartDataTable.defaultProps = {
-  dataKey: 'data',
+  dataKey: DEFAULT_DATA_KEY,
   columns: [],
   name: 'reactsmartdatatable',
   sortable: false,

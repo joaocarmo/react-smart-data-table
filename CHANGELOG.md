@@ -12,6 +12,8 @@
 - Converted some Class Components to Functional Components
   - Toggles
 - Converted some `div` elements to more semantic HTML elements
+- Converted Promises to async-await
+- Improved the pagination's basic CSS
 
 ### Breaking Changes
 
