@@ -1,12 +1,9 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.8.1",
+  "version": "0.8.0",
   "description": "A smart data table component for React.js meant to be configuration free",
   "private": false,
   "main": "dist/react-smart-data-table.js",
-  "exports": {
-    ".": "./dist/react-smart-data-table.js"
-  },
   "directories": {
     "lib": "lib"
   },

@@ -15,7 +15,7 @@ module.exports = {
   entry: `./index.js`,
   output: {
     path: distDir,
-    filename: 'test.js',
+    filename: 'example.js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],

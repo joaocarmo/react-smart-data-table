@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.8.1
+## no-release (2021-02-14)
 
 > Feb 14, 2021
 
@@ -14,6 +14,7 @@
 - Converted some `div` elements to more semantic HTML elements
 - Converted Promises to async-await
 - Improved the pagination's basic CSS
+- Added custom API URL to the example
 
 ### Breaking Changes
 

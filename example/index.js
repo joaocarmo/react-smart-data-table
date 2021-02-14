@@ -5,29 +5,23 @@ import { imgb64 } from '../lib/helpers/tests'
 import SmartDataTable from '../lib'
 
 const sematicUI = {
-  segment: 'ui segment',
-  message: 'ui message',
-  labeledInput: 'ui right labeled input',
-  iconInput: 'ui icon input',
-  searchIcon: 'search icon',
-  rowsIcon: 'numbered list icon',
-  table: 'ui compact selectable table',
-  select: 'ui dropdown',
-  refresh: 'ui labeled primary icon button',
-  refreshIcon: 'sync alternate icon',
   change: 'ui labeled secondary icon button',
   changeIcon: 'exchange icon',
   checkbox: 'ui toggle checkbox',
-  loader: 'ui active text loader',
   deleteIcon: 'trash red icon',
+  input: 'ui input',
+  iconInput: 'ui icon input',
+  labeledInput: 'ui right labeled input',
+  loader: 'ui active text loader',
+  message: 'ui message',
+  refresh: 'ui labeled primary icon button',
+  refreshIcon: 'sync alternate icon',
+  rowsIcon: 'numbered list icon',
+  searchIcon: 'search icon',
+  segment: 'ui segment',
+  select: 'ui dropdown',
+  table: 'ui compact selectable table',
 }
-
-const apiDataUrls = [
-  'https://jsonplaceholder.typicode.com/users',
-  'https://jsonplaceholder.typicode.com/todos',
-  'https://jsonplaceholder.typicode.com/albums',
-  'https://jsonplaceholder.typicode.com/photos',
-]
 
 const generateData = (numResults = 0) => {
   let total = numResults || 0
@@ -46,7 +40,7 @@ const generateData = (numResults = 0) => {
       url: faker.internet.url(),
       isMarried: faker.random.boolean(),
       actions: null,
-      avatar: faker.random.boolean() ? faker.image.avatar() : imgb64,
+      avatar: imgb64,
       fullName: faker.name.findName(),
       _username: faker.internet.userName(),
       password_: faker.internet.password(),
@@ -57,6 +51,18 @@ const generateData = (numResults = 0) => {
   return data
 }
 
+const emptyTable = (
+  <div className={sematicUI.message}>
+    There is no data available to display.
+  </div>
+)
+
+const loader = (
+  <div className={sematicUI.loader}>
+    Loading...
+  </div>
+)
+
 class AppDemo extends React.Component {
   constructor(props) {
     super(props)
@@ -64,6 +70,9 @@ class AppDemo extends React.Component {
     this.state = {
       useApi: false,
       apiData: '',
+      apiUrl: 'https://randomuser.me/api/?results=100',
+      apiUrlNew: 'https://randomuser.me/api/?results=100',
+      dataKey: 'results',
       apiIdx: -1,
       numResults: 10,
       data: [],
@@ -89,20 +98,19 @@ class AppDemo extends React.Component {
       hideUnordered: false,
     }
 
-    this.setNewData = this.setNewData.bind(this)
-    this.setApiData = this.setApiData.bind(this)
     this.changeData = this.changeData.bind(this)
-    this.handleOnChange = this.handleOnChange.bind(this)
-    this.handleOnPerPage = this.handleOnPerPage.bind(this)
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
-    this.onRowClick = this.onRowClick.bind(this)
+    this.handleNewApiUrl = this.handleNewApiUrl.bind(this)
+    this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnChangeOrder = this.handleOnChangeOrder.bind(this)
+    this.handleOnPerPage = this.handleOnPerPage.bind(this)
+    this.onRowClick = this.onRowClick.bind(this)
+    this.setNewData = this.setNewData.bind(this)
   }
 
   componentDidMount() {
     const { numResults } = this.state
     this.setNewData(numResults)
-    this.setApiData()
   }
 
   setNewData() {
@@ -112,13 +120,9 @@ class AppDemo extends React.Component {
     })
   }
 
-  setApiData() {
-    let { apiIdx } = this.state
-    const N = apiDataUrls.length
-    apiIdx += 1
-    if (apiIdx === N) apiIdx -= N
-    const apiData = apiDataUrls[apiIdx]
-    this.setState({ apiData, apiIdx })
+  handleNewApiUrl() {
+    const { apiUrlNew } = this.state
+    this.setState({ apiUrl: apiUrlNew })
   }
 
   handleDelete(event, idx, row) {
@@ -256,8 +260,19 @@ class AppDemo extends React.Component {
 
   render() {
     const {
-      useApi, apiData, data, filterValue, perPage, numResults, showOnRowClick,
-      changeOrder, orderedHeaders, hideUnordered,
+      apiData,
+      apiUrl,
+      apiUrlNew,
+      changeOrder,
+      data,
+      dataKey,
+      filterValue,
+      hideUnordered,
+      numResults,
+      orderedHeaders,
+      perPage,
+      showOnRowClick,
+      useApi,
     } = this.state
     const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
     const headers = this.getHeaders()
@@ -299,18 +314,14 @@ class AppDemo extends React.Component {
           </select>
           {divider}
           {!useApi && (
-            <button type='button' className={sematicUI.refresh} onClick={this.setNewData}>
-              <i className={sematicUI.refreshIcon} />
-              Refresh Faker
-            </button>
+            <>
+              <button type='button' className={sematicUI.refresh} onClick={this.setNewData}>
+                <i className={sematicUI.refreshIcon} />
+                Refresh Faker
+              </button>
+              {divider}
+            </>
           )}
-          {useApi && (
-            <button type='button' className={sematicUI.refresh} onClick={this.setApiData}>
-              <i className={sematicUI.refreshIcon} />
-              New API URL
-            </button>
-          )}
-          {divider}
           <button type='button' className={sematicUI.change} onClick={this.changeData}>
             <i className={sematicUI.changeIcon} />
             {useApi ? 'Use Faker' : 'Use Async API'}
@@ -356,6 +367,38 @@ class AppDemo extends React.Component {
             </label>
           </div>
         </div>
+        {useApi && (
+          <div className={sematicUI.segment}>
+            <div className={sematicUI.input} style={{ width: '50%' }}>
+              <input
+                type='text'
+                name='apiUrlNew'
+                value={apiUrlNew}
+                placeholder='https://my-api-location/users'
+                onChange={this.handleOnChange}
+              />
+            </div>
+            {divider}
+            <div className={sematicUI.input} style={{ width: '10%' }}>
+              <input
+                type='text'
+                name='dataKey'
+                value={dataKey}
+                placeholder='data key'
+                onChange={this.handleOnChange}
+              />
+            </div>
+            {divider}
+            <button
+              type='button'
+              className={sematicUI.refresh}
+              onClick={this.handleNewApiUrl}
+            >
+              <i className={sematicUI.refreshIcon} />
+              Load
+            </button>
+          </div>
+        )}
         {changeOrder && (
           <div className={sematicUI.segment}>
             {orderedHeaders.map((header, idx) => (
@@ -396,48 +439,68 @@ class AppDemo extends React.Component {
               : `Total rows in the table: ${data.length}`}
           </p>
         </div>
-        <SmartDataTable
-          data={useApi ? apiData : data}
-          dataKey=''
-          headers={headers}
-          orderedHeaders={orderedHeaders}
-          hideUnordered={hideUnordered}
-          name='test-table'
-          className={sematicUI.table}
-          filterValue={filterValue}
-          perPage={perPage}
-          sortable
-          withToggles
-          withLinks
-          withHeader
-          loader={(
-            <div className={sematicUI.loader}>
-              Loading...
-            </div>
-          )}
-          onRowClick={this.onRowClick}
-          parseBool={{
-            yesWord: 'Indeed',
-            noWord: 'Nope',
-          }}
-          parseImg={{
-            style: {
-              border: '1px solid #ddd',
-              borderRadius: '2px',
-              padding: '3px',
-              width: '60px',
-            },
-            /*
-            className: 'ui avatar image',
-            */
-          }}
-          dynamic
-          emptyTable={(
-            <div className={sematicUI.message}>
-              There is no data available to display.
-            </div>
-          )}
-        />
+        {useApi && (
+          <SmartDataTable
+            name='test-async-table'
+            data={apiUrl}
+            dataKey={dataKey}
+            onRowClick={this.onRowClick}
+            emptyTable={emptyTable}
+            loader={loader}
+            filterValue={filterValue}
+            perPage={perPage}
+            parseImg={{ className: 'ui avatar image' }}
+            className={sematicUI.table}
+            parseBool
+            dynamic
+            sortable
+            withToggles
+            withLinks
+            withHeader
+          />
+        )}
+        {!useApi && (
+          <SmartDataTable
+            name='test-fake-table'
+            data={data}
+            headers={headers}
+            orderedHeaders={orderedHeaders}
+            hideUnordered={hideUnordered}
+            className={sematicUI.table}
+            filterValue={filterValue}
+            perPage={perPage}
+            sortable
+            withToggles
+            withLinks
+            withHeader
+            loader={loader}
+            onRowClick={this.onRowClick}
+            parseBool={{
+              yesWord: 'Indeed',
+              noWord: 'Nope',
+            }}
+            parseImg={{
+              style: {
+                border: '1px solid #ddd',
+                borderRadius: '2px',
+                padding: '3px',
+                width: '60px',
+              },
+            }}
+            emptyTable={emptyTable}
+          />
+        )}
+        <footer className="ui center aligned basic segment container">
+          <p>
+            <strong>
+              React Smart Data Table
+            </strong>
+            {' by '}
+            <a href="//joaocarmo.com" target="_blank">
+              João Carmo
+            </a>
+          </p>
+        </footer>
       </>
     )
   }
