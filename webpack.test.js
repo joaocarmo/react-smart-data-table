@@ -11,6 +11,9 @@ module.exports = {
     path: distDir,
     filename: 'test.js',
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   module: {
     rules: [
       {

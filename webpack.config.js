@@ -1,7 +1,7 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const babelOptions = require('./babel.config')
-const pkg = require('./package.json')
+const pkg = require('./package')
 
 const libDir = path.join(__dirname, 'lib')
 const distDir = path.join(__dirname, 'dist')
@@ -14,12 +14,15 @@ const mode = NODE_ENV || 'development'
 module.exports = {
   mode,
   context: libDir,
-  entry: ['core-js/stable', './index.js'],
+  entry: './index.js',
   output: {
     path: distDir,
     filename: `${pkg.name}.js`,
     library: 'SmartDataTable',
     libraryTarget: 'umd',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   externals: [
     {

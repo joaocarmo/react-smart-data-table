@@ -1,13 +1,12 @@
-// Import modules
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-// Import components
+import cx from 'classnames'
+import CellValue from './components/CellValue'
 import ErrorBoundary from './components/ErrorBoundary'
 import Paginator from './components/Paginator'
-import TableCell from './components/TableCell'
+import Table from './components/Table'
 import Toggles from './components/Toggles'
 import withPagination from './components/helpers/with-pagination'
-// Import functions
 import {
   debugPrint,
   fetchData,
@@ -19,7 +18,7 @@ import {
   sliceRowsPerPage,
   sortData,
 } from './helpers/functions'
-// Import styles
+import { ORDER_ASC, ORDER_DESC } from './helpers/constants'
 import './css/basic.css'
 
 class SmartDataTable extends Component {
@@ -131,13 +130,13 @@ class SmartDataTable extends Component {
     }
 
     if (sorting.dir) {
-      if (sorting.dir === 'ASC') {
-        dir = 'DESC'
+      if (sorting.dir === ORDER_ASC) {
+        dir = ORDER_DESC
       } else {
         dir = ''
       }
     } else {
-      dir = 'ASC'
+      dir = ORDER_ASC
     }
 
     this.setState({
@@ -156,7 +155,7 @@ class SmartDataTable extends Component {
 
     if (key === column.key) {
       if (dir) {
-        if (dir === 'ASC') {
+        if (dir === ORDER_ASC) {
           sortingIcon = 'rsdt-sortable-asc'
         } else {
           sortingIcon = 'rsdt-sortable-desc'
@@ -166,7 +165,7 @@ class SmartDataTable extends Component {
 
     return (
       <i
-        className={`rsdt ${sortingIcon}`}
+        className={cx('rsdt', sortingIcon)}
         onClick={() => this.handleSortChange(column)}
         onKeyDown={() => this.handleSortChange(column)}
         role="button"
@@ -184,12 +183,12 @@ class SmartDataTable extends Component {
       const showCol = !thisColProps || !thisColProps.invisible
       if (showCol) {
         return (
-          <th key={column.key}>
+          <Table.HeaderCell key={column.key}>
             <span>{column.text}</span>
             <span className="rsdt rsdt-sortable">
               {sortable && column.sortable ? this.renderSorting(column) : null}
             </span>
-          </th>
+          </Table.HeaderCell>
         )
       }
 
@@ -210,12 +209,12 @@ class SmartDataTable extends Component {
 
       if (showCol) {
         return (
-          <td key={`row-${i}-column-${j}`}>
+          <Table.Cell key={`row-${i}-column-${j}`}>
             {isFunction(transformFn) ? (
               transformFn(row[column.key], i, row)
             ) : (
               <ErrorBoundary>
-                <TableCell
+                <CellValue
                   withLinks={withLinks}
                   filterValue={filterValue}
                   parseBool={parseBool}
@@ -224,10 +223,10 @@ class SmartDataTable extends Component {
                   isImg={thisColProps.isImg}
                 >
                   {row[column.key]}
-                </TableCell>
+                </CellValue>
               </ErrorBoundary>
             )}
-          </td>
+          </Table.Cell>
         )
       }
 
@@ -240,12 +239,12 @@ class SmartDataTable extends Component {
     const { activePage } = this.state
     const visibleRows = sliceRowsPerPage(rows, activePage, perPage)
     const tableRows = visibleRows.map((row, i) => (
-      <tr
+      <Table.Row
         key={`row-${i}`}
         onClick={(e) => this.handleRowClick(e, row, i, rows)}
       >
         {this.renderRow(columns, row, i)}
-      </tr>
+      </Table.Row>
     ))
 
     return <tbody>{tableRows}</tbody>
@@ -361,11 +360,13 @@ class SmartDataTable extends Component {
     return (
       <div className="rsdt rsdt-container">
         {this.renderToggles(columns)}
-        <table data-table-name={name} className={className}>
-          {withHeader && <thead>{this.renderHeader(columns)}</thead>}
+        <Table data-table-name={name} className={className}>
+          {withHeader && (
+            <Table.Header>{this.renderHeader(columns)}</Table.Header>
+          )}
           {this.renderBody(columns, rows)}
-          <tfoot>{this.renderFooter(columns)}</tfoot>
-        </table>
+          <Table.Footer>{this.renderFooter(columns)}</Table.Footer>
+        </Table>
         {this.renderPagination(rows)}
       </div>
     )

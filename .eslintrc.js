@@ -7,6 +7,8 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:react-hooks/recommended',
     'plugin:jest/recommended',
     'airbnb-base',
     'prettier',
@@ -23,10 +25,20 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['react', 'jest'],
+  plugins: ['react', 'jest', 'jsx-a11y'],
   rules: {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     semi: ['error', 'never'],
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx'],
+      },
+    },
   },
 }

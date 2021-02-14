@@ -17,11 +17,13 @@ class Toggles extends Component {
   isColumnVisible(key) {
     const { colProperties } = this.props
     const thisColProps = colProperties[key]
+
     return !thisColProps || !thisColProps.invisible
   }
 
   renderToggles() {
     const { columns } = this.props
+
     return columns.map((column) => (
       <span className="rsdt rsdt-column-toggles toggle" key={column.key}>
         <label htmlFor={column.key}>

@@ -6,6 +6,12 @@
 
 - Upgraded the codebase to the new [JSX transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
 - Removed the `memoize-one` dependency
+- Cleaned up the internal code
+- Changed the files with `JSX` syntax to use the `.jsx` extension
+
+### Breaking Changes
+
+- `TableCell` was renamed to `CellValue`
 
 ## 0.8.0
 

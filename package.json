@@ -4,6 +4,15 @@
   "description": "A smart data table component for React.js meant to be configuration free",
   "private": false,
   "main": "dist/react-smart-data-table.js",
+  "exports": {
+    ".": "./dist/react-smart-data-table.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "dist"
+  ],
   "browserslist": [
     "last 2 version",
     "not dead"
@@ -47,6 +56,7 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
+    "classnames": "^2.2.6",
     "escape-string-regexp": "^4.0.0",
     "flat": "^5.0.2",
     "linkifyjs": "^2.1.8",
@@ -76,8 +86,9 @@
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^24.1.3",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "faker": "^5.1.0",
     "husky": "^5.0.9",
     "identity-obj-proxy": "^3.0.0",
