@@ -6,6 +6,7 @@
 
 - [ ] Feature
 - [ ] Fix {#ISSUE}
+- [ ] Refactor
 
 <!-- Please replace {Please write here ...} with something useful -->
 
