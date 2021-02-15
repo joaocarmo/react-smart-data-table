@@ -1,8 +1,13 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import PaginatorItem from './PaginatorItem'
 import { generatePagination, isUndefined } from '../helpers/functions'
 import '../css/paginator.css'
+
+const areEqual = (
+  { activePage: prevActivePage, totalPages: prevTotalPages },
+  { activePage: nextActivePage, totalPages: nextTotalPages },
+) => prevActivePage === nextActivePage && prevTotalPages === nextTotalPages
 
 const Paginator = ({ activePage, totalPages, onPageChange }) => {
   const paginatorItems = useMemo(
@@ -36,4 +41,4 @@ Paginator.propTypes = {
   onPageChange: PropTypes.func,
 }
 
-export default Paginator
+export default memo(Paginator, areEqual)

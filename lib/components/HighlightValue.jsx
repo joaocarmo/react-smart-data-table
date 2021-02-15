@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { highlightValueParts } from '../helpers/functions'
+
+const areEqual = (
+  { children: prevChildren, filterValue: prevFilterValue },
+  { children: nextChildren, filterValue: nextFilterValue },
+) => prevChildren === nextChildren && prevFilterValue === nextFilterValue
 
 const HighlightValue = ({ children, filterValue }) => {
   const { first, highlight, last } = useMemo(
@@ -31,4 +36,4 @@ HighlightValue.defaultProps = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
 }
 
-export default HighlightValue
+export default memo(HighlightValue, areEqual)

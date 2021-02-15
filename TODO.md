@@ -1,9 +1,10 @@
-# To do
+# TODO
 
 - @use JSDoc / TypeScript
-- Allow custom elements: _ErrorBoundary_, _Toggles_, _CellValue_
-- Allow custom sample element instead of the default first
-- Improve performance
-- Allow custom key resolver
+- Add horizontal scrolling (top and bottom)
 - Add multiple column sorting
 - Add sticky headers
+- Allow custom elements: _ErrorBoundary_, _Toggles_, _CellValue_
+- Allow custom key resolver
+- Allow custom sample element instead of the default first
+- Improve performance

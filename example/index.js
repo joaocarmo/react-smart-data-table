@@ -2,7 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
 import { imgb64 } from '../lib/helpers/tests'
+// Use for development
 import SmartDataTable from '../lib'
+// Use the production build
+// import SmartDataTable from '..'
+// import '../dist/react-smart-data-table.css'
 
 const sematicUI = {
   change: 'ui labeled secondary icon button',
@@ -174,7 +178,6 @@ class AppDemo extends React.Component {
       url: {
         text: 'Web Page',
         sortable: false,
-        filterable: false,
       },
       actions: {
         text: 'Actions',
@@ -355,17 +358,19 @@ class AppDemo extends React.Component {
             </label>
           </div>
           {divider}
-          <div className={sematicUI.checkbox}>
-            <input
-              type='checkbox'
-              name='changeOrder'
-              onChange={this.handleCheckboxChange}
-              checked={changeOrder}
-            />
-            <label>
-              Change header order
-            </label>
-          </div>
+          {!useApi && (
+            <div className={sematicUI.checkbox}>
+              <input
+                type='checkbox'
+                name='changeOrder'
+                onChange={this.handleCheckboxChange}
+                checked={changeOrder}
+              />
+              <label>
+                Change header order
+              </label>
+            </div>
+          )}
         </div>
         {useApi && (
           <div className={sematicUI.segment}>

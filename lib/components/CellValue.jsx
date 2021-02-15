@@ -1,88 +1,68 @@
-import { Component } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as linkify from 'linkifyjs'
 import HighlightValue from './HighlightValue'
-import { head, isDataURL, isEmpty, isImage } from '../helpers/functions'
 import {
-  DEFAULT_IMG_ALT,
-  DEFAULT_NO_WORD,
-  DEFAULT_YES_WORD,
-  STR_FALSE,
-  STR_ZERO,
-} from '../helpers/constants'
+  head,
+  isDataURL,
+  isEmpty,
+  isImage,
+  getRenderValue,
+} from '../helpers/functions'
+import { DEFAULT_IMG_ALT } from '../helpers/constants'
 
-class CellValue extends Component {
-  getRenderValue() {
-    const { content, parseBool, children } = this.props
+const CellValue = ({
+  children,
+  content,
+  filterable,
+  filterValue,
+  isImg,
+  parseBool,
+  parseImg,
+  withLinks,
+}) => {
+  const value = useMemo(
+    () => getRenderValue({ children, content, parseBool }),
+    [children, content, parseBool],
+  )
 
-    if (parseBool) {
-      const { yesWord, noWord } = parseBool
-
-      if (content === true || children === true) {
-        return yesWord || DEFAULT_YES_WORD
-      }
-
-      if (content === false || children === false) {
-        return noWord || DEFAULT_NO_WORD
-      }
-    }
-
-    if (content === 0 || children === 0) {
-      return STR_ZERO
-    }
-
-    if (content === false || children === false) {
-      return STR_FALSE
-    }
-
-    let value = ''
-
-    if (content) {
-      value = content
-    } else if (children) {
-      value = children
-    }
-
-    return `${value}`
-  }
-
-  highlightValue(value, filterValue) {
-    const { filterable } = this.props
-
+  const highlightValue = useCallback(() => {
     if (!filterable) {
       return value
     }
 
     return <HighlightValue filterValue={filterValue}>{value}</HighlightValue>
-  }
+  }, [filterValue, filterable, value])
 
-  renderImage(value, parseImg = {}, bypass = false) {
-    const { isImg } = this.props
-    const shouldBeAnImg = isImg || bypass || isImage(value)
+  const renderImage = useCallback(
+    ({ bypass = false } = {}) => {
+      const shouldBeAnImg = isImg || bypass || isImage(value)
 
-    if (shouldBeAnImg) {
-      const { style, className } = parseImg
+      if (shouldBeAnImg) {
+        const { style, className } = parseImg
 
-      return (
-        <img
-          src={value}
-          style={style}
-          className={className}
-          alt={DEFAULT_IMG_ALT}
-        />
-      )
-    }
+        return (
+          <img
+            src={value}
+            style={style}
+            className={className}
+            alt={DEFAULT_IMG_ALT}
+          />
+        )
+      }
 
-    return null
-  }
+      return null
+    },
+    [isImg, parseImg, value],
+  )
 
-  parseURLs(value, filterValue, parseImg) {
+  const parseURLs = useCallback(() => {
     const grabLinks = linkify.find(value)
-    const highlightedValue = this.highlightValue(value, filterValue)
+    const highlightedValue = highlightValue()
 
     if (isEmpty(grabLinks)) {
       if (isDataURL(value)) {
-        return this.renderImage(value, parseImg, true)
+        return renderImage({ bypass: true })
       }
 
       return highlightedValue
@@ -92,7 +72,7 @@ class CellValue extends Component {
     let image = null
 
     if (parseImg && firstLink.type === 'url') {
-      image = this.renderImage(value, parseImg)
+      image = renderImage()
     }
 
     return (
@@ -100,46 +80,39 @@ class CellValue extends Component {
         {image || highlightedValue}
       </a>
     )
+  }, [highlightValue, parseImg, renderImage, value])
+
+  if (withLinks) {
+    return parseURLs()
   }
 
-  render() {
-    const { filterValue, withLinks, parseImg } = this.props
-    const value = this.getRenderValue()
-
-    if (withLinks) {
-      return this.parseURLs(value, filterValue, parseImg)
-    }
-
-    let image = null
-
-    if (parseImg) {
-      image = this.renderImage(value, parseImg)
-    }
-
-    return <span>{image || this.highlightValue(value, filterValue)}</span>
+  if (parseImg) {
+    return renderImage()
   }
+
+  return highlightValue()
 }
 
 CellValue.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
   content: PropTypes.string,
-  filterValue: PropTypes.string,
   filterable: PropTypes.bool,
-  withLinks: PropTypes.bool,
+  filterValue: PropTypes.string,
+  isImg: PropTypes.bool,
   parseBool: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   parseImg: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  isImg: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+  withLinks: PropTypes.bool,
 }
 
 CellValue.defaultProps = {
+  children: null,
   content: '',
-  filterValue: '',
   filterable: true,
-  withLinks: false,
+  filterValue: '',
+  isImg: false,
   parseBool: false,
   parseImg: false,
-  isImg: false,
-  children: null,
+  withLinks: false,
 }
 
-export default CellValue
+export default memo(CellValue)
