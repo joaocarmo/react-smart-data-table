@@ -83,7 +83,7 @@ import 'react-smart-data-table/dist/react-smart-data-table.css'
 | parseImg       | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag   |
 | dynamic        | false               | {boolean}             | Use this if your column structure changes dynamically    |
 | emptyTable     | _null_              | {element}             | Pass a renderable object to render when there is no data |
-| paginator      | _elements_          | {element}             | Pass a renderable object handle table pagination         |
+| paginator      | _elements_          | {element}             | Pass a renderable object to handle the table pagination  |
 | orderedHeaders | []                  | {array}               | An ordered array of the column keys                      |
 | hideUnordered  | false               | {boolean}             | Hides all the columns not passed to _orderedHeaders_     |
 
