@@ -43,7 +43,7 @@ jspm_packages
 npm-reinstall
 
 # Test, deployment and development stuff
-dist/test.*
+dev/
+dist/example.*
 example/
-test/
 scripts/

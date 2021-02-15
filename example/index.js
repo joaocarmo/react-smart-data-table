@@ -73,11 +73,9 @@ class AppDemo extends React.Component {
 
     this.state = {
       useApi: false,
-      apiData: '',
       apiUrl: 'https://randomuser.me/api/?results=100',
       apiUrlNew: 'https://randomuser.me/api/?results=100',
       dataKey: 'results',
-      apiIdx: -1,
       numResults: 10,
       data: [],
       filterValue: '',
@@ -263,7 +261,6 @@ class AppDemo extends React.Component {
 
   render() {
     const {
-      apiData,
       apiUrl,
       apiUrlNew,
       changeOrder,
