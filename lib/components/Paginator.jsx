@@ -1,24 +1,19 @@
-// Import modules
-import React from 'react'
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
+import PaginatorItem from './PaginatorItem'
 import { generatePagination, isUndefined } from '../helpers/functions'
 import '../css/paginator.css'
 
-const PaginatorItem = ({ active, value, text, onPageChange }) => (
-  <button
-    className={`rsdt rsdt-paginate${active ? ' active ' : ' '}button`}
-    type="button"
-    onClick={(e) => onPageChange(e, { activePage: value })}
-    disabled={isUndefined(value)}
-  >
-    {text}
-  </button>
-)
-
 const Paginator = ({ activePage, totalPages, onPageChange }) => {
-  const paginatorItems = generatePagination(activePage, totalPages)
-  const onPageChangeFn =
-    typeof onPageChange === 'function' ? onPageChange : () => null
+  const paginatorItems = useMemo(
+    () => generatePagination(activePage, totalPages),
+    [activePage, totalPages],
+  )
+  const onPageChangeFn = useMemo(
+    () => (typeof onPageChange === 'function' ? onPageChange : () => null),
+    [onPageChange],
+  )
+
   return (
     <div className="rsdt rsdt-paginate">
       {paginatorItems.map(({ active, value, text }, idx) => (
@@ -41,11 +36,4 @@ Paginator.propTypes = {
   onPageChange: PropTypes.func,
 }
 
-PaginatorItem.propTypes = {
-  active: PropTypes.bool.isRequired,
-  value: PropTypes.number,
-  text: PropTypes.string.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-}
-
-export { Paginator }
+export default Paginator

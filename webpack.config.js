@@ -1,31 +1,33 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const babelOptions = require('./babel.config')
-const pkg = require('./package.json')
+const pkg = require('./package')
 
 const libDir = path.join(__dirname, 'lib')
 const distDir = path.join(__dirname, 'dist')
-const testDir = path.join(__dirname, 'test')
 
 const { NODE_ENV } = process.env
 
 const mode = NODE_ENV || 'development'
 
 module.exports = {
+  mode,
   context: libDir,
-  entry: ['core-js/stable', './index.js'],
+  entry: './index.js',
   output: {
     path: distDir,
     filename: `${pkg.name}.js`,
     library: 'SmartDataTable',
     libraryTarget: 'umd',
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   externals: [
     {
       'escape-string-regexp': 'escape-string-regexp',
       flat: 'flat',
       linkifyjs: 'linkifyjs',
-      'memoize-one': 'memoize-one',
       'snake-case': 'snake-case',
       react: {
         root: 'React',
@@ -50,9 +52,6 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: mode === 'development',
-            },
           },
           'css-loader',
         ],
@@ -64,11 +63,4 @@ module.exports = {
       filename: `${pkg.name}.css`,
     }),
   ],
-  devServer: {
-    compress: true,
-    contentBase: [distDir, testDir],
-    open: true,
-    overlay: true,
-    port: 3000,
-  },
 }

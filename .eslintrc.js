@@ -5,7 +5,15 @@ module.exports = {
     node: true,
     'jest/globals': true,
   },
-  extends: ['airbnb-base', 'prettier'],
+  extends: [
+    'plugin:react/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:jest/recommended',
+    'airbnb-base',
+    'prettier',
+    'prettier/react',
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -17,13 +25,20 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['react', 'jest'],
+  plugins: ['react', 'jest', 'jsx-a11y'],
   rules: {
-    'class-methods-use-this': 'off',
-    'import/no-extraneous-dependencies': 'off',
-    'import/prefer-default-export': 'off',
-    'no-restricted-syntax': 'off',
-    'no-unused-vars': 'off',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
     semi: ['error', 'never'],
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx'],
+      },
+    },
   },
 }

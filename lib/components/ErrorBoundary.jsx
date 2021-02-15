@@ -1,10 +1,11 @@
-// Import modules
-import React from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { GENERIC_ERROR_MESSAGE } from '../helpers/constants'
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       hasError: false,
       error: null,
@@ -14,12 +15,14 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     const { logError } = this.props
+
     // Display fallback UI
     this.setState({
       hasError: true,
       error,
       errorInfo,
     })
+
     // Log the error to an error handling function
     if (typeof logError === 'function') {
       logError(error, errorInfo)
@@ -28,9 +31,10 @@ class ErrorBoundary extends React.Component {
 
   renderDefaultFB() {
     const { error, errorInfo } = this.state
+
     return (
       <div>
-        <h2>Something went wrong !</h2>
+        <h2>{GENERIC_ERROR_MESSAGE}</h2>
         <details style={{ whiteSpace: 'pre-wrap' }}>
           <summary>{error && error.toString()}</summary>
           <p>{errorInfo.componentStack}</p>
@@ -42,13 +46,16 @@ class ErrorBoundary extends React.Component {
   render() {
     const { hasError } = this.state
     const { children, fbComponent } = this.props
+
     if (hasError) {
       // Render the fallback UI
       if (fbComponent) {
         return fbComponent
       }
+
       return this.renderDefaultFB()
     }
+
     return children
   }
 }
@@ -67,4 +74,4 @@ ErrorBoundary.defaultProps = {
   children: null,
 }
 
-export { ErrorBoundary }
+export default ErrorBoundary

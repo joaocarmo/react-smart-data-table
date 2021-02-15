@@ -3,12 +3,17 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        corejs: '3.6',
+        corejs: '3.8',
         modules: 'umd',
         useBuiltIns: 'usage',
       },
     ],
-    '@babel/preset-react',
+    [
+      '@babel/preset-react',
+      {
+        runtime: 'automatic',
+      },
+    ],
   ],
   plugins: ['@babel/plugin-transform-runtime'],
 }

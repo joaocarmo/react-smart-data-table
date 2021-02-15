@@ -1,3 +1,13 @@
+.rsdt {
+  box-sizing: border-box;
+}
+
+.rsdt *,
+.rsdt *::before,
+.rsdt *::after {
+  box-sizing: inherit;
+}
+
 .rsdt.rsdt-container {
   overflow: auto;
 }
