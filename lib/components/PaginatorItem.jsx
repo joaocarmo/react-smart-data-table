@@ -1,8 +1,14 @@
-import { useCallback } from 'react'
+import { memo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { isUndefined } from '../helpers/functions'
 import '../css/paginator.css'
+
+const areEqual = (
+  { active: prevActive, value: prevValue, text: prevText },
+  { active: nextActive, value: nextValue, text: nextText },
+) =>
+  prevActive === nextActive && prevValue === nextValue && prevText === nextText
 
 const PaginatorItem = ({ active, value, text, onPageChange }) => {
   const handleOnPageChange = useCallback(
@@ -32,4 +38,4 @@ PaginatorItem.propTypes = {
   onPageChange: PropTypes.func.isRequired,
 }
 
-export default PaginatorItem
+export default memo(PaginatorItem, areEqual)

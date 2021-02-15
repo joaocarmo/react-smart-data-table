@@ -1,5 +1,12 @@
 # Changelog
 
+## no-release (2021-02-15)
+
+> Feb 15, 2021
+
+- Converted the CellValue component to a FC and added `React.memo` to try and
+get some performance gains
+
 ## no-release (2021-02-14)
 
 > Feb 14, 2021

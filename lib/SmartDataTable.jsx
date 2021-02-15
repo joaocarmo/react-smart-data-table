@@ -400,7 +400,7 @@ SmartDataTable.propTypes = {
   headers: PropTypes.object,
   dynamic: PropTypes.bool,
   emptyTable: PropTypes.node,
-  paginator: PropTypes.func,
+  paginator: PropTypes.elementType,
   orderedHeaders: PropTypes.array,
   hideUnordered: PropTypes.bool,
 }
