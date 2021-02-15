@@ -1,5 +1,25 @@
 # Changelog
 
+## no-release (2021-02-14)
+
+> Feb 14, 2021
+
+- Upgraded the codebase to the new [JSX transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
+- Removed the `memoize-one` dependency
+- Cleaned up the internal code
+- Refactored the dev workflow
+- Changed the files with `JSX` syntax to use the `.jsx` extension
+- Converted some Class Components to Functional Components
+  - Toggles
+- Converted some `div` elements to more semantic HTML elements
+- Converted Promises to async-await
+- Improved the pagination's basic CSS
+- Added custom API URL to the example
+
+### Breaking Changes
+
+- `TableCell` was renamed to `CellValue`
+
 ## 0.8.0
 
 > Sep 1, 2020

@@ -1,80 +1,100 @@
-// Import modules
-import React from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as linkify from 'linkifyjs'
-// Import functions
+import HighlightValue from './HighlightValue'
+import { head, isDataURL, isEmpty, isImage } from '../helpers/functions'
 import {
-  isDataURL,
-  isImage,
-  isEmpty,
-  head,
-  memoizedHighlightValueParts as highlightValueParts,
-} from '../helpers/functions'
+  DEFAULT_IMG_ALT,
+  DEFAULT_NO_WORD,
+  DEFAULT_YES_WORD,
+  STR_FALSE,
+  STR_ZERO,
+} from '../helpers/constants'
 
-class TableCell extends React.Component {
+class CellValue extends Component {
   getRenderValue() {
     const { content, parseBool, children } = this.props
+
     if (parseBool) {
       const { yesWord, noWord } = parseBool
-      if (content === true || children === true) return yesWord || 'Yes'
-      if (content === false || children === false) return noWord || 'No'
+
+      if (content === true || children === true) {
+        return yesWord || DEFAULT_YES_WORD
+      }
+
+      if (content === false || children === false) {
+        return noWord || DEFAULT_NO_WORD
+      }
     }
-    if (content === 0 || children === 0) return '0'
-    if (content === false || children === false) return 'false'
+
+    if (content === 0 || children === 0) {
+      return STR_ZERO
+    }
+
+    if (content === false || children === false) {
+      return STR_FALSE
+    }
+
     let value = ''
+
     if (content) {
       value = content
     } else if (children) {
       value = children
     }
+
     return `${value}`
   }
 
   highlightValue(value, filterValue) {
     const { filterable } = this.props
-    if (!filterable) return value
-    const { first, highlight, last } = highlightValueParts(value, filterValue)
-    if (!first && !highlight && !last) return value
-    return (
-      <span>
-        {first}
-        <span className="rsdt rsdt-highlight">{highlight}</span>
-        {last}
-      </span>
-    )
+
+    if (!filterable) {
+      return value
+    }
+
+    return <HighlightValue filterValue={filterValue}>{value}</HighlightValue>
   }
 
   renderImage(value, parseImg = {}, bypass = false) {
     const { isImg } = this.props
     const shouldBeAnImg = isImg || bypass || isImage(value)
+
     if (shouldBeAnImg) {
       const { style, className } = parseImg
+
       return (
         <img
           src={value}
           style={style}
           className={className}
-          alt="URL detected by the renderer"
+          alt={DEFAULT_IMG_ALT}
         />
       )
     }
+
     return null
   }
 
   parseURLs(value, filterValue, parseImg) {
     const grabLinks = linkify.find(value)
     const highlightedValue = this.highlightValue(value, filterValue)
+
     if (isEmpty(grabLinks)) {
       if (isDataURL(value)) {
         return this.renderImage(value, parseImg, true)
       }
+
       return highlightedValue
     }
+
     const firstLink = head(grabLinks)
     let image = null
+
     if (parseImg && firstLink.type === 'url') {
       image = this.renderImage(value, parseImg)
     }
+
     return (
       <a href={firstLink.href} onClick={(e) => e.stopPropagation()}>
         {image || highlightedValue}
@@ -82,26 +102,25 @@ class TableCell extends React.Component {
     )
   }
 
-  renderDisplayValue() {
+  render() {
     const { filterValue, withLinks, parseImg } = this.props
     const value = this.getRenderValue()
+
     if (withLinks) {
       return this.parseURLs(value, filterValue, parseImg)
     }
+
     let image = null
+
     if (parseImg) {
       image = this.renderImage(value, parseImg)
     }
-    return image || this.highlightValue(value, filterValue)
-  }
 
-  render() {
-    return <span>{this.renderDisplayValue()}</span>
+    return <span>{image || this.highlightValue(value, filterValue)}</span>
   }
 }
 
-// Defines the type of data expected in each passed prop
-TableCell.propTypes = {
+CellValue.propTypes = {
   content: PropTypes.string,
   filterValue: PropTypes.string,
   filterable: PropTypes.bool,
@@ -112,8 +131,7 @@ TableCell.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
 }
 
-// Defines the default values for not passing a certain prop
-TableCell.defaultProps = {
+CellValue.defaultProps = {
   content: '',
   filterValue: '',
   filterable: true,
@@ -124,4 +142,4 @@ TableCell.defaultProps = {
   children: null,
 }
 
-export { TableCell }
+export default CellValue

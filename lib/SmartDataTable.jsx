@@ -1,15 +1,13 @@
-// Import modules
-import React from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-// Import components
-import { ErrorBoundary } from './components/ErrorBoundary'
-import { Paginator } from './components/Paginator'
-import { TableCell } from './components/TableCell'
-import { Toggles } from './components/Toggles'
+import cx from 'classnames'
+import CellValue from './components/CellValue'
+import ErrorBoundary from './components/ErrorBoundary'
+import Paginator from './components/Paginator'
+import Table from './components/Table'
+import Toggles from './components/Toggles'
 import withPagination from './components/helpers/with-pagination'
-// Import functions
 import {
-  debugPrint,
   fetchData,
   isEmpty,
   isFunction,
@@ -19,10 +17,10 @@ import {
   sliceRowsPerPage,
   sortData,
 } from './helpers/functions'
-// Import styles
+import { DEFAULT_DATA_KEY, ORDER_ASC, ORDER_DESC } from './helpers/constants'
 import './css/basic.css'
 
-class SmartDataTable extends React.Component {
+class SmartDataTable extends Component {
   constructor(props) {
     super(props)
 
@@ -46,17 +44,18 @@ class SmartDataTable extends React.Component {
   static getDerivedStateFromProps(props, state) {
     const { filterValue } = props
     const { prevFilterValue } = state
+
     if (filterValue !== prevFilterValue) {
       return {
         activePage: 1,
         prevFilterValue: filterValue,
       }
     }
+
     return null
   }
 
   componentDidMount() {
-    this.showWarnings()
     this.fetchData()
     this.setColProperties()
   }
@@ -64,6 +63,7 @@ class SmartDataTable extends React.Component {
   componentDidUpdate(prevProps) {
     const { data } = this.props
     const { data: prevData } = prevProps
+
     if (
       isString(data) &&
       (typeof data !== typeof prevData || data !== prevData)
@@ -77,36 +77,33 @@ class SmartDataTable extends React.Component {
     this.setState({ colProperties: headers })
   }
 
-  fetchData() {
+  async fetchData() {
     const { data, dataKey } = this.props
+
     if (isString(data)) {
       this.setState({ isLoading: true })
-      fetchData(data, dataKey)
-        .then((asyncData) => {
-          this.setState({
-            asyncData,
-            isLoading: false,
-            columns: this.getColumns(true),
-          })
-        })
-        .catch(debugPrint)
-    }
-  }
 
-  showWarnings() {
-    /* Keeping for future reference
-    const { footer, withHeaders } = this.props
-    const propError = (oldName, newName) => `
-[SmartDataTable] The '${oldName}' prop has been deprecated in v0.6 and is no
-longer valid. Consider replacing it with '${newName}'
-`
-    if (footer) errorPrint(propError('footer', 'withFooter'))
-    if (withHeaders) errorPrint(propError('withHeaders', 'withHeader'))
-    */
+      try {
+        const asyncData = await fetchData(data, dataKey)
+
+        this.setState({
+          asyncData,
+          isLoading: false,
+          columns: this.getColumns(true),
+        })
+      } catch (err) {
+        this.setState({
+          isLoading: false,
+        })
+
+        throw new Error(err)
+      }
+    }
   }
 
   handleRowClick(event, rowData, rowIndex, tableData) {
     const { onRowClick } = this.props
+
     if (onRowClick) {
       onRowClick(event, { rowData, rowIndex, tableData })
     }
@@ -134,16 +131,18 @@ longer valid. Consider replacing it with '${newName}'
     const { key } = column
     let dir = ''
 
-    if (key !== sorting.key) sorting.dir = ''
+    if (key !== sorting.key) {
+      sorting.dir = ''
+    }
 
     if (sorting.dir) {
-      if (sorting.dir === 'ASC') {
-        dir = 'DESC'
+      if (sorting.dir === ORDER_ASC) {
+        dir = ORDER_DESC
       } else {
         dir = ''
       }
     } else {
-      dir = 'ASC'
+      dir = ORDER_ASC
     }
 
     this.setState({
@@ -159,18 +158,20 @@ longer valid. Consider replacing it with '${newName}'
       sorting: { key, dir },
     } = this.state
     let sortingIcon = 'rsdt-sortable-icon'
+
     if (key === column.key) {
       if (dir) {
-        if (dir === 'ASC') {
+        if (dir === ORDER_ASC) {
           sortingIcon = 'rsdt-sortable-asc'
         } else {
           sortingIcon = 'rsdt-sortable-desc'
         }
       }
     }
+
     return (
       <i
-        className={`rsdt ${sortingIcon}`}
+        className={cx('rsdt', sortingIcon)}
         onClick={() => this.handleSortChange(column)}
         onKeyDown={() => this.handleSortChange(column)}
         role="button"
@@ -188,34 +189,38 @@ longer valid. Consider replacing it with '${newName}'
       const showCol = !thisColProps || !thisColProps.invisible
       if (showCol) {
         return (
-          <th key={column.key}>
+          <Table.HeaderCell key={column.key}>
             <span>{column.text}</span>
             <span className="rsdt rsdt-sortable">
               {sortable && column.sortable ? this.renderSorting(column) : null}
             </span>
-          </th>
+          </Table.HeaderCell>
         )
       }
+
       return null
     })
-    return <tr>{headers}</tr>
+
+    return <Table.Row>{headers}</Table.Row>
   }
 
   renderRow(columns, row, i) {
     const { colProperties } = this.state
     const { withLinks, filterValue, parseBool, parseImg } = this.props
+
     return columns.map((column, j) => {
       const thisColProps = { ...colProperties[column.key] }
       const showCol = !thisColProps.invisible
       const transformFn = thisColProps.transform
+
       if (showCol) {
         return (
-          <td key={`row-${i}-column-${j}`}>
+          <Table.Cell key={`row-${i}-column-${j}`}>
             {isFunction(transformFn) ? (
               transformFn(row[column.key], i, row)
             ) : (
               <ErrorBoundary>
-                <TableCell
+                <CellValue
                   withLinks={withLinks}
                   filterValue={filterValue}
                   parseBool={parseBool}
@@ -224,12 +229,13 @@ longer valid. Consider replacing it with '${newName}'
                   isImg={thisColProps.isImg}
                 >
                   {row[column.key]}
-                </TableCell>
+                </CellValue>
               </ErrorBoundary>
             )}
-          </td>
+          </Table.Cell>
         )
       }
+
       return null
     })
   }
@@ -239,55 +245,75 @@ longer valid. Consider replacing it with '${newName}'
     const { activePage } = this.state
     const visibleRows = sliceRowsPerPage(rows, activePage, perPage)
     const tableRows = visibleRows.map((row, i) => (
-      <tr
+      <Table.Row
         key={`row-${i}`}
         onClick={(e) => this.handleRowClick(e, row, i, rows)}
       >
         {this.renderRow(columns, row, i)}
-      </tr>
+      </Table.Row>
     ))
-    return <tbody>{tableRows}</tbody>
+
+    return <Table.Body>{tableRows}</Table.Body>
   }
 
   renderFooter(columns) {
     const { withFooter } = this.props
-    return withFooter ? this.renderHeader(columns) : null
+
+    if (withFooter) {
+      return this.renderHeader(columns)
+    }
+
+    return null
   }
 
   renderToggles(columns) {
     const { colProperties } = this.state
     const { withToggles } = this.props
-    return withToggles ? (
-      <ErrorBoundary>
-        <Toggles
-          columns={columns}
-          colProperties={colProperties}
-          handleColumnToggle={this.handleColumnToggle}
-        />
-      </ErrorBoundary>
-    ) : null
+
+    if (withToggles) {
+      return (
+        <ErrorBoundary>
+          <Toggles
+            columns={columns}
+            colProperties={colProperties}
+            handleColumnToggle={this.handleColumnToggle}
+          />
+        </ErrorBoundary>
+      )
+    }
+
+    return null
   }
 
   renderPagination(rows) {
     const { perPage, paginator: PaginatorComponent } = this.props
     const { activePage } = this.state
     const Paginate = withPagination(PaginatorComponent)
-    return perPage && perPage > 0 ? (
-      <ErrorBoundary>
-        <Paginate
-          rows={rows}
-          perPage={perPage}
-          activePage={activePage}
-          onPageChange={this.handleOnPageChange}
-        />
-      </ErrorBoundary>
-    ) : null
+
+    if (perPage && perPage > 0) {
+      return (
+        <ErrorBoundary>
+          <Paginate
+            rows={rows}
+            perPage={perPage}
+            activePage={activePage}
+            onPageChange={this.handleOnPageChange}
+          />
+        </ErrorBoundary>
+      )
+    }
+
+    return null
   }
 
   getColumns(force = false) {
     const { asyncData, columns } = this.state
     const { data, headers, orderedHeaders, hideUnordered } = this.props
-    if (!force && !isEmpty(columns)) return columns
+
+    if (!force && !isEmpty(columns)) {
+      return columns
+    }
+
     if (isString(data)) {
       return parseDataForColumns(
         asyncData,
@@ -296,12 +322,14 @@ longer valid. Consider replacing it with '${newName}'
         hideUnordered,
       )
     }
+
     return parseDataForColumns(data, headers, orderedHeaders, hideUnordered)
   }
 
   getRows() {
     const { asyncData, colProperties, sorting } = this.state
     const { data, filterValue } = this.props
+
     if (isString(data)) {
       return sortData(
         filterValue,
@@ -310,6 +338,7 @@ longer valid. Consider replacing it with '${newName}'
         parseDataForRows(asyncData),
       )
     }
+
     return sortData(filterValue, colProperties, sorting, parseDataForRows(data))
   }
 
@@ -325,19 +354,27 @@ longer valid. Consider replacing it with '${newName}'
     const { isLoading } = this.state
     const columns = this.getColumns(dynamic)
     const rows = this.getRows()
-    if (isEmpty(rows)) return emptyTable
-    return !isLoading ? (
-      <div className="rsdt rsdt-container">
+
+    if (isEmpty(rows)) {
+      return emptyTable
+    }
+
+    if (isLoading) {
+      return loader
+    }
+
+    return (
+      <section className="rsdt rsdt-container">
         {this.renderToggles(columns)}
-        <table data-table-name={name} className={className}>
-          {withHeader && <thead>{this.renderHeader(columns)}</thead>}
+        <Table data-table-name={name} className={className}>
+          {withHeader && (
+            <Table.Header>{this.renderHeader(columns)}</Table.Header>
+          )}
           {this.renderBody(columns, rows)}
-          <tfoot>{this.renderFooter(columns)}</tfoot>
-        </table>
+          <Table.Footer>{this.renderFooter(columns)}</Table.Footer>
+        </Table>
         {this.renderPagination(rows)}
-      </div>
-    ) : (
-      loader
+      </section>
     )
   }
 }
@@ -370,7 +407,7 @@ SmartDataTable.propTypes = {
 
 // Defines the default values for not passing a certain prop
 SmartDataTable.defaultProps = {
-  dataKey: 'data',
+  dataKey: DEFAULT_DATA_KEY,
   columns: [],
   name: 'reactsmartdatatable',
   sortable: false,
@@ -392,4 +429,4 @@ SmartDataTable.defaultProps = {
   hideUnordered: false,
 }
 
-export { SmartDataTable }
+export default SmartDataTable

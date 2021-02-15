@@ -21,7 +21,6 @@ button.rsdt-paginate.button {
   white-space: nowrap;
   vertical-align: middle;
   text-align: center;
-  cursor: pointer;
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -29,7 +28,11 @@ button.rsdt-paginate.button {
   user-select: none;
 }
 
-button.rsdt-paginate.button:hover {
+button.rsdt-paginate.button:not(:disabled) {
+  cursor: pointer;
+}
+
+button.rsdt-paginate.button:hover:not(:disabled) {
   color: #444 !important;
   background-color: #dfdfdf;
 }
@@ -55,6 +58,16 @@ button.rsdt-paginate.active {
   cursor: pointer !important;
   cursor: hand !important;
   user-select: none;
+}
+
+.rsdt {
+  box-sizing: border-box;
+}
+
+.rsdt *,
+.rsdt *::before,
+.rsdt *::after {
+  box-sizing: inherit;
 }
 
 .rsdt.rsdt-container {
