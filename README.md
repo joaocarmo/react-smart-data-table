@@ -64,32 +64,40 @@ import 'react-smart-data-table/dist/react-smart-data-table.css'
 
 ## Props
 
-| Name           | Default             | Type                  | Description                                              |
-| :------------- | :------------------ | :-------------------- | :------------------------------------------------------- |
-| data           | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL       |
-| dataKey        | 'data'              | {string}              | The object key where the async data is available         |
-| headers        | {}                  | {object}              | The object that overrides default column behavior        |
-| name           | reactsmartdatatable | {string}              | The name for the table                                   |
-| sortable       | false               | {boolean}             | Makes the columns of the table sortable                  |
-| withToggles    | false               | {boolean}             | Enables the column visibility toggles                    |
-| withLinks      | false               | {boolean}             | Converts e-mails and url addresses to links              |
-| withHeader     | true                | {boolean}             | Can be used to disable the rendering of column headers   |
-| withFooter     | false               | {boolean}             | Copy the header to the footer                            |
-| filterValue    | ''                  | {string}              | Filters all columns by its value                         |
-| perPage        | 0                   | {number}              | Paginates the results with the value as rows per page    |
-| loader         | _null_              | {element}             | Element to be rendered while fetching async data         |
-| onRowClick     | _undefined_         | {function}            | If present, it will execute on every row click           |
-| parseBool      | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No    |
-| parseImg       | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag   |
-| dynamic        | false               | {boolean}             | Use this if your column structure changes dynamically    |
-| emptyTable     | _null_              | {element}             | Pass a renderable object to render when there is no data |
-| paginator      | _elements_          | {element}             | Pass a renderable object to handle the table pagination  |
-| orderedHeaders | []                  | {array}               | An ordered array of the column keys                      |
-| hideUnordered  | false               | {boolean}             | Hides all the columns not passed to _orderedHeaders_     |
+| Name            | Default             | Type                  | Description                                                   |
+| :-------------- | :------------------ | :-------------------- | :------------------------------------------------------------ |
+| data            | []                  | {array&#124;string}   | An array of plain objects (can be nested) or a URL            |
+| dataKey         | 'data'              | {string}              | The object key where the async data is available              |
+| dataKeyResolver | _null_              | {function}            | Supply a function to extract the data from the async response |
+| dynamic         | false               | {boolean}             | Use this if your column structure changes dynamically         |
+| emptyTable      | _null_              | {element}             | Pass a renderable object to render when there is no data      |
+| filterValue     | ''                  | {string}              | Filters all columns by its value                              |
+| headers         | {}                  | {object}              | The object that overrides default column behavior             |
+| hideUnordered   | false               | {boolean}             | Hides all the columns not passed to _orderedHeaders_          |
+| loader          | _null_              | {element}             | Element to be rendered while fetching async data              |
+| name            | reactsmartdatatable | {string}              | The name for the table                                        |
+| onRowClick      | _undefined_         | {function}            | If present, it will execute on every row click                |
+| orderedHeaders  | []                  | {array}               | An ordered array of the column keys                           |
+| paginator       | _elements_          | {element}             | Pass a renderable object to handle the table pagination       |
+| parseBool       | false               | {boolean&#124;object} | When true, boolean values will be converted to Yes/No         |
+| parseImg        | false               | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag        |
+| perPage         | 0                   | {number}              | Paginates the results with the value as rows per page         |
+| sortable        | false               | {boolean}             | Makes the columns of the table sortable                       |
+| withFooter      | false               | {boolean}             | Copy the header to the footer                                 |
+| withHeader      | true                | {boolean}             | Can be used to disable the rendering of column headers        |
+| withLinks       | false               | {boolean}             | Converts e-mails and url addresses to links                   |
+| withToggles     | false               | {boolean}             | Enables the column visibility toggles                         |
+
+### emptyTable
+
+```jsx
+// Any renderable object can be passed
+const emptyTable = <div>There is no data available at the time.</div>
+```
 
 ### headers
 
-```javascript
+```js
 /*
   Use the following structure to overwrite the default behavior for columns
   Undefined column keys will present the default behavior
@@ -138,44 +146,11 @@ const headers = {
 
 ### onRowClick()
 
-```javascript
+```js
 const onRowClick = (event, { rowData, rowIndex, tableData }) => {
   // The following results should be identical
   console.log(rowData, tableData[rowIndex])
 }
-```
-
-### parseBool
-
-```javascript
-// Default
-const parseBool = {
-  yesWord: 'Yes',
-  noWord: 'No',
-}
-```
-
-### parseImg
-
-```javascript
-// You can pass a regular style object that will be passed down to <img />
-// Or a Class Name
-const parseImg = {
-  style: {
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    padding: '5px',
-    width: '150px',
-  },
-  className: 'my-custom-image-style',
-}
-```
-
-### emptyTable
-
-```javascript
-// Any renderable object can be passed
-const emptyTable = <div>There is no data available at the time.</div>
 ```
 
 ### paginator
@@ -185,7 +160,7 @@ props which can be used to perform all the necessary calculations and makes it
 fully compatible with Semantic UI's [Pagination][7]
 component.
 
-```javascript
+```jsx
 const CustomComponent = ({
   activePage, totalPages, onPageChange,
 }) => (/* ... */)
@@ -203,6 +178,32 @@ const CustomComponent = ({
 />
 ```
 
+### parseBool
+
+```js
+// Default
+const parseBool = {
+  yesWord: 'Yes',
+  noWord: 'No',
+}
+```
+
+### parseImg
+
+```js
+// You can pass a regular style object that will be passed down to <img />
+// Or a Class Name
+const parseImg = {
+  style: {
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    padding: '5px',
+    width: '150px',
+  },
+  className: 'my-custom-image-style',
+}
+```
+
 ### orderedHeaders / hideUnordered
 
 If you want to control the order of the columns, simply pass an array containing
@@ -210,7 +211,7 @@ the keys in the desired order. All the omitted headers will be appended
 afterwards unpredictably. Additionally, you can pass the _hideUnordered_ in
 order to render only the headers in _orderedHeaders_ and hide the remaining.
 
-```javascript
+```js
 const hideUnordered = true
 
 const orderedHeaders = [
@@ -226,9 +227,11 @@ const orderedHeaders = [
 
 By passing a string to the `data` prop, the component will interpret it as an
 URL and try to load the data from that location using _[fetch][8]_. If a
-successful request is returned, the data will be extracted from the `data` key
-in the response object. If it's in a different key, you can specify it with the
-`dataKey` prop.
+successful request is returned, the data will be extracted from the response
+object. By default, it will grab the `data` key from the response. If it's in a
+different key, you can specify it with the `dataKey` prop. Just in case it's
+not a first-level attribute, you can supply a custom function to locate the
+data using the `dataKeyResolver` prop.
 
 `response`
 
@@ -242,13 +245,25 @@ in the response object. If it's in a different key, you can specify it with the
 
 `component`
 
-```javascript
-<SmartDataTable data="/api/v1/data" dataKey="data" name="test-table" />
+```jsx
+// Using `dataKey`
+<SmartDataTable
+  data="/api/v1/data"
+  dataKey="users"
+  name="test-table"
+/>
+
+// Using `dataKeyResolver`
+<SmartDataTable
+  data="/api/v1/data"
+  dataKeyResolver={(response) => response.results.posts}
+  name="test-table"
+/>
 ```
 
 ### Simple sortable table (with Semantic UI)
 
-```javascript
+```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'

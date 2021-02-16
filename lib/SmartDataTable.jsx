@@ -78,13 +78,13 @@ class SmartDataTable extends Component {
   }
 
   async fetchData() {
-    const { data, dataKey } = this.props
+    const { data, dataKey, dataKeyResolver } = this.props
 
     if (isString(data)) {
       this.setState({ isLoading: true })
 
       try {
-        const asyncData = await fetchData(data, dataKey)
+        const asyncData = await fetchData(data, { dataKey, dataKeyResolver })
 
         this.setState({
           asyncData,
@@ -381,52 +381,54 @@ class SmartDataTable extends Component {
 
 // Defines the type of data expected in each passed prop
 SmartDataTable.propTypes = {
+  className: PropTypes.string,
+  columns: PropTypes.array,
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   dataKey: PropTypes.string,
-  columns: PropTypes.array,
-  name: PropTypes.string,
-  sortable: PropTypes.bool,
-  withToggles: PropTypes.bool,
-  withLinks: PropTypes.bool,
-  withHeader: PropTypes.bool,
-  withFooter: PropTypes.bool,
-  filterValue: PropTypes.string,
-  perPage: PropTypes.number,
-  className: PropTypes.string,
-  loader: PropTypes.node,
-  onRowClick: PropTypes.func,
-  parseBool: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  parseImg: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  headers: PropTypes.object,
+  dataKeyResolver: PropTypes.func,
   dynamic: PropTypes.bool,
   emptyTable: PropTypes.node,
-  paginator: PropTypes.elementType,
-  orderedHeaders: PropTypes.array,
+  filterValue: PropTypes.string,
+  headers: PropTypes.object,
   hideUnordered: PropTypes.bool,
+  loader: PropTypes.node,
+  name: PropTypes.string,
+  onRowClick: PropTypes.func,
+  orderedHeaders: PropTypes.array,
+  paginator: PropTypes.elementType,
+  parseBool: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  parseImg: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  perPage: PropTypes.number,
+  sortable: PropTypes.bool,
+  withFooter: PropTypes.bool,
+  withHeader: PropTypes.bool,
+  withLinks: PropTypes.bool,
+  withToggles: PropTypes.bool,
 }
 
 // Defines the default values for not passing a certain prop
 SmartDataTable.defaultProps = {
-  dataKey: DEFAULT_DATA_KEY,
-  columns: [],
-  name: 'reactsmartdatatable',
-  sortable: false,
-  withToggles: false,
-  withLinks: false,
-  withHeader: true,
-  withFooter: false,
-  filterValue: '',
-  perPage: 0,
   className: '',
-  loader: null,
-  parseBool: false,
-  parseImg: false,
-  headers: {},
+  columns: [],
+  dataKey: DEFAULT_DATA_KEY,
+  dataKeyResolver: null,
   dynamic: false,
   emptyTable: null,
-  paginator: Paginator,
-  orderedHeaders: [],
+  filterValue: '',
+  headers: {},
   hideUnordered: false,
+  loader: null,
+  name: 'reactsmartdatatable',
+  orderedHeaders: [],
+  paginator: Paginator,
+  parseBool: false,
+  parseImg: false,
+  perPage: 0,
+  sortable: false,
+  withFooter: false,
+  withHeader: true,
+  withLinks: false,
+  withToggles: false,
 }
 
 export default SmartDataTable
