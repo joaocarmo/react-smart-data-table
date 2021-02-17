@@ -87,7 +87,7 @@ const CellValue = ({
   }
 
   if (parseImg) {
-    return renderImage()
+    return renderImage() || highlightValue()
   }
 
   return highlightValue()
