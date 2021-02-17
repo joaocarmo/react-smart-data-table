@@ -2,10 +2,13 @@
 
 ## 0.9.0
 
-> Feb 16, 2021
+> Feb 17, 2021
 
 - Added a new `dataKeyResolver` prop that accepts custom function which takes
   the response as its only argument and returns the data
+- Fixed a bug rendering the cell value introduced in the previous refactoring
+- Fixed a long lasting bug regarding the `headers` prop overriding behavior
+- Fixed the loader not appearing if the data was empty
 
 ## no-release (2021-02-15)
 

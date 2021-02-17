@@ -141,12 +141,6 @@ class AppDemo extends React.Component {
 
   getHeaders() {
     return {
-      id: {
-        text: 'Identifier',
-        invisible: true,
-        filterable: false,
-        transform: (value) => `Row #${value}`,
-      },
       _id: {
         text: 'Identifier',
         invisible: true,
@@ -192,12 +186,6 @@ class AppDemo extends React.Component {
             aria-label='delete row'
           />
         ),
-      },
-      thumbnailUrl: {
-        text: 'Thumbnail',
-        sortable: false,
-        filterable: false,
-        isImg: true,
       },
     }
   }

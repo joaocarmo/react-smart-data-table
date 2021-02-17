@@ -24,10 +24,12 @@ class SmartDataTable extends Component {
   constructor(props) {
     super(props)
 
+    const { headers: colProperties = {} } = props
+
     this.state = {
       asyncData: [],
       columns: [],
-      colProperties: {},
+      colProperties,
       sorting: {
         key: '',
         dir: '',
@@ -57,7 +59,6 @@ class SmartDataTable extends Component {
 
   componentDidMount() {
     this.fetchData()
-    this.setColProperties()
   }
 
   componentDidUpdate(prevProps) {
@@ -70,11 +71,6 @@ class SmartDataTable extends Component {
     ) {
       this.fetchData()
     }
-  }
-
-  setColProperties() {
-    const { headers } = this.props
-    this.setState({ colProperties: headers })
   }
 
   async fetchData() {
@@ -256,16 +252,6 @@ class SmartDataTable extends Component {
     return <Table.Body>{tableRows}</Table.Body>
   }
 
-  renderFooter(columns) {
-    const { withFooter } = this.props
-
-    if (withFooter) {
-      return this.renderHeader(columns)
-    }
-
-    return null
-  }
-
   renderToggles(columns) {
     const { colProperties } = this.state
     const { withToggles } = this.props
@@ -344,23 +330,24 @@ class SmartDataTable extends Component {
 
   render() {
     const {
-      name,
       className,
-      withHeader,
-      loader,
       dynamic,
       emptyTable,
+      loader,
+      name,
+      withFooter,
+      withHeader,
     } = this.props
     const { isLoading } = this.state
     const columns = this.getColumns(dynamic)
     const rows = this.getRows()
 
-    if (isEmpty(rows)) {
-      return emptyTable
-    }
-
     if (isLoading) {
       return loader
+    }
+
+    if (isEmpty(rows)) {
+      return emptyTable
     }
 
     return (
@@ -371,7 +358,9 @@ class SmartDataTable extends Component {
             <Table.Header>{this.renderHeader(columns)}</Table.Header>
           )}
           {this.renderBody(columns, rows)}
-          <Table.Footer>{this.renderFooter(columns)}</Table.Footer>
+          {withFooter && (
+            <Table.Footer>{this.renderHeader(columns)}</Table.Footer>
+          )}
         </Table>
         {this.renderPagination(rows)}
       </section>
