@@ -5,6 +5,5 @@
 - Add multiple column sorting
 - Add sticky headers
 - Allow custom elements: _ErrorBoundary_, _Toggles_, _CellValue_
-- Allow custom key resolver
 - Allow custom sample element instead of the default first
 - Improve performance
