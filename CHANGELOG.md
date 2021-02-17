@@ -9,6 +9,7 @@
 - Fixed a bug rendering the cell value introduced in the previous refactoring
 - Fixed a long lasting bug regarding the `headers` prop overriding behavior
 - Fixed the loader not appearing if the data was empty
+- Added more tests
 
 ## no-release (2021-02-15)
 
