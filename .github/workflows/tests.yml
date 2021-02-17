@@ -26,6 +26,6 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - name: Execute the tests
-        run: yarn test
+        run: yarn test --coverage=false
       - name: Build the library and the example
         run: yarn prd
