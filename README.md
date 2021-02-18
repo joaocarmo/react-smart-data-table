@@ -233,13 +233,25 @@ different key, you can specify it with the `dataKey` prop. Just in case it's
 not a first-level attribute, you can supply a custom function to locate the
 data using the `dataKeyResolver` prop.
 
-`response`
+`response from /api/v1/user`
 
 ```json
 {
   "status": "success",
   "message": "",
-  "data": [{ "id": 0, "other": "..." }, { "id": 1, "other": "..." }, "..."]
+  "users": [{ "id": 0, "other": "..." }, { "id": 1, "other": "..." }, "..."]
+}
+```
+
+`response from /api/v1/post`
+
+```json
+{
+  "status": "success",
+  "message": "",
+  "results": {
+    "posts": [{ "id": 0, "other": "..." }, { "id": 1, "other": "..." }, "..."]
+  }
 }
 ```
 
