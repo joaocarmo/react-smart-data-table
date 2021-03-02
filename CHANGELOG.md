@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.0
+
+> Mar 2, 2021
+
+- Added a new `dataRequestOptions` to allow passing options directly to the
+  underlying `fetch` API call
+
 ## 0.9.0
 
 > Feb 17, 2021
