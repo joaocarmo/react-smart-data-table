@@ -74,13 +74,22 @@ class SmartDataTable extends Component {
   }
 
   async fetchData() {
-    const { data, dataKey, dataKeyResolver } = this.props
+    const {
+      data,
+      dataKey,
+      dataKeyResolver,
+      dataRequestOptions: options,
+    } = this.props
 
     if (isString(data)) {
       this.setState({ isLoading: true })
 
       try {
-        const asyncData = await fetchData(data, { dataKey, dataKeyResolver })
+        const asyncData = await fetchData(data, {
+          dataKey,
+          dataKeyResolver,
+          options,
+        })
 
         this.setState({
           asyncData,
@@ -375,6 +384,7 @@ SmartDataTable.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   dataKey: PropTypes.string,
   dataKeyResolver: PropTypes.func,
+  dataRequestOptions: PropTypes.object,
   dynamic: PropTypes.bool,
   emptyTable: PropTypes.node,
   filterValue: PropTypes.string,
@@ -401,6 +411,7 @@ SmartDataTable.defaultProps = {
   columns: [],
   dataKey: DEFAULT_DATA_KEY,
   dataKeyResolver: null,
+  dataRequestOptions: {},
   dynamic: false,
   emptyTable: null,
   filterValue: '',

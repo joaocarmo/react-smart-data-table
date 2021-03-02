@@ -12,12 +12,7 @@ module.exports = {
     'plugin:jest/recommended',
     'airbnb-base',
     'prettier',
-    'prettier/react',
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
