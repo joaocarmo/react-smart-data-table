@@ -1,13 +1,14 @@
 # react-smart-data-table
 
-[![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][1]
-[![jest](https://jestjs.io/img/jest-badge.svg)][2]
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)][3]
+[![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][npm]
+[![jest](https://jestjs.io/img/jest-badge.svg)][jest]
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)][contributor]
 ![Workflow Status](https://github.com/joaocarmo/react-smart-data-table/workflows/Tests/badge.svg)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][4]
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][5]
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][lgtm-alerts]
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][lgtm-context]
 
-A smart data table component for React.js meant to be configuration free
+A smart data table component for React.js meant to be configuration free,
+batteries included.
 
 ## About
 
@@ -18,7 +19,8 @@ Just feed it an array of equal JSON objects and it will create a template free
 table that can be customized easily with any framework (or custom CSS).
 
 If you want more control over the data rendering process or don't need the
-_smarts_, check out [react-very-simple-data-table][6].
+_smarts_, check out
+[react-very-simple-data-table][react-very-simple-data-table].
 
 ## Features
 
@@ -158,7 +160,7 @@ const onRowClick = (event, { rowData, rowIndex, tableData }) => {
 
 The _CustomComponent_ passed down as a prop will be rendered with the following
 props which can be used to perform all the necessary calculations and makes it
-fully compatible with Semantic UI's [Pagination][7]
+fully compatible with Semantic UI's [Pagination][pagination]
 component.
 
 ```jsx
@@ -227,7 +229,7 @@ const orderedHeaders = [
 ### Async data loading (fetch)
 
 By passing a string to the `data` prop, the component will interpret it as an
-URL and try to load the data from that location using _[fetch][8]_. If a
+URL and try to load the data from that location using _[fetch][fetch]_. If a
 successful request is returned, the data will be extracted from the response
 object. By default, it will grab the `data` key from the response. If it's in a
 different key, you can specify it with the `dataKey` prop. Just in case it's
@@ -315,37 +317,42 @@ ReactDOM.render(
 You can try _react-smart-data-table_ with different UI libraries in the demo
 pages below. You can experiment with different features as well.
 
-- [Semantic UI: All Features][9]
-- [Bootstrap: Sortable][10]
+- [Semantic UI: All Features][semantic]
+- [Bootstrap: Sortable][bootstrap]
 
-Take a look at the full featured example's [source code][11].
+Take a look at the full featured example's [source code][example-source].
 
 Also, see it in full integration with a simple user/group management dashboard
 application. Feel free to play around with it, it's built with hot reloading.
 
-- [Somewhere I Belong][12]
+- [Somewhere I Belong][somewhere-i-belong]
+
+If you want to play around, check out this [codepen][codepen].
 
 ## Forking / Contributing
 
-If you want to fork or [contribute][13], it's easy to test your changes. Just
-run the following development commands. The _start_ instruction will start a
-development HTTP server in your computer accessible from your browser at the
+If you want to fork or [contribute][contribute], it's easy to test your changes.
+Just run the following development commands. The _start_ instruction will start
+a development HTTP server in your computer accessible from your browser at the
 address `http://localhost:3000/`.
 
 ```sh
 yarn start
 ```
 
-[1]: https://badge.fury.io/js/react-smart-data-table
-[2]: https://github.com/facebook/jest
-[3]: ./CODE_OF_CONDUCT.md
-[4]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/alerts/
-[5]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/context:javascript
-[6]: https://github.com/joaocarmo/react-very-simple-data-table
-[7]: https://react.semantic-ui.com/addons/pagination/
-[8]: https://fetch.spec.whatwg.org/
-[9]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
-[10]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
-[11]: ./example/index.js
-[12]: https://github.com/joaocarmo/somewhere-i-belong
-[13]: ./CONTRIBUTING.md
+<!-- References -->
+
+[bootstrap]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
+[codepen]: https://codepen.io/joaocarmo/pen/oNBNZBO
+[contribute]: ./CONTRIBUTING.md
+[contributor]: ./CODE_OF_CONDUCT.md
+[example-source]: ./example/index.js
+[fetch]: https://fetch.spec.whatwg.org/
+[jest]: https://github.com/facebook/jest
+[lgtm-alerts]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/alerts/
+[lgtm-context]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/context:javascript
+[npm]: https://badge.fury.io/js/react-smart-data-table
+[pagination]: https://react.semantic-ui.com/addons/pagination/
+[react-very-simple-data-table]: https://github.com/joaocarmo/react-very-simple-data-table
+[semantic]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
+[somewhere-i-belong]: https://github.com/joaocarmo/somewhere-i-belong
