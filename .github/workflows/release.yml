@@ -1,0 +1,46 @@
+# This workflow is automatically triggered on release/tag and will bump the
+# version in the package.json
+#
+name: Release Version
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
+          ref: 'master'
+      - name: Use Node.js v14 (LTS)
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - uses: c-hive/gha-yarn-cache@v1
+      - name: Install dependencies
+        run: |
+          yarn --frozen-lockfile
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
+      - name: Bump the version
+        run: |
+          git config --local user.name "${{ secrets.GIT_AUTHOR_NAME }}"
+          git config --local user.email "${{ secrets.GIT_AUTHOR_EMAIL }}"
+          npm version --no-commit-hooks --no-git-tag-version ${{ steps.get_release.outputs.tag_name }}
+      - name: Commit and push the version change
+        run: |
+          git add .
+          git commit -m "Release ${{ steps.get_release.outputs.tag_name }}" --no-gpg-sign --no-verify --signoff
+          git push
+      - name: Trigger the Publish Action
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Publish
+          token: ${{ secrets.GH_PAT }}
