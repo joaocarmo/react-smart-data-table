@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.1
+
+> Mar 22, 2021
+
+- Improved the CI workflows
+- Updated the documentation
+- Updated the required React version
+
 ## 0.10.0
 
 > Mar 2, 2021
