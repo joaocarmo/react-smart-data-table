@@ -17,19 +17,19 @@ import {
   STR_ZERO,
 } from './constants'
 
-export const head = ([first]) => first
+export const head = ([first]: unknown[]): unknown => first
 
-export const tail = ([...arr]) => arr.pop()
+export const tail = (arr: unknown[]): unknown => arr[arr.length - 1]
 
-export const isString = (str) =>
+export const isString = (str: unknown): boolean =>
   typeof str === 'string' || str instanceof String
 
-export const isArray = (obj) => Array.isArray(obj)
+export const isArray = (obj: unknown[]): boolean => Array.isArray(obj)
 
-export const isObject = (obj) =>
+export const isObject = (obj: unknown): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
 
-export const isEmpty = (obj) => {
+export const isEmpty = (obj: unknown[] | object): boolean => {
   if (isArray(obj)) {
     return !obj.length
   }
@@ -41,13 +41,16 @@ export const isEmpty = (obj) => {
   return false
 }
 
-export const isFunction = (fn) => typeof fn === 'function'
+export const isFunction = (fn: (args: unknown) => unknown): boolean =>
+  typeof fn === 'function'
 
-export const isNumber = (num) => typeof num === 'number' && Number.isFinite(num)
+export const isNumber = (num: unknown): boolean =>
+  typeof num === 'number' && Number.isFinite(num)
 
-export const isUndefined = (undef) => typeof undef === 'undefined'
+export const isUndefined = (undef: unknown): boolean =>
+  typeof undef === 'undefined'
 
-export const capitalize = (str) => {
+export const capitalize = (str: string): string => {
   if (isString(str)) {
     const regex = /[^a-z]*[a-z]/
     const [first = ''] = str.match(regex)
@@ -58,7 +61,7 @@ export const capitalize = (str) => {
   return ''
 }
 
-export const sortBy = (arr, key) =>
+export const sortBy = (arr: unknown[], key: string): number =>
   [...arr].sort((a, b) => {
     if (a[key] > b[key]) {
       return 1
@@ -71,21 +74,30 @@ export const sortBy = (arr, key) =>
     return 0
   })
 
-export const cleanLonelyInt = (val) => !(val && /^\d+$/.test(val))
+export const cleanLonelyInt = (val: unknown): boolean =>
+  !(val && /^\d+$/.test(val))
 
-export const debugPrint = (...args) => {
+export const debugPrint = (...args: unknown[]): void => {
   if (process.env.NODE_ENV !== 'production') {
     /* eslint-disable no-console */
     console.log(...args)
   }
 }
 
-export const errorPrint = (...args) => {
+export const errorPrint = (...args: unknown[]): void => {
   /* eslint-disable no-console */
   console.error(...args)
 }
 
-export function generatePagination(activePage = 1, totalPages = 1, margin = 1) {
+export function generatePagination(
+  activePage = 1,
+  totalPages = 1,
+  margin = 1,
+): {
+  active: boolean
+  value: number | undefined
+  text: string
+}[] {
   const previousPage = activePage - 1 > 0 ? activePage - 1 : 1
   const nextPage = activePage + 1 > totalPages ? totalPages : activePage + 1
   const gap = 1 + 2 * margin
@@ -150,7 +162,7 @@ export function generatePagination(activePage = 1, totalPages = 1, margin = 1) {
   return pagination
 }
 
-export function getNestedObject(nestedObj, pathArr) {
+export function getNestedObject(nestedObj: object, pathArr: string[]): unknown {
   if (isObject(nestedObj) && !isEmpty(nestedObj)) {
     let path = []
 
@@ -160,7 +172,7 @@ export function getNestedObject(nestedObj, pathArr) {
       path = pathArr
     }
 
-    const reducerFn = (obj, key) =>
+    const reducerFn = (obj: object, key: string): unknown =>
       obj && !isUndefined(obj[key]) ? obj[key] : undefined
 
     return path.reduce(reducerFn, nestedObj)
@@ -170,9 +182,17 @@ export function getNestedObject(nestedObj, pathArr) {
 }
 
 export async function fetchData(
-  data,
-  { dataKey = DEFAULT_DATA_KEY, dataKeyResolver, options = {} } = {},
-) {
+  data: string | unknown[],
+  {
+    dataKey = DEFAULT_DATA_KEY,
+    dataKeyResolver,
+    options = {},
+  }: {
+    dataKey: string
+    dataKeyResolver: (args: object) => object[]
+    options: RequestInit
+  } = {},
+): Promise<object[]> {
   if (isArray(data)) {
     return data
   }
@@ -204,21 +224,21 @@ export async function fetchData(
   }
 }
 
-export function capitalizeAll(arr) {
+export function capitalizeAll(arr: string[]): string {
   return arr.map(capitalize).join(' ').trim()
 }
 
-export function parseHeader(val) {
+export function parseHeader(val: string): string {
   if (isString(val)) {
     const toSnakeCase = snakeCase(val)
 
     return capitalizeAll(toSnakeCase.split('_').filter(cleanLonelyInt))
   }
 
-  return []
+  return ''
 }
 
-export function valueOrDefault(value, defaultValue) {
+export function valueOrDefault(value: unknown, defaultValue: unknown): unknown {
   if (isUndefined(value)) {
     return defaultValue
   }
@@ -226,7 +246,18 @@ export function valueOrDefault(value, defaultValue) {
   return value
 }
 
-export function columnObject(key, headers = {}) {
+export interface Header {
+  key: string
+  text: string
+  invisible: boolean
+  sortable: boolean
+  filterable: boolean
+}
+
+export function columnObject(
+  key: string,
+  headers: { [key: string]: Header } = {},
+): Header {
   const { text, invisible, sortable, filterable } = { ...headers[key] }
 
   return {

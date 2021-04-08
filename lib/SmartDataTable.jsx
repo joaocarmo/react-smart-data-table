@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import cx from 'clsx'
 import CellValue from './components/CellValue'
 import ErrorBoundary from './components/ErrorBoundary'
 import Paginator from './components/Paginator'

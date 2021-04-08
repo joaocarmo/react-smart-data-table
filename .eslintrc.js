@@ -7,20 +7,22 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'plugin:jsx-a11y/recommended',
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react-hooks/recommended',
-    'plugin:jest/recommended',
-    'airbnb-base',
+    'plugin:prettier/recommended',
     'prettier',
   ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 11,
+    ecmaVersion: 12,
     sourceType: 'module',
+    project: './tsconfig.json',
   },
-  plugins: ['react', 'jest', 'jsx-a11y'],
+  plugins: ['react', 'jest', 'jsx-a11y', '@typescript-eslint', 'prettier'],
   rules: {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
@@ -32,7 +34,7 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./lib",
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM"],
+    "paths": {
+      "~*": ["./*"]
+    },
+    "types": ["node", "react", "react-dom"]
+  },
+  "include": ["lib/**/*", ".eslintrc.js"]
+}
