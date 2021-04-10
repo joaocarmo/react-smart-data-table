@@ -1,10 +1,10 @@
-import { MouseEvent, useCallback } from 'react'
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Column, Headers } from '../helpers/functions'
 import { defaultHeader } from '../helpers/constants'
 import '../css/toggles.css'
 
-export type ColumnToggleFn = (event: MouseEvent<HTMLElement>) => void
+type ColumnToggleFn = (key: string) => void
 
 interface TogglesProps {
   columns: Column[]

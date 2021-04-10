@@ -40,6 +40,7 @@ module.exports = {
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
     'react/jsx-uses-react': 'off',
+    'react/static-property-placement': 'off',
     'react/react-in-jsx-scope': 'off',
     semi: ['error', 'never'],
   },

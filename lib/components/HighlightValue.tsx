@@ -1,4 +1,4 @@
-import { memo, useMemo, ReactNode } from 'react'
+import { FC, memo, useMemo, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { highlightValueParts } from '../helpers/functions'
 
@@ -15,7 +15,7 @@ const areEqual = (
 const HighlightValue = ({
   children,
   filterValue,
-}: HighlightValueProps): JSX.Element | ReactNode => {
+}: HighlightValueProps): ReactNode => {
   const { first, highlight, last } = useMemo(
     () => highlightValueParts(children as string, filterValue),
     [children, filterValue],
@@ -44,4 +44,4 @@ HighlightValue.defaultProps = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
 }
 
-export default memo(HighlightValue, areEqual)
+export default memo(HighlightValue as FC<HighlightValueProps>, areEqual)

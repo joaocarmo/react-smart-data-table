@@ -6,9 +6,11 @@ type ErrorInfo = {
   componentStack: string
 }
 
+type LogErrorFN = (error: Error, errorInfo: ErrorInfo) => void
+
 interface ErrorBoundaryProps {
-  logError: (error: Error, errorInfo: ErrorInfo) => void
-  fbComponent: ReactNode
+  logError?: LogErrorFN
+  fbComponent?: ReactNode
   children: ReactNode
 }
 
@@ -19,6 +21,10 @@ interface ErrorBoundaryState {
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  static propTypes: unknown
+
+  static defaultProps: unknown
+
   constructor(props: ErrorBoundaryProps) {
     super(props)
 
@@ -80,14 +86,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 ErrorBoundary.propTypes = {
   logError: PropTypes.func,
   fbComponent: PropTypes.node,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 }
 
 // Defines the default values for not passing a certain prop
 ErrorBoundary.defaultProps = {
-  logError: null,
+  logError: () => null,
   fbComponent: null,
-  children: null,
 }
 
 export default ErrorBoundary

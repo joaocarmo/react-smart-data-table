@@ -4,9 +4,9 @@ import { PageChangeFn } from '../PaginatorItem'
 import { UnknownObject } from '../../helpers/functions'
 
 export interface WrappedComponentProps {
-  totalPages: number
   activePage: number
   onPageChange: PageChangeFn
+  totalPages: number
 }
 
 interface PaginationWrapperProps {
@@ -22,11 +22,15 @@ interface PaginationWrapperState {
 
 const withPagination = (
   WrappedComponent: ComponentType<WrappedComponentProps>,
-): ComponentType => {
+): ComponentType<PaginationWrapperProps> => {
   class PaginationWrapper extends Component<
     PaginationWrapperProps,
     PaginationWrapperState
   > {
+    static propTypes: unknown
+
+    static defaultProps: unknown
+
     constructor(props) {
       super(props)
 
@@ -56,12 +60,13 @@ const withPagination = (
     rows: PropTypes.arrayOf(PropTypes.object).isRequired,
     perPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     activePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onPageChange: PropTypes.func.isRequired,
+    onPageChange: PropTypes.func,
   }
 
   PaginationWrapper.defaultProps = {
     perPage: 10,
     activePage: 1,
+    onPageChange: () => null,
   }
 
   return PaginationWrapper

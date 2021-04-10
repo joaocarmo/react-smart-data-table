@@ -84,7 +84,7 @@ export const tail = <T>(arr: T[]): T => arr[arr.length - 1]
 export const isString = (str: unknown): boolean =>
   typeof str === 'string' || str instanceof String
 
-export const isArray = (obj: unknown[]): boolean => Array.isArray(obj)
+export const isArray = (obj: unknown): boolean => Array.isArray(obj)
 
 export const isObject = (obj: unknown): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
@@ -135,7 +135,7 @@ export const sortBy = (arr: UnknownObject[], key: string): UnknownObject[] =>
   })
 
 export const cleanLonelyInt = (val: unknown): boolean =>
-  !(val && /^\d+$/.test(val))
+  !(val && /^\d+$/.test(val as string))
 
 export const debugPrint = (...args: unknown[]): void => {
   if (process.env.NODE_ENV !== 'production') {
@@ -257,7 +257,7 @@ export async function fetchData(
   } = {},
 ): Promise<UnknownObject[]> {
   if (isArray(data)) {
-    return data
+    return data as UnknownObject[]
   }
 
   if (isString(data)) {
@@ -309,7 +309,7 @@ export function valueOrDefault<T = unknown>(
     return defaultValue
   }
 
-  return value
+  return value as T
 }
 
 export function columnObject(key: string, headers: Headers = {}): Column {
@@ -327,7 +327,7 @@ export function columnObject(key: string, headers: Headers = {}): Column {
 
 export function parseDataForColumns(
   data: UnknownObject[] = [],
-  headers: UnknownObject = {},
+  headers: Headers = {},
   orderedHeaders: string[] = [],
   hideUnordered = false,
 ): Column[] {

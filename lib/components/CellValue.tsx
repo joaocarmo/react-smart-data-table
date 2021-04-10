@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, ReactNode } from 'react'
+import { FC, memo, useCallback, useMemo, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { find as linkifyFind } from 'linkifyjs'
 import HighlightValue from './HighlightValue'
@@ -131,4 +131,4 @@ CellValue.defaultProps = {
   withLinks: false,
 }
 
-export default memo(CellValue)
+export default memo(CellValue as FC<CellValueProps>)
