@@ -3,6 +3,7 @@
 exports[`'Paginator' component (snapshot) 1`] = `
 <Paginator
   activePage={3}
+  onPageChange={[Function]}
   totalPages={10}
 >
   <div

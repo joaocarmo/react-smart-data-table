@@ -7,7 +7,7 @@
     "paths": {
       "~*": ["./*"]
     },
-    "types": ["flat", "node", "react", "react-dom"]
+    "types": ["flat", "linkifyjs", "jest", "node", "react", "react-dom"]
   },
   "include": [
     "lib/**/*",

@@ -24,6 +24,20 @@ module.exports = {
   },
   plugins: ['react', 'jest', 'jsx-a11y', '@typescript-eslint', 'prettier'],
   rules: {
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'react/jsx-filename-extension': [
+      2,
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     semi: ['error', 'never'],

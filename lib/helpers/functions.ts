@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import flatten from 'flat'
 import escapeStringRegexp from 'escape-string-regexp'
 import { snakeCase } from 'snake-case'
@@ -47,8 +48,8 @@ export type ParseBool = {
 }
 
 export interface RenderOptions {
-  children: unknown
-  content: unknown
+  children: ReactNode
+  content: ReactNode
   parseBool: boolean | ParseBool
 }
 
@@ -509,11 +510,11 @@ export function highlightValueParts(
   }
 }
 
-export const getRenderValue = ({
+export function getRenderValue({
   children,
   content,
   parseBool,
-}: RenderOptions = {}): string => {
+}: RenderOptions = {}): string {
   if (parseBool) {
     const { noWord = DEFAULT_NO_WORD, yesWord = DEFAULT_YES_WORD } =
       typeof parseBool === 'object' ? parseBool : {}

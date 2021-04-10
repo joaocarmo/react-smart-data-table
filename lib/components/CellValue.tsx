@@ -1,15 +1,32 @@
-import { memo, useCallback, useMemo } from 'react'
+import { CSSProperties, memo, useCallback, useMemo, ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import * as linkify from 'linkifyjs'
+import { find as linkifyFind } from 'linkifyjs'
 import HighlightValue from './HighlightValue'
 import {
+  getRenderValue,
   head,
   isDataURL,
   isEmpty,
   isImage,
-  getRenderValue,
+  ParseBool,
 } from '../helpers/functions'
 import { DEFAULT_IMG_ALT } from '../helpers/constants'
+
+type ParseImg = {
+  style: CSSProperties
+  className: string
+}
+
+interface CellValueProps {
+  children: ReactNode
+  content: ReactNode
+  filterable: boolean
+  filterValue: string
+  isImg: boolean
+  parseBool: boolean | ParseBool
+  parseImg: ParseImg
+  withLinks: boolean
+}
 
 const CellValue = ({
   children,
@@ -20,7 +37,7 @@ const CellValue = ({
   parseBool,
   parseImg,
   withLinks,
-}) => {
+}: CellValueProps) => {
   const value = useMemo(
     () => getRenderValue({ children, content, parseBool }),
     [children, content, parseBool],
@@ -35,7 +52,7 @@ const CellValue = ({
   }, [filterValue, filterable, value])
 
   const renderImage = useCallback(
-    ({ bypass = false } = {}) => {
+    ({ bypass = false }: { bypass: boolean } = {}) => {
       const shouldBeAnImg = isImg || bypass || isImage(value)
 
       if (shouldBeAnImg) {
@@ -57,7 +74,7 @@ const CellValue = ({
   )
 
   const parseURLs = useCallback(() => {
-    const grabLinks = linkify.find(value)
+    const grabLinks = linkifyFind(value)
     const highlightedValue = highlightValue()
 
     if (isEmpty(grabLinks)) {

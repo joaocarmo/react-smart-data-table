@@ -1,5 +1,7 @@
+__tests__/
 coverage/
 dist/
 example/
 test/
+tests.js
 webpack.config.js

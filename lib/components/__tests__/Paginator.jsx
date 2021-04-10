@@ -2,6 +2,8 @@ import { mount } from 'enzyme'
 import Paginator from '../Paginator'
 
 test("'Paginator' component (snapshot)", () => {
-  const wrap = mount(<Paginator activePage={3} totalPages={10} />)
+  const wrap = mount(
+    <Paginator activePage={3} totalPages={10} onPageChange={() => null} />,
+  )
   expect(wrap).toMatchSnapshot()
 })

@@ -1,13 +1,21 @@
+import { memo, useMemo, ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import { memo, useMemo } from 'react'
 import { highlightValueParts } from '../helpers/functions'
+
+interface HighlightValueProps {
+  children: ReactNode
+  filterValue: string
+}
 
 const areEqual = (
   { children: prevChildren, filterValue: prevFilterValue },
   { children: nextChildren, filterValue: nextFilterValue },
 ) => prevChildren === nextChildren && prevFilterValue === nextFilterValue
 
-const HighlightValue = ({ children, filterValue }) => {
+const HighlightValue = ({
+  children,
+  filterValue,
+}: HighlightValueProps): JSX.Element | ReactNode => {
   const { first, highlight, last } = useMemo(
     () => highlightValueParts(children, filterValue),
     [children, filterValue],

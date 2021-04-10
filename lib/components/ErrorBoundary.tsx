@@ -1,9 +1,25 @@
-import { Component } from 'react'
+import { Component, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { GENERIC_ERROR_MESSAGE } from '../helpers/constants'
 
-class ErrorBoundary extends Component {
-  constructor(props) {
+type ErrorInfo = {
+  componentStack: string
+}
+
+interface ErrorBoundaryProps {
+  logError: (error: Error, errorInfo: ErrorInfo) => void
+  fbComponent: ReactNode
+  children: ReactNode
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean
+  error: Error
+  errorInfo: ErrorInfo
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props)
 
     this.state = {
@@ -13,7 +29,7 @@ class ErrorBoundary extends Component {
     }
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     const { logError } = this.props
 
     // Display fallback UI
@@ -29,7 +45,7 @@ class ErrorBoundary extends Component {
     }
   }
 
-  renderDefaultFB() {
+  renderDefaultFB(): JSX.Element {
     const { error, errorInfo } = this.state
 
     return (
@@ -43,7 +59,7 @@ class ErrorBoundary extends Component {
     )
   }
 
-  render() {
+  render(): JSX.Element | ReactNode {
     const { hasError } = this.state
     const { children, fbComponent } = this.props
 
