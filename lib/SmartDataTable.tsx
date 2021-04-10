@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { Component, ComponentType, MouseEvent, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'clsx'
 import CellValue from './components/CellValue'
@@ -6,49 +6,104 @@ import ErrorBoundary from './components/ErrorBoundary'
 import Paginator from './components/Paginator'
 import Table from './components/Table'
 import Toggles from './components/Toggles'
-import withPagination from './components/helpers/with-pagination'
+import withPagination, {
+  WrappedComponentProps,
+} from './components/helpers/with-pagination'
 import {
+  Column,
   fetchData,
+  Headers,
   isEmpty,
   isFunction,
   isString,
+  KeyResolverFN,
+  ParseBool,
   parseDataForColumns,
   parseDataForRows,
+  ParseImg,
+  RowClickFN,
   sliceRowsPerPage,
   sortData,
+  Sorting,
+  UnknownObject,
 } from './helpers/functions'
-import { DEFAULT_DATA_KEY, ORDER_ASC, ORDER_DESC } from './helpers/constants'
+import {
+  DEFAULT_DATA_KEY,
+  defaultHeader,
+  ORDER_ASC,
+  ORDER_DESC,
+} from './helpers/constants'
 import './css/basic.css'
 
-class SmartDataTable extends Component {
-  constructor(props) {
+interface SmartDataTableProps {
+  className: string
+  data: string | UnknownObject[]
+  dataKey: string
+  dataKeyResolver: KeyResolverFN
+  dataRequestOptions: RequestInit
+  dynamic: boolean
+  emptyTable: ReactNode
+  filterValue: string
+  headers: Headers
+  hideUnordered: boolean
+  loader: ReactNode
+  name: string
+  onRowClick: RowClickFN
+  orderedHeaders: string[]
+  paginator: ComponentType<WrappedComponentProps>
+  parseBool: boolean | ParseBool
+  parseImg: boolean | ParseImg
+  perPage: number
+  sortable: boolean
+  withFooter: boolean
+  withHeader: boolean
+  withLinks: boolean
+  withToggles: boolean
+}
+
+interface SmartDataTableState {
+  activePage: number
+  asyncData: UnknownObject[]
+  colProperties: Headers
+  columns: Column[]
+  isLoading: boolean
+  prevFilterValue: string
+  sorting: Sorting
+}
+
+class SmartDataTable extends Component<
+  SmartDataTableProps,
+  SmartDataTableState
+> {
+  constructor(props: SmartDataTableProps) {
     super(props)
 
     const { headers: colProperties = {} } = props
 
     this.state = {
+      activePage: 1,
       asyncData: [],
-      columns: [],
       colProperties,
+      columns: [],
+      isLoading: false,
+      prevFilterValue: '',
       sorting: {
         key: '',
         dir: '',
       },
-      activePage: 1,
-      isLoading: false,
     }
-
-    this.handleColumnToggle = this.handleColumnToggle.bind(this)
-    this.handleOnPageChange = this.handleOnPageChange.bind(this)
-    this.handleRowClick = this.handleRowClick.bind(this)
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: SmartDataTableProps,
+    state: SmartDataTableState,
+  ): SmartDataTableState | null {
     const { filterValue } = props
     const { prevFilterValue } = state
 
     if (filterValue !== prevFilterValue) {
       return {
+        ...state,
         activePage: 1,
         prevFilterValue: filterValue,
       }
@@ -57,11 +112,11 @@ class SmartDataTable extends Component {
     return null
   }
 
-  componentDidMount() {
-    this.fetchData()
+  componentDidMount(): void {
+    void this.fetchData()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: SmartDataTableProps): void {
     const { data } = this.props
     const { data: prevData } = prevProps
 
@@ -69,11 +124,120 @@ class SmartDataTable extends Component {
       isString(data) &&
       (typeof data !== typeof prevData || data !== prevData)
     ) {
-      this.fetchData()
+      void this.fetchData()
     }
   }
 
-  async fetchData() {
+  handleRowClick = (
+    event: MouseEvent<HTMLElement>,
+    rowData: UnknownObject,
+    rowIndex: number,
+    tableData: UnknownObject[],
+  ): void => {
+    const { onRowClick } = this.props
+
+    if (onRowClick) {
+      onRowClick(event, { rowData, rowIndex, tableData })
+    }
+  }
+
+  handleColumnToggle = (key: string): void => {
+    const { colProperties } = this.state
+    const newColProperties = { ...colProperties }
+
+    if (!newColProperties[key]) {
+      newColProperties[key] = {
+        ...defaultHeader,
+        key,
+      }
+    }
+
+    newColProperties[key].invisible = !newColProperties[key].invisible
+
+    this.setState({ colProperties: newColProperties })
+  }
+
+  handleOnPageChange = (
+    event: MouseEvent<HTMLElement>,
+    { activePage }: { activePage: number },
+  ): void => {
+    this.setState({ activePage })
+  }
+
+  handleSortChange(column: Column): void {
+    const { sorting } = this.state
+    const { key } = column
+    let dir = ''
+
+    if (key !== sorting.key) {
+      sorting.dir = ''
+    }
+
+    if (sorting.dir) {
+      if (sorting.dir === ORDER_ASC) {
+        dir = ORDER_DESC
+      } else {
+        dir = ''
+      }
+    } else {
+      dir = ORDER_ASC
+    }
+
+    this.setState({
+      sorting: {
+        key,
+        dir,
+      },
+    })
+  }
+
+  getColumns(force = false): Column[] {
+    const { asyncData, columns } = this.state
+    const { data, headers, orderedHeaders, hideUnordered } = this.props
+
+    if (!force && !isEmpty(columns)) {
+      return columns
+    }
+
+    if (isString(data)) {
+      return parseDataForColumns(
+        asyncData,
+        headers,
+        orderedHeaders,
+        hideUnordered,
+      )
+    }
+
+    return parseDataForColumns(
+      data as UnknownObject[],
+      headers,
+      orderedHeaders,
+      hideUnordered,
+    )
+  }
+
+  getRows(): UnknownObject[] {
+    const { asyncData, colProperties, sorting } = this.state
+    const { data, filterValue } = this.props
+
+    if (isString(data)) {
+      return sortData(
+        filterValue,
+        colProperties,
+        sorting,
+        parseDataForRows(asyncData),
+      )
+    }
+
+    return sortData(
+      filterValue,
+      colProperties,
+      sorting,
+      parseDataForRows(data as UnknownObject[]),
+    )
+  }
+
+  async fetchData(): Promise<void> {
     const {
       data,
       dataKey,
@@ -106,59 +270,7 @@ class SmartDataTable extends Component {
     }
   }
 
-  handleRowClick(event, rowData, rowIndex, tableData) {
-    const { onRowClick } = this.props
-
-    if (onRowClick) {
-      onRowClick(event, { rowData, rowIndex, tableData })
-    }
-  }
-
-  handleColumnToggle(key) {
-    const { colProperties } = this.state
-    const newColProperties = { ...colProperties }
-
-    if (!newColProperties[key]) {
-      newColProperties[key] = {}
-    }
-
-    newColProperties[key].invisible = !newColProperties[key].invisible
-
-    this.setState({ colProperties: newColProperties })
-  }
-
-  handleOnPageChange(event, { activePage }) {
-    this.setState({ activePage })
-  }
-
-  handleSortChange(column) {
-    const { sorting } = this.state
-    const { key } = column
-    let dir = ''
-
-    if (key !== sorting.key) {
-      sorting.dir = ''
-    }
-
-    if (sorting.dir) {
-      if (sorting.dir === ORDER_ASC) {
-        dir = ORDER_DESC
-      } else {
-        dir = ''
-      }
-    } else {
-      dir = ORDER_ASC
-    }
-
-    this.setState({
-      sorting: {
-        key,
-        dir,
-      },
-    })
-  }
-
-  renderSorting(column) {
+  renderSorting(column: Column): ReactNode {
     const {
       sorting: { key, dir },
     } = this.state
@@ -186,7 +298,7 @@ class SmartDataTable extends Component {
     )
   }
 
-  renderHeader(columns) {
+  renderHeader(columns: Column[]): ReactNode {
     const { colProperties } = this.state
     const { sortable } = this.props
     const headers = columns.map((column) => {
@@ -209,7 +321,7 @@ class SmartDataTable extends Component {
     return <Table.Row>{headers}</Table.Row>
   }
 
-  renderRow(columns, row, i) {
+  renderRow(columns: Column[], row: UnknownObject, i: number): ReactNode {
     const { colProperties } = this.state
     const { withLinks, filterValue, parseBool, parseImg } = this.props
 
@@ -220,6 +332,7 @@ class SmartDataTable extends Component {
 
       if (showCol) {
         return (
+          // eslint-disable-next-line react/no-array-index-key
           <Table.Cell key={`row-${i}-column-${j}`}>
             {isFunction(transformFn) ? (
               transformFn(row[column.key], i, row)
@@ -245,12 +358,13 @@ class SmartDataTable extends Component {
     })
   }
 
-  renderBody(columns, rows) {
+  renderBody(columns: Column[], rows: UnknownObject[]): ReactNode {
     const { perPage } = this.props
     const { activePage } = this.state
     const visibleRows = sliceRowsPerPage(rows, activePage, perPage)
     const tableRows = visibleRows.map((row, i) => (
       <Table.Row
+        // eslint-disable-next-line react/no-array-index-key
         key={`row-${i}`}
         onClick={(e) => this.handleRowClick(e, row, i, rows)}
       >
@@ -261,7 +375,7 @@ class SmartDataTable extends Component {
     return <Table.Body>{tableRows}</Table.Body>
   }
 
-  renderToggles(columns) {
+  renderToggles(columns: Column[]): ReactNode {
     const { colProperties } = this.state
     const { withToggles } = this.props
 
@@ -280,7 +394,7 @@ class SmartDataTable extends Component {
     return null
   }
 
-  renderPagination(rows) {
+  renderPagination(rows: UnknownObject[]): ReactNode {
     const { perPage, paginator: PaginatorComponent } = this.props
     const { activePage } = this.state
     const Paginate = withPagination(PaginatorComponent)
@@ -301,43 +415,7 @@ class SmartDataTable extends Component {
     return null
   }
 
-  getColumns(force = false) {
-    const { asyncData, columns } = this.state
-    const { data, headers, orderedHeaders, hideUnordered } = this.props
-
-    if (!force && !isEmpty(columns)) {
-      return columns
-    }
-
-    if (isString(data)) {
-      return parseDataForColumns(
-        asyncData,
-        headers,
-        orderedHeaders,
-        hideUnordered,
-      )
-    }
-
-    return parseDataForColumns(data, headers, orderedHeaders, hideUnordered)
-  }
-
-  getRows() {
-    const { asyncData, colProperties, sorting } = this.state
-    const { data, filterValue } = this.props
-
-    if (isString(data)) {
-      return sortData(
-        filterValue,
-        colProperties,
-        sorting,
-        parseDataForRows(asyncData),
-      )
-    }
-
-    return sortData(filterValue, colProperties, sorting, parseDataForRows(data))
-  }
-
-  render() {
+  render(): ReactNode {
     const {
       className,
       dynamic,
@@ -380,20 +458,33 @@ class SmartDataTable extends Component {
 // Defines the type of data expected in each passed prop
 SmartDataTable.propTypes = {
   className: PropTypes.string,
-  columns: PropTypes.array,
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   dataKey: PropTypes.string,
   dataKeyResolver: PropTypes.func,
-  dataRequestOptions: PropTypes.object,
+  dataRequestOptions: PropTypes.objectOf(PropTypes.any),
   dynamic: PropTypes.bool,
   emptyTable: PropTypes.node,
   filterValue: PropTypes.string,
-  headers: PropTypes.object,
+  headers: PropTypes.shape({
+    key: PropTypes.string,
+    text: PropTypes.string,
+    invisible: PropTypes.bool,
+    sortable: PropTypes.bool,
+    filterable: PropTypes.bool,
+    isImg: PropTypes.oneOf([
+      PropTypes.bool,
+      PropTypes.shape({
+        style: PropTypes.objectOf(PropTypes.any),
+        className: PropTypes.string,
+      }),
+    ]),
+    transform: PropTypes.func,
+  }),
   hideUnordered: PropTypes.bool,
   loader: PropTypes.node,
   name: PropTypes.string,
   onRowClick: PropTypes.func,
-  orderedHeaders: PropTypes.array,
+  orderedHeaders: PropTypes.arrayOf(PropTypes.string),
   paginator: PropTypes.elementType,
   parseBool: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   parseImg: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
@@ -408,7 +499,6 @@ SmartDataTable.propTypes = {
 // Defines the default values for not passing a certain prop
 SmartDataTable.defaultProps = {
   className: '',
-  columns: [],
   dataKey: DEFAULT_DATA_KEY,
   dataKeyResolver: null,
   dataRequestOptions: {},
@@ -419,6 +509,7 @@ SmartDataTable.defaultProps = {
   hideUnordered: false,
   loader: null,
   name: 'reactsmartdatatable',
+  onRowClick: () => null,
   orderedHeaders: [],
   paginator: Paginator,
   parseBool: false,

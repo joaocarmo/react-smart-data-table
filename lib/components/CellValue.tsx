@@ -1,4 +1,4 @@
-import { CSSProperties, memo, useCallback, useMemo, ReactNode } from 'react'
+import { memo, useCallback, useMemo, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { find as linkifyFind } from 'linkifyjs'
 import HighlightValue from './HighlightValue'
@@ -9,22 +9,18 @@ import {
   isEmpty,
   isImage,
   ParseBool,
+  ParseImg,
 } from '../helpers/functions'
 import { DEFAULT_IMG_ALT } from '../helpers/constants'
 
-type ParseImg = {
-  style: CSSProperties
-  className: string
-}
-
 interface CellValueProps {
   children: ReactNode
-  content: ReactNode
+  content?: ReactNode
   filterable: boolean
   filterValue: string
   isImg: boolean
   parseBool: boolean | ParseBool
-  parseImg: ParseImg
+  parseImg: boolean | ParseImg
   withLinks: boolean
 }
 
@@ -52,11 +48,14 @@ const CellValue = ({
   }, [filterValue, filterable, value])
 
   const renderImage = useCallback(
-    ({ bypass = false }: { bypass: boolean } = {}) => {
+    ({ bypass = false }: { bypass?: boolean } = {}) => {
       const shouldBeAnImg = isImg || bypass || isImage(value)
 
       if (shouldBeAnImg) {
-        const { style, className } = parseImg
+        const { style, className } =
+          typeof parseImg === 'boolean'
+            ? { style: undefined, className: undefined }
+            : parseImg
 
         return (
           <img

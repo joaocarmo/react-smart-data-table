@@ -17,7 +17,7 @@ const HighlightValue = ({
   filterValue,
 }: HighlightValueProps): JSX.Element | ReactNode => {
   const { first, highlight, last } = useMemo(
-    () => highlightValueParts(children, filterValue),
+    () => highlightValueParts(children as string, filterValue),
     [children, filterValue],
   )
 

@@ -15,10 +15,7 @@ const defaultPropTypes = {
   children: null,
 }
 
-const Table = ({
-  children,
-  ...props
-}: TableProps): JSX.IntrinsicElements.table => (
+const Table = ({ children, ...props }: TableProps): JSX.Element => (
   <table {...props}>{children}</table>
 )
 const TableBody = ({ children, ...props }) => (

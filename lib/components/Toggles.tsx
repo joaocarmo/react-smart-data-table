@@ -1,6 +1,7 @@
-import { useCallback } from 'react'
+import { MouseEvent, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Column, Headers } from '../helpers/functions'
+import { defaultHeader } from '../helpers/constants'
 import '../css/toggles.css'
 
 export type ColumnToggleFn = (event: MouseEvent<HTMLElement>) => void
@@ -32,7 +33,7 @@ const Toggles = ({
 
   return (
     <nav className="rsdt rsdt-column-toggles">
-      {columns.map(({ key, text } = {}) => (
+      {columns.map(({ key, text } = defaultHeader) => (
         <span className="rsdt rsdt-column-toggles toggle" key={key}>
           <label htmlFor={key}>
             <input

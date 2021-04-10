@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { CSSProperties, MouseEvent, ReactNode } from 'react'
 import flatten from 'flat'
 import escapeStringRegexp from 'escape-string-regexp'
 import { snakeCase } from 'snake-case'
@@ -18,7 +18,32 @@ import {
   STR_ZERO,
 } from './constants'
 
-export type UnknownObject = Record<string, unknown>
+export type UnknownObject<T = unknown> = Record<string, T>
+
+export type ParseBool = {
+  noWord: string
+  yesWord: string
+}
+
+export type ParseImg = {
+  style: CSSProperties
+  className: string
+}
+
+export type TransformFN = (
+  value: unknown,
+  index: number,
+  row: UnknownObject,
+) => ReactNode
+
+export type RowClickFN = (
+  event: MouseEvent<HTMLElement>,
+  {
+    rowData,
+    rowIndex,
+    tableData,
+  }: { rowData: UnknownObject; rowIndex: number; tableData: UnknownObject[] },
+) => void
 
 export interface Column {
   key: string
@@ -26,6 +51,8 @@ export interface Column {
   invisible: boolean
   sortable: boolean
   filterable: boolean
+  isImg: boolean
+  transform?: TransformFN
 }
 
 export type Headers = Record<string, Column>
@@ -42,16 +69,13 @@ export interface Highlight {
   value: string
 }
 
-export type ParseBool = {
-  noWord: string
-  yesWord: string
+export interface RenderOptions {
+  children?: ReactNode
+  content?: ReactNode
+  parseBool?: boolean | ParseBool
 }
 
-export interface RenderOptions {
-  children: ReactNode
-  content: ReactNode
-  parseBool: boolean | ParseBool
-}
+export type KeyResolverFN = (args: UnknownObject) => UnknownObject[]
 
 export const head = <T>([first]: T[]): T => first
 
@@ -77,7 +101,7 @@ export const isEmpty = (obj: unknown[] | UnknownObject): boolean => {
   return false
 }
 
-export const isFunction = (fn: (args: unknown) => unknown): boolean =>
+export const isFunction = (fn: (...args: unknown[]) => unknown): boolean =>
   typeof fn === 'function'
 
 export const isNumber = (num: unknown): boolean =>
@@ -227,9 +251,9 @@ export async function fetchData(
     dataKeyResolver,
     options = {},
   }: {
-    dataKey: string
-    dataKeyResolver: (args: UnknownObject) => UnknownObject[]
-    options: RequestInit
+    dataKey?: string
+    dataKeyResolver?: KeyResolverFN
+    options?: RequestInit
   } = {},
 ): Promise<UnknownObject[]> {
   if (isArray(data)) {
@@ -237,7 +261,7 @@ export async function fetchData(
   }
 
   if (isString(data)) {
-    const response = await fetch(data, options)
+    const response = await fetch(data as string, options)
 
     const { headers, ok, status, statusText } = response
 
@@ -251,7 +275,7 @@ export async function fetchData(
           return dataKeyResolver(jsonBody)
         }
 
-        return dataKey ? jsonBody[dataKey] : jsonBody
+        return (dataKey ? jsonBody[dataKey] : jsonBody) as UnknownObject[]
       }
 
       throw new Error(ERROR_INVALID_RESPONSE)
@@ -277,7 +301,10 @@ export function parseHeader(val: string): string {
   return ''
 }
 
-export function valueOrDefault(value: unknown, defaultValue: unknown): unknown {
+export function valueOrDefault<T = unknown>(
+  value: unknown,
+  defaultValue: T,
+): T {
   if (isUndefined(value)) {
     return defaultValue
   }
@@ -294,6 +321,7 @@ export function columnObject(key: string, headers: Headers = {}): Column {
     invisible: valueOrDefault(invisible, false),
     sortable: valueOrDefault(sortable, true),
     filterable: valueOrDefault(filterable, true),
+    isImg: valueOrDefault(invisible, false),
   }
 }
 
@@ -351,7 +379,7 @@ export function parseDataForRows(data: UnknownObject[] = []): UnknownObject[] {
 }
 
 export function filterRowsByValue(
-  value: unknown,
+  value: string,
   rows: UnknownObject[],
   colProperties: Headers,
 ): UnknownObject[] {
@@ -362,7 +390,7 @@ export function filterRowsByValue(
 
     for (let i = 0, N = rowKeys.length; i < N; i += 1) {
       const key = rowKeys[i]
-      const val = row[key]
+      const val = row[key] as string
       const colProps = { ...colProperties[key] }
 
       if (colProps.filterable !== false) {
@@ -375,7 +403,7 @@ export function filterRowsByValue(
 }
 
 export function filterRows(
-  value: unknown,
+  value: string,
   rows: UnknownObject[],
   colProperties: Headers,
 ): UnknownObject[] {
@@ -412,9 +440,9 @@ export function sortData(
 
   if (dir) {
     if (dir === 'ASC') {
-      sortedRows = sortBy(data, [key])
+      sortedRows = sortBy(data, key)
     } else {
-      sortedRows = sortBy(data, [key]).reverse()
+      sortedRows = sortBy(data, key).reverse()
     }
   } else {
     sortedRows = data.slice(0)
@@ -455,7 +483,7 @@ export function isDataURL(url: unknown): boolean {
   return false
 }
 
-export function isImage(url: unknown): boolean {
+export function isImage(url: string): boolean {
   const isImgDataURL = isDataURL(url)
 
   if (isImgDataURL) {
@@ -480,8 +508,15 @@ export function highlightValueParts(
   value: string,
   filterValue: string,
 ): Highlight {
+  const defaultReturn = {
+    first: undefined,
+    highlight: undefined,
+    last: undefined,
+    value,
+  }
+
   if (!filterValue) {
-    return value
+    return defaultReturn
   }
 
   const regex = new RegExp(`.*?${escapeStringRegexp(filterValue)}.*?`, 'i')
@@ -502,12 +537,7 @@ export function highlightValueParts(
     }
   }
 
-  return {
-    first: undefined,
-    highlight: undefined,
-    last: undefined,
-    value,
-  }
+  return defaultReturn
 }
 
 export function getRenderValue({
@@ -539,9 +569,9 @@ export function getRenderValue({
   let value = ''
 
   if (content) {
-    value = content
+    value = content as string
   } else if (children) {
-    value = children
+    value = children as string
   }
 
   return `${value}`
