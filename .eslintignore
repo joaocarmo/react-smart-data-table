@@ -2,9 +2,4 @@ __tests__/
 coverage/
 dist/
 example/
-jest.config.js
-jest.setup.js
 test/
-tests.js
-webpack.config.js
-webpack.dev.js

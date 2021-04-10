@@ -1,7 +1,8 @@
+/* eslint-disable */
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const babelOptions = require('./babel.config')
-const pkg = require('./package')
+const pkg = require('./package.json')
 
 const libDir = path.join(__dirname, 'lib')
 const distDir = path.join(__dirname, 'dist')
