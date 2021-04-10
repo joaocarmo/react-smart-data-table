@@ -17,9 +17,44 @@ import {
   STR_ZERO,
 } from './constants'
 
-export const head = ([first]: unknown[]): unknown => first
+export type UnknownObject = Record<string, unknown>
 
-export const tail = (arr: unknown[]): unknown => arr[arr.length - 1]
+export interface Column {
+  key: string
+  text: string
+  invisible: boolean
+  sortable: boolean
+  filterable: boolean
+}
+
+export type Headers = Record<string, Column>
+
+export type Sorting = {
+  key: string
+  dir: string
+}
+
+export interface Highlight {
+  first: string | undefined
+  highlight: string | undefined
+  last: string | undefined
+  value: string
+}
+
+export type ParseBool = {
+  noWord: string
+  yesWord: string
+}
+
+export interface RenderOptions {
+  children: unknown
+  content: unknown
+  parseBool: boolean | ParseBool
+}
+
+export const head = <T>([first]: T[]): T => first
+
+export const tail = <T>(arr: T[]): T => arr[arr.length - 1]
 
 export const isString = (str: unknown): boolean =>
   typeof str === 'string' || str instanceof String
@@ -29,7 +64,7 @@ export const isArray = (obj: unknown[]): boolean => Array.isArray(obj)
 export const isObject = (obj: unknown): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
 
-export const isEmpty = (obj: unknown[] | object): boolean => {
+export const isEmpty = (obj: unknown[] | UnknownObject): boolean => {
   if (isArray(obj)) {
     return !obj.length
   }
@@ -53,7 +88,7 @@ export const isUndefined = (undef: unknown): boolean =>
 export const capitalize = (str: string): string => {
   if (isString(str)) {
     const regex = /[^a-z]*[a-z]/
-    const [first = ''] = str.match(regex)
+    const [first = ''] = regex.exec(str)
 
     return first.toUpperCase() + str.substring(first.length)
   }
@@ -61,7 +96,7 @@ export const capitalize = (str: string): string => {
   return ''
 }
 
-export const sortBy = (arr: unknown[], key: string): number =>
+export const sortBy = (arr: UnknownObject[], key: string): UnknownObject[] =>
   [...arr].sort((a, b) => {
     if (a[key] > b[key]) {
       return 1
@@ -162,7 +197,10 @@ export function generatePagination(
   return pagination
 }
 
-export function getNestedObject(nestedObj: object, pathArr: string[]): unknown {
+export function getNestedObject(
+  nestedObj: UnknownObject,
+  pathArr: string[],
+): unknown {
   if (isObject(nestedObj) && !isEmpty(nestedObj)) {
     let path = []
 
@@ -172,7 +210,7 @@ export function getNestedObject(nestedObj: object, pathArr: string[]): unknown {
       path = pathArr
     }
 
-    const reducerFn = (obj: object, key: string): unknown =>
+    const reducerFn = (obj: UnknownObject, key: string): unknown =>
       obj && !isUndefined(obj[key]) ? obj[key] : undefined
 
     return path.reduce(reducerFn, nestedObj)
@@ -189,10 +227,10 @@ export async function fetchData(
     options = {},
   }: {
     dataKey: string
-    dataKeyResolver: (args: object) => object[]
+    dataKeyResolver: (args: UnknownObject) => UnknownObject[]
     options: RequestInit
   } = {},
-): Promise<object[]> {
+): Promise<UnknownObject[]> {
   if (isArray(data)) {
     return data
   }
@@ -206,7 +244,7 @@ export async function fetchData(
       const contentType = headers.get('content-type')
 
       if (contentType && contentType.includes('application/json')) {
-        const jsonBody = await response.json()
+        const jsonBody = (await response.json()) as UnknownObject
 
         if (typeof dataKeyResolver === 'function') {
           return dataKeyResolver(jsonBody)
@@ -246,18 +284,7 @@ export function valueOrDefault(value: unknown, defaultValue: unknown): unknown {
   return value
 }
 
-export interface Header {
-  key: string
-  text: string
-  invisible: boolean
-  sortable: boolean
-  filterable: boolean
-}
-
-export function columnObject(
-  key: string,
-  headers: { [key: string]: Header } = {},
-): Header {
+export function columnObject(key: string, headers: Headers = {}): Column {
   const { text, invisible, sortable, filterable } = { ...headers[key] }
 
   return {
@@ -270,17 +297,19 @@ export function columnObject(
 }
 
 export function parseDataForColumns(
-  data = [],
-  headers = {},
-  orderedHeaders = [],
+  data: UnknownObject[] = [],
+  headers: UnknownObject = {},
+  orderedHeaders: string[] = [],
   hideUnordered = false,
-) {
-  const columnsAdded = []
-  const columns = []
+): Column[] {
+  const columnsAdded: string[] = []
+  const columns: Column[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
     const filteredData = data.filter((row) => !!row)
-    const firstElement = flatten(head(filteredData))
+    const firstElement = flatten<UnknownObject, UnknownObject>(
+      head<UnknownObject>(filteredData),
+    )
 
     // First, attach the ordered headers
     if (!isEmpty(orderedHeaders)) {
@@ -309,8 +338,8 @@ export function parseDataForColumns(
   return columns
 }
 
-export function parseDataForRows(data = []) {
-  let rows = []
+export function parseDataForRows(data: UnknownObject[] = []): UnknownObject[] {
+  let rows: UnknownObject[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
     const filteredData = data.filter((row) => isObject(row) && !isEmpty(row))
@@ -320,7 +349,11 @@ export function parseDataForRows(data = []) {
   return rows
 }
 
-export function filterRowsByValue(value, rows, colProperties) {
+export function filterRowsByValue(
+  value: unknown,
+  rows: UnknownObject[],
+  colProperties: Headers,
+): UnknownObject[] {
   return rows.filter((row) => {
     const regex = new RegExp(`.*?${escapeStringRegexp(value)}.*?`, 'i')
     let hasMatch = false
@@ -340,7 +373,11 @@ export function filterRowsByValue(value, rows, colProperties) {
   })
 }
 
-export function filterRows(value, rows, colProperties) {
+export function filterRows(
+  value: unknown,
+  rows: UnknownObject[],
+  colProperties: Headers,
+): UnknownObject[] {
   if (!value) {
     return rows
   }
@@ -348,7 +385,11 @@ export function filterRows(value, rows, colProperties) {
   return filterRowsByValue(value, rows, colProperties)
 }
 
-export function sliceRowsPerPage(rows, currentPage, perPage) {
+export function sliceRowsPerPage(
+  rows: UnknownObject[],
+  currentPage: number,
+  perPage: number,
+): UnknownObject[] {
   if (isNumber(perPage) && Math.sign(perPage)) {
     const start = perPage * (currentPage - 1)
     const end = perPage * currentPage
@@ -359,8 +400,13 @@ export function sliceRowsPerPage(rows, currentPage, perPage) {
   return rows
 }
 
-export function sortData(filterValue, colProperties, sorting, data) {
-  let sortedRows = []
+export function sortData(
+  filterValue: string,
+  colProperties: Headers,
+  sorting: Sorting,
+  data: UnknownObject[],
+): UnknownObject[] {
+  let sortedRows: UnknownObject[] = []
   const { dir, key } = sorting
 
   if (dir) {
@@ -376,7 +422,7 @@ export function sortData(filterValue, colProperties, sorting, data) {
   return filterRows(filterValue, sortedRows, colProperties)
 }
 
-export function isDataURL(url) {
+export function isDataURL(url: unknown): boolean {
   // Checks if the data is a valid base64 enconded string
   const regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
 
@@ -408,7 +454,7 @@ export function isDataURL(url) {
   return false
 }
 
-export function isImage(url) {
+export function isImage(url: unknown): boolean {
   const isImgDataURL = isDataURL(url)
 
   if (isImgDataURL) {
@@ -429,7 +475,10 @@ export function isImage(url) {
   return fileImgExtensions.includes(ext)
 }
 
-export function highlightValueParts(value, filterValue) {
+export function highlightValueParts(
+  value: string,
+  filterValue: string,
+): Highlight {
   if (!filterValue) {
     return value
   }
@@ -460,7 +509,11 @@ export function highlightValueParts(value, filterValue) {
   }
 }
 
-export const getRenderValue = ({ children, content, parseBool } = {}) => {
+export const getRenderValue = ({
+  children,
+  content,
+  parseBool,
+}: RenderOptions = {}): string => {
   if (parseBool) {
     const { noWord = DEFAULT_NO_WORD, yesWord = DEFAULT_YES_WORD } =
       typeof parseBool === 'object' ? parseBool : {}

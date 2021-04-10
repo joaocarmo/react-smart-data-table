@@ -7,7 +7,12 @@
     "paths": {
       "~*": ["./*"]
     },
-    "types": ["node", "react", "react-dom"]
+    "types": ["flat", "node", "react", "react-dom"]
   },
-  "include": ["lib/**/*", ".eslintrc.js"]
+  "include": [
+    "lib/**/*",
+    ".eslintrc.js",
+    "babel.config.js",
+    "webpack.config.js"
+  ]
 }

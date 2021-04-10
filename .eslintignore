@@ -2,3 +2,4 @@ coverage/
 dist/
 example/
 test/
+webpack.config.js
