@@ -1,3 +1,4 @@
+import { CSSProperties, MouseEvent, ReactNode } from 'react'
 import flatten from 'flat'
 import escapeStringRegexp from 'escape-string-regexp'
 import { snakeCase } from 'snake-case'
@@ -17,19 +18,78 @@ import {
   STR_ZERO,
 } from './constants'
 
-export const head = ([first]) => first
+export type UnknownObject<T = unknown> = Record<string, T>
 
-export const tail = ([...arr]) => arr.pop()
+export type ParseBool = {
+  noWord: string
+  yesWord: string
+}
 
-export const isString = (str) =>
+export type ParseImg = {
+  style: CSSProperties
+  className: string
+}
+
+export type TransformFN = (
+  value: unknown,
+  index: number,
+  row: UnknownObject,
+) => ReactNode
+
+export type RowClickFN = (
+  event: MouseEvent<HTMLElement>,
+  {
+    rowData,
+    rowIndex,
+    tableData,
+  }: { rowData: UnknownObject; rowIndex: number; tableData: UnknownObject[] },
+) => void
+
+export interface Column {
+  key: string
+  text: string
+  invisible: boolean
+  sortable: boolean
+  filterable: boolean
+  isImg: boolean
+  transform?: TransformFN
+}
+
+export type Headers = Record<string, Column>
+
+export type Sorting = {
+  key: string
+  dir: string
+}
+
+export interface Highlight {
+  first: string | undefined
+  highlight: string | undefined
+  last: string | undefined
+  value: string
+}
+
+export interface RenderOptions {
+  children?: ReactNode
+  content?: ReactNode
+  parseBool?: boolean | ParseBool
+}
+
+export type KeyResolverFN = (args: UnknownObject) => UnknownObject[]
+
+export const head = <T>([first]: T[]): T => first
+
+export const tail = <T>(arr: T[]): T => arr[arr.length - 1]
+
+export const isString = (str: unknown): boolean =>
   typeof str === 'string' || str instanceof String
 
-export const isArray = (obj) => Array.isArray(obj)
+export const isArray = (obj: unknown): boolean => Array.isArray(obj)
 
-export const isObject = (obj) =>
+export const isObject = (obj: unknown): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
 
-export const isEmpty = (obj) => {
+export const isEmpty = (obj: unknown[] | UnknownObject): boolean => {
   if (isArray(obj)) {
     return !obj.length
   }
@@ -41,16 +101,19 @@ export const isEmpty = (obj) => {
   return false
 }
 
-export const isFunction = (fn) => typeof fn === 'function'
+export const isFunction = (fn: (...args: unknown[]) => unknown): boolean =>
+  typeof fn === 'function'
 
-export const isNumber = (num) => typeof num === 'number' && Number.isFinite(num)
+export const isNumber = (num: unknown): boolean =>
+  typeof num === 'number' && Number.isFinite(num)
 
-export const isUndefined = (undef) => typeof undef === 'undefined'
+export const isUndefined = (undef: unknown): boolean =>
+  typeof undef === 'undefined'
 
-export const capitalize = (str) => {
+export const capitalize = (str: string): string => {
   if (isString(str)) {
     const regex = /[^a-z]*[a-z]/
-    const [first = ''] = str.match(regex)
+    const [first = ''] = regex.exec(str)
 
     return first.toUpperCase() + str.substring(first.length)
   }
@@ -58,7 +121,7 @@ export const capitalize = (str) => {
   return ''
 }
 
-export const sortBy = (arr, key) =>
+export const sortBy = (arr: UnknownObject[], key: string): UnknownObject[] =>
   [...arr].sort((a, b) => {
     if (a[key] > b[key]) {
       return 1
@@ -71,21 +134,30 @@ export const sortBy = (arr, key) =>
     return 0
   })
 
-export const cleanLonelyInt = (val) => !(val && /^\d+$/.test(val))
+export const cleanLonelyInt = (val: unknown): boolean =>
+  !(val && /^\d+$/.test(val as string))
 
-export const debugPrint = (...args) => {
+export const debugPrint = (...args: unknown[]): void => {
   if (process.env.NODE_ENV !== 'production') {
     /* eslint-disable no-console */
     console.log(...args)
   }
 }
 
-export const errorPrint = (...args) => {
+export const errorPrint = (...args: unknown[]): void => {
   /* eslint-disable no-console */
   console.error(...args)
 }
 
-export function generatePagination(activePage = 1, totalPages = 1, margin = 1) {
+export function generatePagination(
+  activePage = 1,
+  totalPages = 1,
+  margin = 1,
+): {
+  active: boolean
+  value: number | undefined
+  text: string
+}[] {
   const previousPage = activePage - 1 > 0 ? activePage - 1 : 1
   const nextPage = activePage + 1 > totalPages ? totalPages : activePage + 1
   const gap = 1 + 2 * margin
@@ -150,7 +222,10 @@ export function generatePagination(activePage = 1, totalPages = 1, margin = 1) {
   return pagination
 }
 
-export function getNestedObject(nestedObj, pathArr) {
+export function getNestedObject(
+  nestedObj: UnknownObject,
+  pathArr: string[],
+): unknown {
   if (isObject(nestedObj) && !isEmpty(nestedObj)) {
     let path = []
 
@@ -160,7 +235,7 @@ export function getNestedObject(nestedObj, pathArr) {
       path = pathArr
     }
 
-    const reducerFn = (obj, key) =>
+    const reducerFn = (obj: UnknownObject, key: string): unknown =>
       obj && !isUndefined(obj[key]) ? obj[key] : undefined
 
     return path.reduce(reducerFn, nestedObj)
@@ -170,15 +245,23 @@ export function getNestedObject(nestedObj, pathArr) {
 }
 
 export async function fetchData(
-  data,
-  { dataKey = DEFAULT_DATA_KEY, dataKeyResolver, options = {} } = {},
-) {
+  data: string | unknown[],
+  {
+    dataKey = DEFAULT_DATA_KEY,
+    dataKeyResolver,
+    options = {},
+  }: {
+    dataKey?: string
+    dataKeyResolver?: KeyResolverFN
+    options?: RequestInit
+  } = {},
+): Promise<UnknownObject[]> {
   if (isArray(data)) {
-    return data
+    return data as UnknownObject[]
   }
 
   if (isString(data)) {
-    const response = await fetch(data, options)
+    const response = await fetch(data as string, options)
 
     const { headers, ok, status, statusText } = response
 
@@ -186,13 +269,13 @@ export async function fetchData(
       const contentType = headers.get('content-type')
 
       if (contentType && contentType.includes('application/json')) {
-        const jsonBody = await response.json()
+        const jsonBody = (await response.json()) as UnknownObject
 
         if (typeof dataKeyResolver === 'function') {
           return dataKeyResolver(jsonBody)
         }
 
-        return dataKey ? jsonBody[dataKey] : jsonBody
+        return (dataKey ? jsonBody[dataKey] : jsonBody) as UnknownObject[]
       }
 
       throw new Error(ERROR_INVALID_RESPONSE)
@@ -204,29 +287,32 @@ export async function fetchData(
   }
 }
 
-export function capitalizeAll(arr) {
+export function capitalizeAll(arr: string[]): string {
   return arr.map(capitalize).join(' ').trim()
 }
 
-export function parseHeader(val) {
+export function parseHeader(val: string): string {
   if (isString(val)) {
     const toSnakeCase = snakeCase(val)
 
     return capitalizeAll(toSnakeCase.split('_').filter(cleanLonelyInt))
   }
 
-  return []
+  return ''
 }
 
-export function valueOrDefault(value, defaultValue) {
+export function valueOrDefault<T = unknown>(
+  value: unknown,
+  defaultValue: T,
+): T {
   if (isUndefined(value)) {
     return defaultValue
   }
 
-  return value
+  return value as T
 }
 
-export function columnObject(key, headers = {}) {
+export function columnObject(key: string, headers: Headers = {}): Column {
   const { text, invisible, sortable, filterable } = { ...headers[key] }
 
   return {
@@ -235,21 +321,24 @@ export function columnObject(key, headers = {}) {
     invisible: valueOrDefault(invisible, false),
     sortable: valueOrDefault(sortable, true),
     filterable: valueOrDefault(filterable, true),
+    isImg: valueOrDefault(invisible, false),
   }
 }
 
 export function parseDataForColumns(
-  data = [],
-  headers = {},
-  orderedHeaders = [],
+  data: UnknownObject[] = [],
+  headers: Headers = {},
+  orderedHeaders: string[] = [],
   hideUnordered = false,
-) {
-  const columnsAdded = []
-  const columns = []
+): Column[] {
+  const columnsAdded: string[] = []
+  const columns: Column[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
     const filteredData = data.filter((row) => !!row)
-    const firstElement = flatten(head(filteredData))
+    const firstElement = flatten<UnknownObject, UnknownObject>(
+      head<UnknownObject>(filteredData),
+    )
 
     // First, attach the ordered headers
     if (!isEmpty(orderedHeaders)) {
@@ -278,8 +367,8 @@ export function parseDataForColumns(
   return columns
 }
 
-export function parseDataForRows(data = []) {
-  let rows = []
+export function parseDataForRows(data: UnknownObject[] = []): UnknownObject[] {
+  let rows: UnknownObject[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
     const filteredData = data.filter((row) => isObject(row) && !isEmpty(row))
@@ -289,7 +378,11 @@ export function parseDataForRows(data = []) {
   return rows
 }
 
-export function filterRowsByValue(value, rows, colProperties) {
+export function filterRowsByValue(
+  value: string,
+  rows: UnknownObject[],
+  colProperties: Headers,
+): UnknownObject[] {
   return rows.filter((row) => {
     const regex = new RegExp(`.*?${escapeStringRegexp(value)}.*?`, 'i')
     let hasMatch = false
@@ -297,7 +390,7 @@ export function filterRowsByValue(value, rows, colProperties) {
 
     for (let i = 0, N = rowKeys.length; i < N; i += 1) {
       const key = rowKeys[i]
-      const val = row[key]
+      const val = row[key] as string
       const colProps = { ...colProperties[key] }
 
       if (colProps.filterable !== false) {
@@ -309,7 +402,11 @@ export function filterRowsByValue(value, rows, colProperties) {
   })
 }
 
-export function filterRows(value, rows, colProperties) {
+export function filterRows(
+  value: string,
+  rows: UnknownObject[],
+  colProperties: Headers,
+): UnknownObject[] {
   if (!value) {
     return rows
   }
@@ -317,7 +414,11 @@ export function filterRows(value, rows, colProperties) {
   return filterRowsByValue(value, rows, colProperties)
 }
 
-export function sliceRowsPerPage(rows, currentPage, perPage) {
+export function sliceRowsPerPage(
+  rows: UnknownObject[],
+  currentPage: number,
+  perPage: number,
+): UnknownObject[] {
   if (isNumber(perPage) && Math.sign(perPage)) {
     const start = perPage * (currentPage - 1)
     const end = perPage * currentPage
@@ -328,15 +429,20 @@ export function sliceRowsPerPage(rows, currentPage, perPage) {
   return rows
 }
 
-export function sortData(filterValue, colProperties, sorting, data) {
-  let sortedRows = []
+export function sortData(
+  filterValue: string,
+  colProperties: Headers,
+  sorting: Sorting,
+  data: UnknownObject[],
+): UnknownObject[] {
+  let sortedRows: UnknownObject[] = []
   const { dir, key } = sorting
 
   if (dir) {
     if (dir === 'ASC') {
-      sortedRows = sortBy(data, [key])
+      sortedRows = sortBy(data, key)
     } else {
-      sortedRows = sortBy(data, [key]).reverse()
+      sortedRows = sortBy(data, key).reverse()
     }
   } else {
     sortedRows = data.slice(0)
@@ -345,7 +451,7 @@ export function sortData(filterValue, colProperties, sorting, data) {
   return filterRows(filterValue, sortedRows, colProperties)
 }
 
-export function isDataURL(url) {
+export function isDataURL(url: unknown): boolean {
   // Checks if the data is a valid base64 enconded string
   const regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
 
@@ -377,7 +483,7 @@ export function isDataURL(url) {
   return false
 }
 
-export function isImage(url) {
+export function isImage(url: string): boolean {
   const isImgDataURL = isDataURL(url)
 
   if (isImgDataURL) {
@@ -398,9 +504,19 @@ export function isImage(url) {
   return fileImgExtensions.includes(ext)
 }
 
-export function highlightValueParts(value, filterValue) {
+export function highlightValueParts(
+  value: string,
+  filterValue: string,
+): Highlight {
+  const defaultReturn = {
+    first: undefined,
+    highlight: undefined,
+    last: undefined,
+    value,
+  }
+
   if (!filterValue) {
-    return value
+    return defaultReturn
   }
 
   const regex = new RegExp(`.*?${escapeStringRegexp(filterValue)}.*?`, 'i')
@@ -421,15 +537,14 @@ export function highlightValueParts(value, filterValue) {
     }
   }
 
-  return {
-    first: undefined,
-    highlight: undefined,
-    last: undefined,
-    value,
-  }
+  return defaultReturn
 }
 
-export const getRenderValue = ({ children, content, parseBool } = {}) => {
+export function getRenderValue({
+  children,
+  content,
+  parseBool,
+}: RenderOptions = {}): string {
   if (parseBool) {
     const { noWord = DEFAULT_NO_WORD, yesWord = DEFAULT_YES_WORD } =
       typeof parseBool === 'object' ? parseBool : {}
@@ -454,9 +569,9 @@ export const getRenderValue = ({ children, content, parseBool } = {}) => {
   let value = ''
 
   if (content) {
-    value = content
+    value = content as string
   } else if (children) {
-    value = children
+    value = children as string
   }
 
   return `${value}`

@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    ".eslintrc.js",
+    "babel.config.js",
+    "jest.config.js",
+    "jest.setup.js",
+    "lib/**/*",
+    "webpack.config.js",
+    "webpack.dev.js"
+  ],
+  "exclude": ["node_modules"]
+}
