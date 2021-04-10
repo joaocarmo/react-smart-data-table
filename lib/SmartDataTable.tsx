@@ -75,9 +75,9 @@ class SmartDataTable extends Component<
   SmartDataTableProps,
   SmartDataTableState
 > {
-  static propTypes: unknown
+  static propTypes
 
-  static defaultProps: unknown
+  static defaultProps
 
   constructor(props: SmartDataTableProps) {
     super(props)

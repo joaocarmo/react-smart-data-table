@@ -21,9 +21,9 @@ interface ErrorBoundaryState {
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  static propTypes: unknown
+  static propTypes
 
-  static defaultProps: unknown
+  static defaultProps
 
   constructor(props: ErrorBoundaryProps) {
     super(props)

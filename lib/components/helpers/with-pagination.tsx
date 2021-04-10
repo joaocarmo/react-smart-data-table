@@ -27,9 +27,9 @@ const withPagination = (
     PaginationWrapperProps,
     PaginationWrapperState
   > {
-    static propTypes: unknown
+    static propTypes
 
-    static defaultProps: unknown
+    static defaultProps
 
     constructor(props) {
       super(props)
