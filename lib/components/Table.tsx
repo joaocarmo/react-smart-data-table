@@ -1,4 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import { DetailedHTMLProps, TableHTMLAttributes } from 'react'
 import PropTypes from 'prop-types'
+
+type TableProps = DetailedHTMLProps<
+  TableHTMLAttributes<HTMLTableElement>,
+  HTMLTableElement
+>
 
 const commonPropTypes = {
   children: PropTypes.node,
@@ -8,7 +15,9 @@ const defaultPropTypes = {
   children: null,
 }
 
-const Table = ({ children, ...props }) => <table {...props}>{children}</table>
+const Table = ({ children, ...props }: TableProps): JSX.Element => (
+  <table {...props}>{children}</table>
+)
 const TableBody = ({ children, ...props }) => (
   <tbody {...props}>{children}</tbody>
 )

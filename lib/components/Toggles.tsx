@@ -1,19 +1,29 @@
 import { useCallback } from 'react'
 import PropTypes from 'prop-types'
+import { Column, Headers } from '../helpers/functions'
+import { defaultHeader } from '../helpers/constants'
 import '../css/toggles.css'
+
+type ColumnToggleFn = (key: string) => void
+
+interface TogglesProps {
+  columns: Column[]
+  colProperties: Headers
+  handleColumnToggle: ColumnToggleFn
+}
 
 const Toggles = ({
   columns,
   colProperties,
   handleColumnToggle: onColumnToggle,
-}) => {
+}: TogglesProps): JSX.Element => {
   const handleToggleClick = useCallback(
     ({ target: { value } }) => onColumnToggle(value),
     [onColumnToggle],
   )
 
   const isColumnVisible = useCallback(
-    (key) => {
+    (key: string) => {
       const thisColProps = colProperties[key]
 
       return !thisColProps || !thisColProps.invisible
@@ -23,7 +33,7 @@ const Toggles = ({
 
   return (
     <nav className="rsdt rsdt-column-toggles">
-      {columns.map(({ key, text } = {}) => (
+      {columns.map(({ key, text } = defaultHeader) => (
         <span className="rsdt rsdt-column-toggles toggle" key={key}>
           <label htmlFor={key}>
             <input
@@ -44,8 +54,16 @@ const Toggles = ({
 
 /* Defines the type of data expected in each passed prop */
 Toggles.propTypes = {
-  columns: PropTypes.array.isRequired,
-  colProperties: PropTypes.object,
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  colProperties: PropTypes.objectOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      text: PropTypes.string,
+      invisible: PropTypes.bool,
+      sortable: PropTypes.bool,
+      filterable: PropTypes.bool,
+    }),
+  ).isRequired,
   handleColumnToggle: PropTypes.func.isRequired,
 }
 

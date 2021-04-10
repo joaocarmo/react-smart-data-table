@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./lib",
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM"],
+    "paths": {
+      "~*": ["./*"]
+    },
+    "types": [
+      "flat",
+      "linkifyjs",
+      "jest",
+      "node",
+      "prop-types",
+      "react",
+      "react-dom"
+    ]
+  },
+  "include": ["lib/**/*"]
+}

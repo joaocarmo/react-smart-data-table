@@ -1,6 +1,5 @@
 # TODO
 
-- @use JSDoc / TypeScript
 - Add horizontal scrolling (top and bottom)
 - Add locale sorting
 - Add multiple column sorting

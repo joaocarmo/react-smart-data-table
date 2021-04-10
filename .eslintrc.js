@@ -7,22 +7,40 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'plugin:jsx-a11y/recommended',
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react-hooks/recommended',
-    'plugin:jest/recommended',
-    'airbnb-base',
+    'plugin:prettier/recommended',
     'prettier',
   ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 11,
+    ecmaVersion: 12,
     sourceType: 'module',
+    project: './tsconfig.eslint.json',
   },
-  plugins: ['react', 'jest', 'jsx-a11y'],
+  plugins: ['react', 'jest', 'jsx-a11y', '@typescript-eslint', 'prettier'],
   rules: {
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'no-void': 'off',
+    'react/jsx-filename-extension': [
+      2,
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
     'react/jsx-uses-react': 'off',
+    'react/static-property-placement': 'off',
     'react/react-in-jsx-scope': 'off',
     semi: ['error', 'never'],
   },
@@ -32,7 +50,7 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },

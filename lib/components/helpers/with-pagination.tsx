@@ -1,8 +1,36 @@
-import { Component } from 'react'
+import { Component, ComponentType } from 'react'
 import PropTypes from 'prop-types'
+import { PageChangeFn } from '../PaginatorItem'
+import { UnknownObject } from '../../helpers/functions'
 
-const withPagination = (WrappedComponent) => {
-  class PaginationWrapper extends Component {
+export interface WrappedComponentProps {
+  activePage: number
+  onPageChange: PageChangeFn
+  totalPages: number
+}
+
+interface PaginationWrapperProps {
+  rows: UnknownObject[]
+  perPage: number
+  activePage: number
+  onPageChange: PageChangeFn
+}
+
+interface PaginationWrapperState {
+  totalPages: number
+}
+
+const withPagination = (
+  WrappedComponent: ComponentType<WrappedComponentProps>,
+): ComponentType<PaginationWrapperProps> => {
+  class PaginationWrapper extends Component<
+    PaginationWrapperProps,
+    PaginationWrapperState
+  > {
+    static propTypes
+
+    static defaultProps
+
     constructor(props) {
       super(props)
 
@@ -29,7 +57,7 @@ const withPagination = (WrappedComponent) => {
   }
 
   PaginationWrapper.propTypes = {
-    rows: PropTypes.array.isRequired,
+    rows: PropTypes.arrayOf(PropTypes.object).isRequired,
     perPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     activePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onPageChange: PropTypes.func,
@@ -38,6 +66,7 @@ const withPagination = (WrappedComponent) => {
   PaginationWrapper.defaultProps = {
     perPage: 10,
     activePage: 1,
+    onPageChange: () => null,
   }
 
   return PaginationWrapper

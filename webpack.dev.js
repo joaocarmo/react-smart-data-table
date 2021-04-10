@@ -1,3 +1,4 @@
+/* eslint-disable */
 const path = require('path')
 const babelOptions = require('./babel.config')
 
@@ -18,12 +19,12 @@ module.exports = {
     filename: 'example.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
     rules: [
       {
-        test: /.jsx?$/,
+        test: /.(j|t)sx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
