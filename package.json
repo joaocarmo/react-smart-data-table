@@ -31,7 +31,7 @@
     "lint": "eslint .",
     "postinstall": "husky install",
     "postpublish": "pinst --enable",
-    "prd": "yarn build && yarn build:example",
+    "prd": "yarn build && yarn build:types && yarn build:example",
     "prepublishOnly": "pinst --disable",
     "pretty:fix": "prettier --write .",
     "pretty": "prettier --check .",
