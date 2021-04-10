@@ -17,10 +17,5 @@
       "react-dom"
     ]
   },
-  "include": [
-    "lib/**/*",
-    ".eslintrc.js",
-    "babel.config.js",
-    "webpack.config.js"
-  ]
+  "include": ["lib/**/*"]
 }
