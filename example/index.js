@@ -42,7 +42,7 @@ const generateData = (numResults = 0) => {
         country: faker.address.country(),
       },
       url: faker.internet.url(),
-      isMarried: faker.random.boolean(),
+      isMarried: faker.datatype.boolean(),
       actions: null,
       avatar: imgb64,
       fullName: faker.name.findName(),

@@ -4,6 +4,10 @@
   "description": "A smart data table component for React.js meant to be configuration free",
   "private": false,
   "main": "dist/react-smart-data-table.js",
+  "exports": {
+    ".": "./dist/react-smart-data-table.js"
+  },
+  "types": "./dist/react-smart-data-table.d.ts",
   "directories": {
     "lib": "lib"
   },
@@ -18,6 +22,7 @@
     "build:dev": "NODE_ENV=development webpack",
     "build:example-dev": "NODE_ENV=development webpack --config webpack.dev.js",
     "build:example": "NODE_ENV=production webpack --config webpack.dev.js",
+    "build:types": "tsc -p tsconfig.declaration.json && mv dist/index.d.ts dist/react-smart-data-table.d.ts",
     "build": "NODE_ENV=production webpack",
     "clean": "rm -rf dist/",
     "dev": "yarn build:dev && yarn build:example-dev",
@@ -65,11 +70,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-transform-runtime": "^7.13.9",
     "@babel/preset-env": "^7.13.9",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.13.0",
     "@babel/runtime": "^7.13.9",
+    "@types/classnames": "^2.2.11",
     "@types/flat": "^5.0.1",
     "@types/jest": "^26.0.22",
     "@types/linkifyjs": "^2.1.3",
