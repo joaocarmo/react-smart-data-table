@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.0
+
+> Apr 17, 2021
+
+- Converted the codebase to TypeScript
+- Fixed an issue where columns might get duplicated
+  [Issue \#39](https://github.com/joaocarmo/react-smart-data-table/issues/39)
+
 ## 0.10.1
 
 > Mar 22, 2021
