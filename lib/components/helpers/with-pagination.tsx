@@ -1,7 +1,7 @@
 import { Component, ComponentType } from 'react'
 import PropTypes from 'prop-types'
 import { PageChangeFn } from '../PaginatorItem'
-import { UnknownObject } from '../../helpers/functions'
+import * as utils from '../../helpers/functions'
 
 export interface WrappedComponentProps {
   activePage: number
@@ -10,7 +10,7 @@ export interface WrappedComponentProps {
 }
 
 interface PaginationWrapperProps {
-  rows: UnknownObject[]
+  rows: utils.UnknownObject[]
   perPage: number
   activePage: number
   onPageChange: PageChangeFn

@@ -1,6 +1,6 @@
 import { Component, ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import { GENERIC_ERROR_MESSAGE } from '../helpers/constants'
+import * as constants from '../helpers/constants'
 
 type ErrorInfo = {
   componentStack: string
@@ -56,7 +56,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     return (
       <div>
-        <h2>{GENERIC_ERROR_MESSAGE}</h2>
+        <h2>{constants.GENERIC_ERROR_MESSAGE}</h2>
         <details style={{ whiteSpace: 'pre-wrap' }}>
           <summary>{error && error.toString()}</summary>
           <p>{errorInfo.componentStack}</p>

@@ -1,14 +1,14 @@
 import { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Column, Headers } from '../helpers/functions'
-import { defaultHeader } from '../helpers/constants'
+import * as utils from '../helpers/functions'
+import * as constants from '../helpers/constants'
 import '../css/toggles.css'
 
 type ColumnToggleFn = (key: string) => void
 
 interface TogglesProps {
-  columns: Column[]
-  colProperties: Headers
+  columns: utils.Column[]
+  colProperties: utils.Headers
   handleColumnToggle: ColumnToggleFn
 }
 
@@ -33,7 +33,7 @@ const Toggles = ({
 
   return (
     <nav className="rsdt rsdt-column-toggles">
-      {columns.map(({ key, text } = defaultHeader) => (
+      {columns.map(({ key, text } = constants.defaultHeader) => (
         <span className="rsdt rsdt-column-toggles toggle" key={key}>
           <label htmlFor={key}>
             <input
