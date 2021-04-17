@@ -3,20 +3,7 @@ import flatten from 'flat'
 import escapeStringRegexp from 'escape-string-regexp'
 import { snakeCase } from 'snake-case'
 import fileImgExtensions from './file-extensions'
-import {
-  DEFAULT_DATA_KEY,
-  DEFAULT_NO_WORD,
-  DEFAULT_YES_WORD,
-  ERROR_INVALID_DATA,
-  ERROR_INVALID_RESPONSE,
-  PAGINATION_ELLIPSIS,
-  PAGINATION_FIRST,
-  PAGINATION_LAST,
-  PAGINATION_NEXT,
-  PAGINATION_PREVIOUS,
-  STR_FALSE,
-  STR_ZERO,
-} from './constants'
+import * as constants from './constants'
 
 export type UnknownObject<T = unknown> = Record<string, T>
 
@@ -163,8 +150,8 @@ export function generatePagination(
   const gap = 1 + 2 * margin
   const numPagesShow = 2 + gap
   const pagination = [
-    { active: false, value: 1, text: PAGINATION_FIRST },
-    { active: false, value: previousPage, text: PAGINATION_PREVIOUS },
+    { active: false, value: 1, text: constants.PAGINATION_FIRST },
+    { active: false, value: previousPage, text: constants.PAGINATION_PREVIOUS },
   ]
 
   if (totalPages > numPagesShow) {
@@ -175,7 +162,7 @@ export function generatePagination(
         pagination.push({
           active: false,
           value: undefined,
-          text: PAGINATION_ELLIPSIS,
+          text: constants.PAGINATION_ELLIPSIS,
         })
       }
     }
@@ -197,7 +184,7 @@ export function generatePagination(
         pagination.push({
           active: false,
           value: undefined,
-          text: PAGINATION_ELLIPSIS,
+          text: constants.PAGINATION_ELLIPSIS,
         })
       }
 
@@ -216,8 +203,16 @@ export function generatePagination(
       })
     }
   }
-  pagination.push({ active: false, value: nextPage, text: PAGINATION_NEXT })
-  pagination.push({ active: false, value: totalPages, text: PAGINATION_LAST })
+  pagination.push({
+    active: false,
+    value: nextPage,
+    text: constants.PAGINATION_NEXT,
+  })
+  pagination.push({
+    active: false,
+    value: totalPages,
+    text: constants.PAGINATION_LAST,
+  })
 
   return pagination
 }
@@ -247,7 +242,7 @@ export function getNestedObject(
 export async function fetchData(
   data: string | unknown[],
   {
-    dataKey = DEFAULT_DATA_KEY,
+    dataKey = constants.DEFAULT_DATA_KEY,
     dataKeyResolver,
     options = {},
   }: {
@@ -278,12 +273,12 @@ export async function fetchData(
         return (dataKey ? jsonBody[dataKey] : jsonBody) as UnknownObject[]
       }
 
-      throw new Error(ERROR_INVALID_RESPONSE)
+      throw new Error(constants.ERROR_INVALID_RESPONSE)
     }
 
     throw new Error(`${status} - ${statusText}`)
   } else {
-    throw new Error(ERROR_INVALID_DATA)
+    throw new Error(constants.ERROR_INVALID_DATA)
   }
 }
 
@@ -335,7 +330,9 @@ export function parseDataForColumns(
   const columns: Column[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
+    // Clear empty values from the data
     const filteredData = data.filter((row) => !!row)
+    // Get the first non-empty value from the data
     const firstElement = flatten<UnknownObject, UnknownObject>(
       head<UnknownObject>(filteredData),
     )
@@ -354,11 +351,10 @@ export function parseDataForColumns(
     if (!hideUnordered && isObject(firstElement)) {
       const headKeys = [...Object.keys(firstElement), ...Object.keys(headers)]
 
-      for (let i = 0, N = headKeys.length; i < N; i += 1) {
-        const key = headKeys[i]
-
+      for (const key of headKeys) {
         if (!columnsAdded.includes(key)) {
           columns.push(columnObject(key, headers))
+          columnsAdded.push(key)
         }
       }
     }
@@ -546,8 +542,10 @@ export function getRenderValue({
   parseBool,
 }: RenderOptions = {}): string {
   if (parseBool) {
-    const { noWord = DEFAULT_NO_WORD, yesWord = DEFAULT_YES_WORD } =
-      typeof parseBool === 'object' ? parseBool : {}
+    const {
+      noWord = constants.DEFAULT_NO_WORD,
+      yesWord = constants.DEFAULT_YES_WORD,
+    } = typeof parseBool === 'object' ? parseBool : {}
 
     if (content === true || children === true) {
       return yesWord
@@ -559,11 +557,11 @@ export function getRenderValue({
   }
 
   if (content === 0 || children === 0) {
-    return STR_ZERO
+    return constants.STR_ZERO
   }
 
   if (content === false || children === false) {
-    return STR_FALSE
+    return constants.STR_FALSE
   }
 
   let value = ''

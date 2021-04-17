@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import PaginatorItem, { PageChangeFn } from './PaginatorItem'
-import { generatePagination, isUndefined } from '../helpers/functions'
+import * as utils from '../helpers/functions'
 import '../css/paginator.css'
 
 interface PaginatorProps {
@@ -21,7 +21,7 @@ const Paginator = ({
   onPageChange,
 }: PaginatorProps) => {
   const paginatorItems = useMemo(
-    () => generatePagination(activePage, totalPages),
+    () => utils.generatePagination(activePage, totalPages),
     [activePage, totalPages],
   )
   const onPageChangeFn = useMemo(
@@ -33,7 +33,7 @@ const Paginator = ({
     <div className="rsdt rsdt-paginate">
       {paginatorItems.map(({ active, value, text }, idx) => (
         <PaginatorItem
-          key={isUndefined(value) ? `ellipsis-${idx}` : text}
+          key={utils.isUndefined(value) ? `ellipsis-${idx}` : text}
           active={active}
           value={value}
           text={text}

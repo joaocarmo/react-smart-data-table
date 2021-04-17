@@ -2,16 +2,8 @@ import { FC, memo, useCallback, useMemo, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { find as linkifyFind } from 'linkifyjs'
 import HighlightValue from './HighlightValue'
-import {
-  getRenderValue,
-  head,
-  isDataURL,
-  isEmpty,
-  isImage,
-  ParseBool,
-  ParseImg,
-} from '../helpers/functions'
-import { DEFAULT_IMG_ALT } from '../helpers/constants'
+import * as utils from '../helpers/functions'
+import * as constants from '../helpers/constants'
 
 interface CellValueProps {
   children: ReactNode
@@ -19,8 +11,8 @@ interface CellValueProps {
   filterable: boolean
   filterValue: string
   isImg: boolean
-  parseBool: boolean | ParseBool
-  parseImg: boolean | ParseImg
+  parseBool: boolean | utils.ParseBool
+  parseImg: boolean | utils.ParseImg
   withLinks: boolean
 }
 
@@ -35,7 +27,7 @@ const CellValue = ({
   withLinks,
 }: CellValueProps) => {
   const value = useMemo(
-    () => getRenderValue({ children, content, parseBool }),
+    () => utils.getRenderValue({ children, content, parseBool }),
     [children, content, parseBool],
   )
 
@@ -49,7 +41,7 @@ const CellValue = ({
 
   const renderImage = useCallback(
     ({ bypass = false }: { bypass?: boolean } = {}) => {
-      const shouldBeAnImg = isImg || bypass || isImage(value)
+      const shouldBeAnImg = isImg || bypass || utils.isImage(value)
 
       if (shouldBeAnImg) {
         const { style, className } =
@@ -62,7 +54,7 @@ const CellValue = ({
             src={value}
             style={style}
             className={className}
-            alt={DEFAULT_IMG_ALT}
+            alt={constants.DEFAULT_IMG_ALT}
           />
         )
       }
@@ -76,15 +68,15 @@ const CellValue = ({
     const grabLinks = linkifyFind(value)
     const highlightedValue = highlightValue()
 
-    if (isEmpty(grabLinks)) {
-      if (isDataURL(value)) {
+    if (utils.isEmpty(grabLinks)) {
+      if (utils.isDataURL(value)) {
         return renderImage({ bypass: true })
       }
 
       return highlightedValue
     }
 
-    const firstLink = head(grabLinks)
+    const firstLink = utils.head(grabLinks)
     let image = null
 
     if (parseImg && firstLink.type === 'url') {

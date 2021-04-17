@@ -34,6 +34,7 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'no-restricted-syntax': 'off',
     'no-void': 'off',
     'react/jsx-filename-extension': [
       2,

@@ -1,7 +1,7 @@
 import { memo, MouseEvent, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'clsx'
-import { isUndefined } from '../helpers/functions'
+import * as utils from '../helpers/functions'
 import '../css/paginator.css'
 
 export type PageChangeFn = (
@@ -40,7 +40,7 @@ const PaginatorItem = ({
       className={cx('rsdt', 'rsdt-paginate', { active }, 'button')}
       type="button"
       onClick={handleOnPageChange}
-      disabled={isUndefined(value)}
+      disabled={utils.isUndefined(value)}
     >
       {text}
     </button>

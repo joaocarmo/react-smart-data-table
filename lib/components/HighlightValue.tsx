@@ -1,6 +1,6 @@
 import { FC, memo, useMemo, ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import { highlightValueParts } from '../helpers/functions'
+import * as utils from '../helpers/functions'
 
 interface HighlightValueProps {
   children: ReactNode
@@ -17,7 +17,7 @@ const HighlightValue = ({
   filterValue,
 }: HighlightValueProps): ReactNode => {
   const { first, highlight, last } = useMemo(
-    () => highlightValueParts(children as string, filterValue),
+    () => utils.highlightValueParts(children as string, filterValue),
     [children, filterValue],
   )
 
