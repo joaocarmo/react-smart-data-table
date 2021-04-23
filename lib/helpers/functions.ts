@@ -320,22 +320,40 @@ export function columnObject(key: string, headers: Headers = {}): Column {
   }
 }
 
+export function getSampleElement(
+  data: UnknownObject[] = [],
+  dataSampling = 0,
+): UnknownObject {
+  if (!dataSampling) {
+    return flatten<UnknownObject, UnknownObject>(head<UnknownObject>(data))
+  }
+
+  if (dataSampling < 0 || dataSampling > 100) {
+    throw new Error(constants.ERROR_INVALID_SAMPLING_RANGE)
+  }
+
+  const sampleElement = data
+    .slice<UnknownObject[]>(0, Math.ceil((dataSampling / 100) * data.length))
+    .reduce<UnknownObject[]>((merged, row) => ({ ...merged, ...row }), {})
+
+  return flatten<UnknownObject, UnknownObject>(sampleElement)
+}
+
 export function parseDataForColumns(
   data: UnknownObject[] = [],
   headers: Headers = {},
   orderedHeaders: string[] = [],
   hideUnordered = false,
+  dataSampling = 0,
 ): Column[] {
   const columnsAdded: string[] = []
   const columns: Column[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
-    // Clear empty values from the data
+    // Clear falsy values from the data
     const filteredData = data.filter((row) => !!row)
-    // Get the first non-empty value from the data
-    const firstElement = flatten<UnknownObject, UnknownObject>(
-      head<UnknownObject>(filteredData),
-    )
+    // Get a non-empty sample value from the data
+    const sampleElement = getSampleElement(filteredData, dataSampling)
 
     // First, attach the ordered headers
     if (!isEmpty(orderedHeaders)) {
@@ -348,8 +366,8 @@ export function parseDataForColumns(
     }
 
     // Then, add all the remaining headers
-    if (!hideUnordered && isObject(firstElement)) {
-      const headKeys = [...Object.keys(firstElement), ...Object.keys(headers)]
+    if (!hideUnordered && isObject(sampleElement)) {
+      const headKeys = [...Object.keys(sampleElement), ...Object.keys(headers)]
 
       for (const key of headKeys) {
         if (!columnsAdded.includes(key)) {
