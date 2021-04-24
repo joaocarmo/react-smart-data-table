@@ -29,12 +29,15 @@ const sematicUI = {
 
 const generateData = (numResults = 0) => {
   let total = numResults || 0
+
   if (typeof numResults === 'string') {
     total = parseInt(numResults, 10)
   }
+
   const data = []
+
   for (let i = 0; i < total; i += 1) {
-    data.push({
+    const row = {
       _id: i,
       address: {
         city: faker.address.city(),
@@ -50,8 +53,20 @@ const generateData = (numResults = 0) => {
       password_: faker.internet.password(),
       'email.address': faker.internet.email(),
       phone_number: faker.phone.phoneNumber(),
-    })
+    }
+
+    // Add random entries after the first
+    if (i > 0 && faker.datatype.boolean()) {
+      const column = faker.database.column()
+
+      if (!row[column]) {
+        row[column] = faker.datatype.number()
+      }
+    }
+
+    data.push(row)
   }
+
   return data
 }
 
@@ -78,6 +93,7 @@ class AppDemo extends React.Component {
       dataKey: 'results',
       numResults: 10,
       data: [],
+      dataSampling: 0,
       filterValue: '',
       perPage: 0,
       showOnRowClick: true,
@@ -254,6 +270,7 @@ class AppDemo extends React.Component {
       changeOrder,
       data,
       dataKey,
+      dataSampling,
       filterValue,
       hideUnordered,
       numResults,
@@ -264,6 +281,7 @@ class AppDemo extends React.Component {
     } = this.state
     const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
     const headers = this.getHeaders()
+
     return (
       <>
         <div className={sematicUI.segment}>
@@ -355,6 +373,23 @@ class AppDemo extends React.Component {
                 Change header order
               </label>
             </div>
+          )}
+          {divider}
+          {!useApi && (
+            <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <input
+                type='range'
+                id='dataSampling'
+                name='dataSampling'
+                min={0}
+                max={100}
+                onChange={this.handleOnChange}
+                value={dataSampling}
+              />
+              <label htmlFor='dataSampling'>
+                Data sampling ({dataSampling}%)
+              </label>
+            </span>
           )}
         </div>
         {useApi && (
@@ -453,6 +488,7 @@ class AppDemo extends React.Component {
           <SmartDataTable
             name='test-fake-table'
             data={data}
+            dataSampling={dataSampling}
             headers={headers}
             orderedHeaders={orderedHeaders}
             hideUnordered={hideUnordered}
