@@ -55,7 +55,7 @@ const generateData = (numResults = 0) => {
       phone_number: faker.phone.phoneNumber(),
     }
 
-    // Add random entries after the first
+    // Add random attributes to random rows (after the first)
     if (i > 0 && faker.datatype.boolean()) {
       const column = faker.database.column()
 

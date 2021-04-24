@@ -333,8 +333,8 @@ export function getSampleElement(
   }
 
   const sampleElement = data
-    .slice<UnknownObject[]>(0, Math.ceil((dataSampling / 100) * data.length))
-    .reduce<UnknownObject[]>((merged, row) => ({ ...merged, ...row }), {})
+    .slice(0, Math.ceil((dataSampling / 100) * data.length))
+    .reduce<UnknownObject>((merged, row) => ({ ...merged, ...row }), {})
 
   return flatten<UnknownObject, UnknownObject>(sampleElement)
 }
