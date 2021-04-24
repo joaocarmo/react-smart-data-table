@@ -10,4 +10,5 @@ module.exports = {
   snapshotSerializers: ['enzyme-to-json/serializer'],
   testEnvironment: 'enzyme',
   testRegex: '(/__tests__/.*)\\.[jt]sx?$',
+  transformIgnorePatterns: ['node_modules/(?!escape-string-regexp)'],
 }
