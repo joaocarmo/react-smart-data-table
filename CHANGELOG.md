@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.0
+
+> Apr 24, 2021
+
+- Added a `dataSampling` prop which tells the sampling algorithm how much of the
+  data to sample in order to compute the headers, useful for data which is not
+  uniform
+
 ## 0.11.0
 
 > Apr 17, 2021
