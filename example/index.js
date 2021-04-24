@@ -29,12 +29,15 @@ const sematicUI = {
 
 const generateData = (numResults = 0) => {
   let total = numResults || 0
+
   if (typeof numResults === 'string') {
     total = parseInt(numResults, 10)
   }
+
   const data = []
+
   for (let i = 0; i < total; i += 1) {
-    data.push({
+    const row = {
       _id: i,
       address: {
         city: faker.address.city(),
@@ -50,8 +53,20 @@ const generateData = (numResults = 0) => {
       password_: faker.internet.password(),
       'email.address': faker.internet.email(),
       phone_number: faker.phone.phoneNumber(),
-    })
+    }
+
+    // Add random attributes to random rows (after the first)
+    if (i > 0 && faker.datatype.boolean()) {
+      const column = faker.database.column()
+
+      if (!row[column]) {
+        row[column] = faker.datatype.number()
+      }
+    }
+
+    data.push(row)
   }
+
   return data
 }
 
@@ -61,11 +76,7 @@ const emptyTable = (
   </div>
 )
 
-const loader = (
-  <div className={sematicUI.loader}>
-    Loading...
-  </div>
-)
+const loader = <div className={sematicUI.loader}>Loading...</div>
 
 class AppDemo extends React.Component {
   constructor(props) {
@@ -78,6 +89,7 @@ class AppDemo extends React.Component {
       dataKey: 'results',
       numResults: 10,
       data: [],
+      dataSampling: 0,
       filterValue: '',
       perPage: 0,
       showOnRowClick: true,
@@ -181,9 +193,9 @@ class AppDemo extends React.Component {
             style={{ cursor: 'pointer' }}
             onClick={(e) => this.handleDelete(e, idx, row)}
             onKeyDown={(e) => this.handleDelete(e, idx, row)}
-            role='button'
-            tabIndex='0'
-            aria-label='delete row'
+            role="button"
+            tabIndex="0"
+            aria-label="delete row"
           />
         ),
       },
@@ -254,6 +266,7 @@ class AppDemo extends React.Component {
       changeOrder,
       data,
       dataKey,
+      dataSampling,
       filterValue,
       hideUnordered,
       numResults,
@@ -264,53 +277,52 @@ class AppDemo extends React.Component {
     } = this.state
     const divider = <span style={{ display: 'inline-block', margin: '10px' }} />
     const headers = this.getHeaders()
+
     return (
       <>
         <div className={sematicUI.segment}>
           <div className={sematicUI.iconInput}>
             <input
-              type='text'
-              name='filterValue'
+              type="text"
+              name="filterValue"
               value={filterValue}
-              placeholder='Filter results...'
+              placeholder="Filter results..."
               onChange={this.handleOnChange}
             />
             <i className={sematicUI.searchIcon} />
           </div>
           {divider}
           <select
-            name='perPage'
+            name="perPage"
             value={perPage}
             className={sematicUI.select}
             onChange={this.handleOnPerPage}
           >
-            <option value='0'>
-              Per Page
-            </option>
-            <option value='10'>
-              10
-            </option>
-            <option value='25'>
-              25
-            </option>
-            <option value='50'>
-              50
-            </option>
-            <option value='100'>
-              100
-            </option>
+            <option value="0">Per Page</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
           </select>
           {divider}
           {!useApi && (
             <>
-              <button type='button' className={sematicUI.refresh} onClick={this.setNewData}>
+              <button
+                type="button"
+                className={sematicUI.refresh}
+                onClick={this.setNewData}
+              >
                 <i className={sematicUI.refreshIcon} />
                 Refresh Faker
               </button>
               {divider}
             </>
           )}
-          <button type='button' className={sematicUI.change} onClick={this.changeData}>
+          <button
+            type="button"
+            className={sematicUI.change}
+            onClick={this.changeData}
+          >
             <i className={sematicUI.changeIcon} />
             {useApi ? 'Use Faker' : 'Use Async API'}
           </button>
@@ -319,10 +331,10 @@ class AppDemo extends React.Component {
               {divider}
               <div className={sematicUI.iconInput}>
                 <input
-                  type='text'
-                  name='numResults'
+                  type="text"
+                  name="numResults"
                   value={numResults}
-                  placeholder='# Rows'
+                  placeholder="# Rows"
                   onChange={this.handleOnChange}
                   style={{ width: '80px' }}
                 />
@@ -333,54 +345,67 @@ class AppDemo extends React.Component {
           {divider}
           <div className={sematicUI.checkbox}>
             <input
-              type='checkbox'
-              name='showOnRowClick'
+              type="checkbox"
+              name="showOnRowClick"
               onChange={this.handleCheckboxChange}
               checked={showOnRowClick}
             />
-            <label>
-              Show alert on row click
-            </label>
+            <label>Show alert on row click</label>
           </div>
           {divider}
           {!useApi && (
             <div className={sematicUI.checkbox}>
               <input
-                type='checkbox'
-                name='changeOrder'
+                type="checkbox"
+                name="changeOrder"
                 onChange={this.handleCheckboxChange}
                 checked={changeOrder}
               />
-              <label>
-                Change header order
-              </label>
+              <label>Change header order</label>
             </div>
+          )}
+          {divider}
+          {!useApi && (
+            <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <input
+                type="range"
+                id="dataSampling"
+                name="dataSampling"
+                min={0}
+                max={100}
+                onChange={this.handleOnChange}
+                value={dataSampling}
+              />
+              <label htmlFor="dataSampling">
+                Data sampling ({dataSampling}%)
+              </label>
+            </span>
           )}
         </div>
         {useApi && (
           <div className={sematicUI.segment}>
             <div className={sematicUI.input} style={{ width: '50%' }}>
               <input
-                type='text'
-                name='apiUrlNew'
+                type="text"
+                name="apiUrlNew"
                 value={apiUrlNew}
-                placeholder='https://my-api-location/users'
+                placeholder="https://my-api-location/users"
                 onChange={this.handleOnChange}
               />
             </div>
             {divider}
             <div className={sematicUI.input} style={{ width: '10%' }}>
               <input
-                type='text'
-                name='dataKey'
+                type="text"
+                name="dataKey"
                 value={dataKey}
-                placeholder='data key'
+                placeholder="data key"
                 onChange={this.handleOnChange}
               />
             </div>
             {divider}
             <button
-              type='button'
+              type="button"
               className={sematicUI.refresh}
               onClick={this.handleNewApiUrl}
             >
@@ -393,27 +418,28 @@ class AppDemo extends React.Component {
           <div className={sematicUI.segment}>
             {orderedHeaders.map((header, idx) => (
               <div key={header} style={{ marginBottom: '4px' }}>
-                <div className={sematicUI.labeledInput} style={{ marginRight: '8px' }}>
+                <div
+                  className={sematicUI.labeledInput}
+                  style={{ marginRight: '8px' }}
+                >
                   <input
-                    type='text'
+                    type="text"
                     name={header}
                     value={idx}
-                    placeholder='Index'
+                    placeholder="Index"
                     style={{ width: '80px' }}
                     disabled
                   />
-                  <div className='ui label'>
-                    {header}
-                  </div>
+                  <div className="ui label">{header}</div>
                 </div>
                 <button
-                  type='button'
+                  type="button"
                   onClick={() => this.handleOnChangeOrder(idx, idx - 1)}
                 >
                   before
                 </button>
                 <button
-                  type='button'
+                  type="button"
                   onClick={() => this.handleOnChangeOrder(idx, idx + 1)}
                 >
                   after
@@ -431,7 +457,7 @@ class AppDemo extends React.Component {
         </div>
         {useApi && (
           <SmartDataTable
-            name='test-async-table'
+            name="test-async-table"
             data={apiUrl}
             dataKey={dataKey}
             onRowClick={this.onRowClick}
@@ -451,8 +477,9 @@ class AppDemo extends React.Component {
         )}
         {!useApi && (
           <SmartDataTable
-            name='test-fake-table'
+            name="test-fake-table"
             data={data}
+            dataSampling={dataSampling}
             headers={headers}
             orderedHeaders={orderedHeaders}
             hideUnordered={hideUnordered}
@@ -482,9 +509,7 @@ class AppDemo extends React.Component {
         )}
         <footer className="ui center aligned basic segment container">
           <p>
-            <strong>
-              React Smart Data Table
-            </strong>
+            <strong>React Smart Data Table</strong>
             {' by '}
             <a href="//joaocarmo.com" target="_blank">
               João Carmo
@@ -496,8 +521,4 @@ class AppDemo extends React.Component {
   }
 }
 
-
-ReactDOM.render(
-  <AppDemo />,
-  document.getElementById('app'),
-)
+ReactDOM.render(<AppDemo />, document.getElementById('app'))

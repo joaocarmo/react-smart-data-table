@@ -19,6 +19,7 @@ interface SmartDataTableProps {
   dataKey: string
   dataKeyResolver: utils.KeyResolverFN
   dataRequestOptions: RequestInit
+  dataSampling: number
   dynamic: boolean
   emptyTable: ReactNode
   filterValue: string
@@ -177,9 +178,10 @@ class SmartDataTable extends Component<
     const { asyncData, columns } = this.state
     const {
       data: propsData,
+      dataSampling,
       headers,
-      orderedHeaders,
       hideUnordered,
+      orderedHeaders,
     } = this.props
 
     if (!force && !utils.isEmpty(columns)) {
@@ -197,6 +199,7 @@ class SmartDataTable extends Component<
       headers,
       orderedHeaders,
       hideUnordered,
+      dataSampling,
     )
   }
 
@@ -447,6 +450,7 @@ SmartDataTable.propTypes = {
   dataKey: PropTypes.string,
   dataKeyResolver: PropTypes.func,
   dataRequestOptions: PropTypes.objectOf(PropTypes.any),
+  dataSampling: PropTypes.number,
   dynamic: PropTypes.bool,
   emptyTable: PropTypes.node,
   filterValue: PropTypes.string,
@@ -487,6 +491,7 @@ SmartDataTable.defaultProps = {
   dataKey: constants.DEFAULT_DATA_KEY,
   dataKeyResolver: null,
   dataRequestOptions: {},
+  dataSampling: 0,
   dynamic: false,
   emptyTable: null,
   filterValue: '',
