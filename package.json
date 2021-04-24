@@ -58,7 +58,7 @@
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
     "clsx": "^1.1.1",
-    "escape-string-regexp": "^4.0.0",
+    "escape-string-regexp": "^5.0.0",
     "flat": "^5.0.2",
     "linkifyjs": "^2.1.8",
     "prop-types": "^15.7.2",
