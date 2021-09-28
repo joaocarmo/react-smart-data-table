@@ -8,13 +8,14 @@
       "~*": ["./*"]
     },
     "types": [
+      "enzyme",
       "flat",
-      "linkifyjs",
       "jest",
+      "linkifyjs",
       "node",
       "prop-types",
-      "react",
-      "react-dom"
+      "react-dom",
+      "react"
     ]
   },
   "include": ["lib/**/*"]

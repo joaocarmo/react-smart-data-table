@@ -6,9 +6,9 @@ module.exports = {
     '\\.(css|less)$': 'identity-obj-proxy',
   },
   resetMocks: false,
-  setupFilesAfterEnv: ['jest-enzyme', '<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   snapshotSerializers: ['enzyme-to-json/serializer'],
-  testEnvironment: 'enzyme',
+  testEnvironment: 'jsdom',
   testRegex: '(/__tests__/.*)\\.[jt]sx?$',
   transformIgnorePatterns: ['node_modules/(?!escape-string-regexp)'],
 }

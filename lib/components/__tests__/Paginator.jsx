@@ -1,9 +1,14 @@
-import { mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import Paginator from '../Paginator'
 
-test("'Paginator' component (snapshot)", () => {
-  const wrap = mount(
-    <Paginator activePage={3} totalPages={10} onPageChange={() => null} />,
-  )
-  expect(wrap).toMatchSnapshot()
+describe('Paginator', () => {
+  it('renders correctly (snapshot)', () => {
+    const onPageChange = jest.fn()
+
+    const wrapper = shallow(
+      <Paginator activePage={3} totalPages={10} onPageChange={onPageChange} />,
+    )
+
+    expect(wrapper).toMatchSnapshot()
+  })
 })
