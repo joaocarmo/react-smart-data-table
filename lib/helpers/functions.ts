@@ -467,7 +467,8 @@ export function sortData(
 
 export function isDataURL(url: unknown): boolean {
   // Checks if the data is a valid base64 enconded string
-  const regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
+  const regex =
+    /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
 
   if (typeof url === 'string') {
     const [initData, restData] = url.split(':')

@@ -3,7 +3,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        corejs: '3.9',
+        corejs: '3.18',
         modules: 'umd',
         useBuiltIns: 'usage',
       },
@@ -16,8 +16,5 @@ module.exports = {
     ],
     '@babel/preset-typescript',
   ],
-  plugins: [
-    '@babel/plugin-transform-runtime',
-    '@babel/plugin-proposal-class-properties',
-  ],
+  plugins: ['@babel/plugin-transform-runtime'],
 }
