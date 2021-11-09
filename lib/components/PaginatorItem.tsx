@@ -41,6 +41,7 @@ const PaginatorItem = ({
       type="button"
       onClick={handleOnPageChange}
       disabled={utils.isUndefined(value)}
+      data-testid="paginator-item"
     >
       {text}
     </button>

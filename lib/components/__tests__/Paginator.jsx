@@ -1,4 +1,5 @@
-import { shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Paginator from '../Paginator'
 import PaginatorItem from '../PaginatorItem'
 
@@ -44,24 +45,10 @@ const testCases = [
 ]
 
 describe('Paginator', () => {
-  it('renders correctly (snapshot)', () => {
-    const [activePage, totalPages] = testCases[0]
-
-    const wrapper = shallow(
-      <Paginator
-        activePage={activePage}
-        totalPages={totalPages}
-        onPageChange={mockPageChange}
-      />,
-    )
-
-    expect(wrapper).toMatchSnapshot()
-  })
-
   it.each(testCases)(
     'renders correctly the inner elements for active %s and %s pages',
     (activePage, totalPages, renderedItems) => {
-      const wrapper = shallow(
+      render(
         <Paginator
           activePage={activePage}
           totalPages={totalPages}
@@ -69,14 +56,14 @@ describe('Paginator', () => {
         />,
       )
 
-      expect(wrapper.find(PaginatorItem).length).toBe(renderedItems)
+      expect(screen.getAllByTestId('paginator-item').length).toBe(renderedItems)
     },
   )
 
   it('activePage has active prop', () => {
     const [activePage, totalPages, , activeItem] = testCases[0]
 
-    const wrapper = shallow(
+    render(
       <Paginator
         activePage={activePage}
         totalPages={totalPages}
@@ -84,13 +71,15 @@ describe('Paginator', () => {
       />,
     )
 
-    expect(wrapper.find(PaginatorItem).at(activeItem).prop('active')).toBe(true)
+    expect(screen.getAllByTestId('paginator-item')[activeItem]).toHaveClass(
+      'active',
+    )
   })
 
   it('calls onPageChange when clicking PaginatorItem', () => {
     const [activePage, totalPages, , activeItem] = testCases[0]
 
-    const wrapper = shallow(
+    render(
       <Paginator
         activePage={activePage}
         totalPages={totalPages}
@@ -98,8 +87,8 @@ describe('Paginator', () => {
       />,
     )
 
-    wrapper.find(PaginatorItem).at(activeItem).simulate('click')
+    userEvent.click(screen.getAllByTestId('paginator-item')[activeItem])
 
-    // expect(mockPageChange).toHaveBeenCalled()
+    expect(mockPageChange).toHaveBeenCalled()
   })
 })

@@ -8,7 +8,6 @@
       "~*": ["./*"]
     },
     "types": [
-      "enzyme",
       "flat",
       "jest",
       "linkifyjs",

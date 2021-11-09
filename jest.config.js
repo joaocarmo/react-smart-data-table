@@ -7,7 +7,6 @@ module.exports = {
   },
   resetMocks: false,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  snapshotSerializers: ['enzyme-to-json/serializer'],
   testEnvironment: 'jsdom',
   testRegex: '(/__tests__/.*)\\.[jt]sx?$',
   transformIgnorePatterns: ['node_modules/(?!escape-string-regexp)'],
