@@ -31,7 +31,7 @@ const withPagination = (
 
     static defaultProps
 
-    constructor(props) {
+    constructor(props: PaginationWrapperProps) {
       super(props)
 
       this.state = { totalPages: 0 }
