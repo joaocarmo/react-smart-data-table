@@ -18,7 +18,7 @@ const Toggles = ({
   handleColumnToggle: onColumnToggle,
 }: TogglesProps): JSX.Element => {
   const handleToggleClick = useCallback(
-    ({ target: { value } }) => onColumnToggle(value),
+    ({ target: { value } }) => onColumnToggle(String(value)),
     [onColumnToggle],
   )
 

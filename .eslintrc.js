@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2020: true,
@@ -6,23 +7,23 @@ module.exports = {
     'jest/globals': true,
   },
   extends: [
-    'plugin:react/recommended',
     'airbnb',
-    'plugin:@typescript-eslint/recommended',
+    'airbnb-typescript',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
     'prettier',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: 'module',
     project: './tsconfig.eslint.json',
   },
-  plugins: ['react', 'jest', 'jsx-a11y', '@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'react', 'jest', 'jsx-a11y', 'prettier'],
   rules: {
     'import/extensions': [
       'error',

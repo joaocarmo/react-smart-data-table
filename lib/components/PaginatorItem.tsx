@@ -29,7 +29,7 @@ const PaginatorItem = ({
   onPageChange,
 }: PaginatorItemProps) => {
   const handleOnPageChange = useCallback(
-    (event) => {
+    (event: MouseEvent<HTMLElement>) => {
       onPageChange(event, { activePage: value })
     },
     [onPageChange, value],

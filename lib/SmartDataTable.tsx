@@ -249,7 +249,7 @@ class SmartDataTable extends Component<
           isLoading: false,
         })
 
-        throw new Error(err)
+        throw new Error(String(err))
       }
     }
   }
@@ -350,13 +350,15 @@ class SmartDataTable extends Component<
     const { perPage } = this.props
     const { activePage } = this.state
     const visibleRows = utils.sliceRowsPerPage(rows, activePage, perPage)
-    const tableRows = visibleRows.map((row, i) => (
+    const tableRows = visibleRows.map((row, idx) => (
       <Table.Row
         // eslint-disable-next-line react/no-array-index-key
-        key={`row-${i}`}
-        onClick={(e) => this.handleRowClick(e, row, i, rows)}
+        key={`row-${idx}`}
+        onClick={(event: MouseEvent<HTMLElement>) =>
+          this.handleRowClick(event, row, idx, rows)
+        }
       >
-        {this.renderRow(columns, row, i)}
+        {this.renderRow(columns, row, idx)}
       </Table.Row>
     ))
 

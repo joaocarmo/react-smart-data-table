@@ -4,7 +4,7 @@ const babelOptions = require('./babel.config')
 
 const exampleDir = path.join(__dirname, 'example')
 const distDir = path.join(__dirname, 'dist')
-const devDir = 'dev'
+const devDir = path.join(__dirname, 'dev')
 
 const { NODE_ENV } = process.env
 
@@ -39,12 +39,11 @@ module.exports = {
   },
   devServer: {
     compress: true,
-    contentBase: [devDir],
-    overlay: true,
     hot: true,
-    injectHot: true,
-    injectClient: true,
     port: 3000,
-    index: 'index.html',
+    static: {
+      directory: devDir,
+      serveIndex: true,
+    },
   },
 }
