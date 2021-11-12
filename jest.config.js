@@ -1,3 +1,4 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   collectCoverage: true,
   moduleNameMapper: {
@@ -5,6 +6,7 @@ module.exports = {
       '<rootDir>/lib/__mocks__/fileMock.js',
     '\\.(css|less)$': 'identity-obj-proxy',
   },
+  // preset: 'ts-jest',
   resetMocks: false,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
