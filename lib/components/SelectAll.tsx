@@ -7,7 +7,7 @@ export type ColumnToggleAllFn = (isChecked: boolean) => void
 export interface SelectAllProps {
   locale?: {
     selectAll?: string
-    unselectAll?: string
+    unSelectAll?: string
   }
   handleToggleAll?: ColumnToggleAllFn
 }

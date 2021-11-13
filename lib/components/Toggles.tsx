@@ -42,7 +42,7 @@ const Toggles = ({
         <SelectAll
           locale={selectAll?.locale}
           handleToggleAll={
-            typeof handleToggleAll === 'function'
+            typeof selectAll?.handleToggleAll === 'function'
               ? selectAll?.handleToggleAll
               : handleColumnToggleAll
           }
