@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import PropTypes from 'prop-types'
+import SelectAll, { ColumnToggleAllFn, SelectAllProps } from './SelectAll'
 import * as utils from '../helpers/functions'
 import * as constants from '../helpers/constants'
 import '../css/toggles.css'
@@ -10,16 +11,20 @@ interface TogglesProps {
   columns: utils.Column[]
   colProperties: utils.Headers
   handleColumnToggle: ColumnToggleFn
+  handleColumnToggleAll: ColumnToggleAllFn
+  selectAll?: SelectAllProps
 }
 
 const Toggles = ({
   columns,
   colProperties,
-  handleColumnToggle: onColumnToggle,
+  handleColumnToggle,
+  handleColumnToggleAll,
+  selectAll,
 }: TogglesProps): JSX.Element => {
   const handleToggleClick = useCallback(
-    ({ target: { value } }) => onColumnToggle(String(value)),
-    [onColumnToggle],
+    ({ target: { value } }) => handleColumnToggle(String(value)),
+    [handleColumnToggle],
   )
 
   const isColumnVisible = useCallback(
@@ -33,6 +38,16 @@ const Toggles = ({
 
   return (
     <nav className="rsdt rsdt-column-toggles">
+      {selectAll && (
+        <SelectAll
+          locale={selectAll?.locale}
+          handleToggleAll={
+            typeof handleToggleAll === 'function'
+              ? selectAll?.handleToggleAll
+              : handleColumnToggleAll
+          }
+        />
+      )}
       {columns.map(({ key, text } = constants.defaultHeader) => (
         <span className="rsdt rsdt-column-toggles toggle" key={key}>
           <label htmlFor={key}>
@@ -52,7 +67,6 @@ const Toggles = ({
   )
 }
 
-/* Defines the type of data expected in each passed prop */
 Toggles.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   colProperties: PropTypes.objectOf(
@@ -65,6 +79,21 @@ Toggles.propTypes = {
     }),
   ).isRequired,
   handleColumnToggle: PropTypes.func.isRequired,
+  handleColumnToggleAll: PropTypes.func.isRequired,
+  selectAll: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      locale: PropTypes.shape({
+        selectAll: PropTypes.string,
+        unSelectAll: PropTypes.string,
+      }),
+      handleToggleAll: PropTypes.func,
+    }),
+  ]),
+}
+
+Toggles.defaultProps = {
+  selectAll: true,
 }
 
 export default Toggles

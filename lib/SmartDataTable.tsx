@@ -140,6 +140,26 @@ class SmartDataTable extends Component<
     this.setState({ colProperties: newColProperties })
   }
 
+  handleColumnToggleAll =
+    (columns: utils.Column[]) =>
+    (isChecked: boolean): void => {
+      const { colProperties } = this.state
+      const newColProperties = { ...colProperties }
+
+      for (const { key } of columns) {
+        if (!newColProperties[key]) {
+          newColProperties[key] = {
+            ...constants.defaultHeader,
+            key,
+          }
+        }
+
+        newColProperties[key].invisible = isChecked
+      }
+
+      this.setState({ colProperties: newColProperties })
+    }
+
   handleOnPageChange = (
     event: MouseEvent<HTMLElement>,
     { activePage }: { activePage: number },
@@ -376,6 +396,7 @@ class SmartDataTable extends Component<
             columns={columns}
             colProperties={colProperties}
             handleColumnToggle={this.handleColumnToggle}
+            handleColumnToggleAll={this.handleColumnToggleAll(columns)}
           />
         </ErrorBoundary>
       )
