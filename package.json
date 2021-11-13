@@ -25,7 +25,6 @@
     "build": "NODE_ENV=production webpack",
     "clean": "rm -rf dist/",
     "dev": "yarn build:dev && yarn build:example-dev",
-    "lint-staged": "scripts/lint.sh",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
     "postinstall": "husky install",
@@ -37,6 +36,12 @@
     "start": "NODE_ENV=development webpack serve --config webpack.dev.js",
     "test": "jest",
     "type-check": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "repository": {
     "type": "git",
@@ -106,6 +111,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.3",
     "jest-fetch-mock": "^3.0.3",
+    "lint-staged": "^11.2.6",
     "mini-css-extract-plugin": "^2.3.0",
     "pinst": "^2.1.6",
     "prettier": "^2.4.1",
