@@ -317,10 +317,10 @@ import ReactDOM from 'react-dom'
 import faker from 'faker'
 import SmartDataTable from 'react-smart-data-table'
 
-var testData = []
-var numResults = 100
+const testData = []
+const numResults = 100
 
-for (var i = 0; i < numResults; i++) {
+for (let i = 0; i < numResults; i++) {
   testData.push({
     _id: i,
     fullName: faker.name.findName(),
