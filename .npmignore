@@ -46,4 +46,3 @@ npm-reinstall
 dev/
 dist/example.*
 example/
-scripts/
