@@ -90,7 +90,7 @@ import 'react-smart-data-table/dist/react-smart-data-table.css'
 | withFooter         | false                 | {boolean}             | Copy the header to the footer                                     |
 | withHeader         | true                  | {boolean}             | Can be used to disable the rendering of column headers            |
 | withLinks          | false                 | {boolean}             | Converts e-mails and url addresses to links                       |
-| withToggles        | false                 | {boolean}             | Enables the column visibility toggles                             |
+| withToggles        | false                 | {boolean&#124;object} | Enables the column visibility toggles                             |
 
 ### emptyTable
 
@@ -223,6 +223,38 @@ const orderedHeaders = [
   'key2.subkey3',
   ...
 ]
+```
+
+### withToggles
+
+You can control the _Toggles_ by passing an object with the following structure:
+
+```ts
+// Default toggles enabled
+const withToggles = true
+
+// Default toggles enabled with default select all
+const withToggles = {
+  selectAll: true,
+}
+
+// Toggles with a custom locale
+const withToggles = {
+  // The options to be passed as props to the `SelectAll` component
+  selectAll: {
+    // The text to be displayed in the Select All input
+    locale: {
+      // The default label for the `unchecked` state
+      selectAllWord: 'Select All',
+      // The default label for the `checked` state
+      unSelectAllWord: 'Unselect All',
+    },
+    // You should not need to use this, but it is here for completeness
+    handleToggleAll: (isChecked: boolean): void => {
+      // ...
+    },
+  },
+}
 ```
 
 ## Examples
