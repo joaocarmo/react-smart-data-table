@@ -1,10 +1,12 @@
 /* eslint-disable */
 const path = require('path')
 const babelOptions = require('./babel.config')
+const pkg = require('./package.json')
 
-const exampleDir = path.join(__dirname, 'example')
-const distDir = path.join(__dirname, 'dist')
 const devDir = path.join(__dirname, 'dev')
+const distDir = path.join(__dirname, 'dist')
+const exampleDir = path.join(__dirname, 'example')
+const libDir = path.join(__dirname, 'lib')
 
 const { NODE_ENV } = process.env
 
@@ -13,12 +15,17 @@ const mode = NODE_ENV || 'development'
 module.exports = {
   mode,
   context: exampleDir,
-  entry: `./index.js`,
+  entry: `./index`,
   output: {
     path: distDir,
     filename: 'example.js',
   },
   resolve: {
+    alias: {
+      'react-smart-data-table-dev': mode === 'development' ? libDir : __dirname,
+      'react-smart-data-table-dev.css':
+        mode === 'development' ? false : path.join(distDir, `${pkg.name}.css`),
+    },
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {

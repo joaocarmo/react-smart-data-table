@@ -2,11 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import faker from 'faker'
 import { imgb64 } from '../lib/helpers/tests'
-// Use for development
-import SmartDataTable from '../lib'
-// Use the production build
-// import SmartDataTable from '..'
-// import '../dist/react-smart-data-table.css'
+import SmartDataTable from 'react-smart-data-table-dev'
+import 'react-smart-data-table-dev.css'
 
 const sematicUI = {
   change: 'ui labeled secondary icon button',
@@ -487,7 +484,9 @@ class AppDemo extends React.Component {
             filterValue={filterValue}
             perPage={perPage}
             sortable
-            withToggles
+            withToggles={{
+              selectAll: true,
+            }}
             withLinks
             withHeader
             loader={loader}

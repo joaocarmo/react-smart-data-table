@@ -2,6 +2,8 @@ export const DEFAULT_DATA_KEY = 'data'
 export const DEFAULT_IMG_ALT = 'URL detected by the renderer'
 export const DEFAULT_NO_WORD = 'No'
 export const DEFAULT_YES_WORD = 'Yes'
+export const DEFAULT_SELECT_ALL_WORD = 'Select All'
+export const DEFAULT_UNSELECT_ALL_WORD = 'Unselect All'
 export const ERROR_INVALID_DATA =
   'Data type is invalid, expected string or array !'
 export const ERROR_INVALID_RESPONSE =
