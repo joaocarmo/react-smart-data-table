@@ -24,7 +24,10 @@ interface SelectAllHandle {
 
 const SelectAll: ForwardRefRenderFunction<SelectAllHandle, SelectAllProps> = (
   {
-    locale: { selectAllWord, unSelectAllWord },
+    locale: {
+      selectAllWord = constants.DEFAULT_SELECT_ALL_WORD,
+      unSelectAllWord = constants.DEFAULT_UNSELECT_ALL_WORD,
+    },
     handleToggleAll,
   }: SelectAllProps,
   ref,
@@ -66,13 +69,15 @@ const SelectAll: ForwardRefRenderFunction<SelectAllHandle, SelectAllProps> = (
 
 const ForwardedSelectAll = forwardRef(SelectAll)
 
-ForwardedSelectAll.propTypes = {
+export const selectAllPropTypes = {
   locale: PropTypes.shape({
     selectAllWord: PropTypes.string,
     unSelectAllWord: PropTypes.string,
   }),
-  handleToggleAll: PropTypes.func.isRequired,
+  handleToggleAll: PropTypes.func,
 }
+
+ForwardedSelectAll.propTypes = selectAllPropTypes
 
 ForwardedSelectAll.defaultProps = {
   locale: {

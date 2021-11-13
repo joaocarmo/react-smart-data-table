@@ -484,7 +484,9 @@ class AppDemo extends React.Component {
             filterValue={filterValue}
             perPage={perPage}
             sortable
-            withToggles
+            withToggles={{
+              selectAll: true,
+            }}
             withLinks
             withHeader
             loader={loader}

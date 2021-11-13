@@ -5,7 +5,10 @@ import CellValue from './components/CellValue'
 import ErrorBoundary from './components/ErrorBoundary'
 import Paginator from './components/Paginator'
 import Table from './components/Table'
-import Toggles from './components/Toggles'
+import Toggles, {
+  TogglesSelectAllProps,
+  togglesSelectAllPropTypes,
+} from './components/Toggles'
 import withPagination, {
   WrappedComponentProps,
 } from './components/helpers/with-pagination'
@@ -37,7 +40,7 @@ interface SmartDataTableProps {
   withFooter: boolean
   withHeader: boolean
   withLinks: boolean
-  withToggles: boolean
+  withToggles: boolean | { selectAll?: TogglesSelectAllProps }
 }
 
 interface SmartDataTableState {
@@ -389,6 +392,8 @@ class SmartDataTable extends Component<
     const { colProperties } = this.state
     const { withToggles } = this.props
 
+    const togglesProps = typeof withToggles === 'object' ? withToggles : {}
+
     if (withToggles) {
       return (
         <ErrorBoundary>
@@ -397,6 +402,7 @@ class SmartDataTable extends Component<
             colProperties={colProperties}
             handleColumnToggle={this.handleColumnToggle}
             handleColumnToggleAll={this.handleColumnToggleAll(columns)}
+            selectAll={togglesProps?.selectAll}
           />
         </ErrorBoundary>
       )
@@ -505,7 +511,12 @@ SmartDataTable.propTypes = {
   withFooter: PropTypes.bool,
   withHeader: PropTypes.bool,
   withLinks: PropTypes.bool,
-  withToggles: PropTypes.bool,
+  withToggles: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      selectAll: togglesSelectAllPropTypes,
+    }),
+  ]),
 }
 
 // Defines the default values for not passing a certain prop
