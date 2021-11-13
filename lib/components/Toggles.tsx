@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { ElementRef, useCallback, useRef } from 'react'
 import PropTypes from 'prop-types'
 import SelectAll, { ColumnToggleAllFn, SelectAllProps } from './SelectAll'
 import * as utils from '../helpers/functions'
@@ -15,6 +15,8 @@ interface TogglesProps {
   selectAll?: SelectAllProps
 }
 
+type SelectAllElement = ElementRef<typeof SelectAll>
+
 const Toggles = ({
   columns,
   colProperties,
@@ -22,8 +24,16 @@ const Toggles = ({
   handleColumnToggleAll,
   selectAll,
 }: TogglesProps): JSX.Element => {
+  const selectAllRef = useRef<SelectAllElement>(null)
+
   const handleToggleClick = useCallback(
-    ({ target: { value } }) => handleColumnToggle(String(value)),
+    ({ target: { value } }) => {
+      handleColumnToggle(String(value))
+
+      if (selectAllRef?.current && value) {
+        selectAllRef.current.setUnchecked()
+      }
+    },
     [handleColumnToggle],
   )
 
@@ -46,6 +56,7 @@ const Toggles = ({
               ? selectAll?.handleToggleAll
               : handleColumnToggleAll
           }
+          ref={selectAllRef}
         />
       )}
       {columns.map(({ key, text } = constants.defaultHeader) => (
@@ -84,8 +95,8 @@ Toggles.propTypes = {
     PropTypes.bool,
     PropTypes.shape({
       locale: PropTypes.shape({
-        selectAll: PropTypes.string,
-        unSelectAll: PropTypes.string,
+        selectAllWord: PropTypes.string,
+        unSelectAllword: PropTypes.string,
       }),
       handleToggleAll: PropTypes.func,
     }),

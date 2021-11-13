@@ -1,4 +1,10 @@
-import { useCallback, useState } from 'react'
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useState,
+} from 'react'
 import PropTypes from 'prop-types'
 import * as constants from '../helpers/constants'
 
@@ -6,16 +12,23 @@ export type ColumnToggleAllFn = (isChecked: boolean) => void
 
 export interface SelectAllProps {
   locale?: {
-    selectAll?: string
-    unSelectAll?: string
+    selectAllWord?: string
+    unSelectAllWord?: string
   }
   handleToggleAll?: ColumnToggleAllFn
 }
 
-const SelectAll = ({
-  locale: { selectAll, unSelectAll },
-  handleToggleAll,
-}: SelectAllProps) => {
+interface SelectAllHandle {
+  setUnchecked: () => void
+}
+
+const SelectAll: ForwardRefRenderFunction<SelectAllHandle, SelectAllProps> = (
+  {
+    locale: { selectAllWord, unSelectAllWord },
+    handleToggleAll,
+  }: SelectAllProps,
+  ref,
+) => {
   const [isChecked, setIsChecked] = useState(false)
 
   const toggleIsChecked = useCallback(() => {
@@ -25,6 +38,14 @@ const SelectAll = ({
 
     setIsChecked(!isChecked)
   }, [handleToggleAll, isChecked])
+
+  useImperativeHandle(ref, () => ({
+    setUnchecked: () => {
+      if (isChecked) {
+        setIsChecked(false)
+      }
+    },
+  }))
 
   return (
     <span className="rsdt rsdt-column-toggles toggle">
@@ -37,25 +58,27 @@ const SelectAll = ({
           checked={isChecked}
           onChange={toggleIsChecked}
         />
-        {isChecked ? unSelectAll : selectAll}
+        {isChecked ? unSelectAllWord : selectAllWord}
       </label>
     </span>
   )
 }
 
-SelectAll.propTypes = {
+const ForwardedSelectAll = forwardRef(SelectAll)
+
+ForwardedSelectAll.propTypes = {
   locale: PropTypes.shape({
-    selectAll: PropTypes.string,
-    unSelectAll: PropTypes.string,
+    selectAllWord: PropTypes.string,
+    unSelectAllWord: PropTypes.string,
   }),
   handleToggleAll: PropTypes.func.isRequired,
 }
 
-SelectAll.defaultProps = {
+ForwardedSelectAll.defaultProps = {
   locale: {
-    selectAll: constants.DEFAULT_SELECT_ALL,
-    unSelectAll: constants.DEFAULT_UNSELECT_ALL,
+    selectAllWord: constants.DEFAULT_SELECT_ALL_WORD,
+    unSelectAllWord: constants.DEFAULT_UNSELECT_ALL_WORD,
   },
 }
 
-export default SelectAll
+export default ForwardedSelectAll
