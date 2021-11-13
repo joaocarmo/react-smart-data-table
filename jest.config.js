@@ -1,3 +1,5 @@
+const esModules = ['escape-string-regexp'].join('|')
+
 module.exports = {
   collectCoverage: true,
   moduleNameMapper: {
@@ -9,5 +11,5 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
   testRegex: '(/__tests__/.*)\\.[jt]sx?$',
-  transformIgnorePatterns: ['node_modules/(?!escape-string-regexp)'],
+  transformIgnorePatterns: [`node_modules/(?!(${esModules}))`],
 }

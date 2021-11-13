@@ -75,9 +75,14 @@ describe('isObject(), should be true only for objects', () => {
 describe('isFunction(), should be true only for functions', () => {
   test.each(objectTypesTests)('Testing %s', (type, value) => {
     expect(
-      type !== 'function' || (type === 'function' && isFunction(value)),
+      type !== 'function' ||
+        (type === 'function' &&
+          isFunction(value as (...args: unknown[]) => unknown)),
     ).toBe(true)
-    expect(type !== 'function' && isFunction(value)).toBe(false)
+    expect(
+      type !== 'function' &&
+        isFunction(value as (...args: unknown[]) => unknown),
+    ).toBe(false)
   })
 })
 

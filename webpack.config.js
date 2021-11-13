@@ -14,7 +14,7 @@ const mode = NODE_ENV || 'development'
 module.exports = {
   mode,
   context: libDir,
-  entry: './index.ts',
+  entry: './index',
   output: {
     path: distDir,
     filename: `${pkg.name}.js`,
@@ -26,9 +26,11 @@ module.exports = {
   },
   externals: [
     {
+      clsx: 'clsx',
       'escape-string-regexp': 'escape-string-regexp',
       flat: 'flat',
       linkifyjs: 'linkifyjs',
+      'prop-types': 'prop-types',
       'snake-case': 'snake-case',
       react: {
         root: 'React',

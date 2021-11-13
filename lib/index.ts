@@ -1,5 +1,7 @@
 // Main export
-export { default } from './SmartDataTable'
+import SmartDataTable from './SmartDataTable'
+
+export default SmartDataTable
 
 // Named component exports
 export { default as CellValue } from './components/CellValue'
