@@ -43,12 +43,12 @@ const testCases = [
   [100, 100, 8],
 ]
 
-const setup = ({ activePage, totalPages }: PaginatorProps) => {
+const setup = ({ activePage, totalPages, onPageChange }: PaginatorProps) => {
   const utils = render(
     <Paginator
       activePage={activePage}
       totalPages={totalPages}
-      onPageChange={mockPageChange}
+      onPageChange={onPageChange}
     />,
   )
 
@@ -61,7 +61,7 @@ describe('Paginator', () => {
   it.each(testCases)(
     'renders correctly the inner elements for active %s and %s pages',
     (activePage, totalPages, renderedItems) => {
-      setup({ activePage, totalPages })
+      setup({ activePage, totalPages, onPageChange: mockPageChange })
 
       expect(screen.getAllByTestId('paginator-item').length).toBe(renderedItems)
     },
@@ -70,7 +70,7 @@ describe('Paginator', () => {
   it('activePage has active prop', () => {
     const [activePage, totalPages, , activeItem] = testCases[0]
 
-    setup({ activePage, totalPages })
+    setup({ activePage, totalPages, onPageChange: mockPageChange })
 
     expect(screen.getAllByTestId('paginator-item')[activeItem]).toHaveClass(
       'active',
@@ -80,7 +80,7 @@ describe('Paginator', () => {
   it('calls onPageChange when clicking PaginatorItem', () => {
     const [activePage, totalPages, , activeItem] = testCases[0]
 
-    setup({ activePage, totalPages })
+    setup({ activePage, totalPages, onPageChange: mockPageChange })
 
     userEvent.click(screen.getAllByTestId('paginator-item')[activeItem])
 
