@@ -60,6 +60,7 @@ const SelectAll: ForwardRefRenderFunction<SelectAllHandle, SelectAllProps> = (
           name="select-all"
           checked={isChecked}
           onChange={toggleIsChecked}
+          data-testid="select-all"
         />
         {isChecked ? unSelectAllWord : selectAllWord}
       </label>
