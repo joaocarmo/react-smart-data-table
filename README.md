@@ -90,7 +90,7 @@ import 'react-smart-data-table/dist/react-smart-data-table.css'
 | withFooter         | false                 | {boolean}             | Copy the header to the footer                                     |
 | withHeader         | true                  | {boolean}             | Can be used to disable the rendering of column headers            |
 | withLinks          | false                 | {boolean}             | Converts e-mails and url addresses to links                       |
-| withToggles        | false                 | {boolean}             | Enables the column visibility toggles                             |
+| withToggles        | false                 | {boolean&#124;object} | Enables the column visibility toggles                             |
 
 ### emptyTable
 
@@ -225,6 +225,38 @@ const orderedHeaders = [
 ]
 ```
 
+### withToggles
+
+You can control the _Toggles_ by passing an object with the following structure:
+
+```ts
+// Default toggles enabled
+const withToggles = true
+
+// Default toggles enabled with default select all
+const withToggles = {
+  selectAll: true,
+}
+
+// Toggles with a custom locale
+const withToggles = {
+  // The options to be passed as props to the `SelectAll` component
+  selectAll: {
+    // The text to be displayed in the Select All input
+    locale: {
+      // The default label for the `unchecked` state
+      selectAllWord: 'Select All',
+      // The default label for the `checked` state
+      unSelectAllWord: 'Unselect All',
+    },
+    // You should not need to use this, but it is here for completeness
+    handleToggleAll: (isChecked: boolean): void => {
+      // ...
+    },
+  },
+}
+```
+
 ## Examples
 
 ### Async data loading (fetch)
@@ -330,6 +362,16 @@ application. Feel free to play around with it, it's built with hot reloading.
 
 If you want to play around, check out this [codepen][codepen].
 
+## Troubleshooting
+
+If you're having trouble with _react-smart-data-table_, please check out the
+answers below. Otherwise, feel free to open an issue!
+
+- Check [this answer][hide-pagination] to see how to hide the pagination for an
+  empty table
+- Check [this answer][ssr-integration] if you're integrating with Server Side
+  Rendering (SSR)
+
 ## Forking / Contributing
 
 If you want to fork or [contribute][contribute], it's easy to test your changes.
@@ -349,6 +391,7 @@ yarn start
 [contributor]: ./CODE_OF_CONDUCT.md
 [example-source]: ./example/index.js
 [fetch]: https://fetch.spec.whatwg.org/
+[hide-pagination]: https://github.com/joaocarmo/react-smart-data-table/issues/42#issuecomment-828593880
 [jest]: https://github.com/facebook/jest
 [lgtm-alerts]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/alerts/
 [lgtm-context]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/context:javascript
@@ -357,3 +400,4 @@ yarn start
 [react-very-simple-data-table]: https://github.com/joaocarmo/react-very-simple-data-table
 [semantic]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
 [somewhere-i-belong]: https://github.com/joaocarmo/somewhere-i-belong
+[ssr-integration]: https://github.com/joaocarmo/react-smart-data-table/issues/50#issuecomment-963060887

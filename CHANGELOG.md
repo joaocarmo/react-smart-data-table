@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.13.0
+
+> Nov 13, 2021
+
+- Ported the tests to TypeScript
+- Added a `SelectAll` component to the `Toggles` component
+  ([Issue \#49](https://github.com/joaocarmo/react-smart-data-table/issues/49))
+
+## no-release (2021-11-130)
+
+> Nov 10, 2021
+
+- Updated some of the dependencies
+
+## no-release (2021-11-09)
+
+> Nov 9, 2021
+
+- Migrated the react testing library from enzyme to @testing-library/react
+
 ## 0.12.0
 
 > Apr 24, 2021

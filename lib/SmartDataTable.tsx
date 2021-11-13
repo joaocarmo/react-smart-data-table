@@ -5,7 +5,10 @@ import CellValue from './components/CellValue'
 import ErrorBoundary from './components/ErrorBoundary'
 import Paginator from './components/Paginator'
 import Table from './components/Table'
-import Toggles from './components/Toggles'
+import Toggles, {
+  TogglesSelectAllProps,
+  togglesSelectAllPropTypes,
+} from './components/Toggles'
 import withPagination, {
   WrappedComponentProps,
 } from './components/helpers/with-pagination'
@@ -37,7 +40,7 @@ interface SmartDataTableProps {
   withFooter: boolean
   withHeader: boolean
   withLinks: boolean
-  withToggles: boolean
+  withToggles: boolean | { selectAll?: TogglesSelectAllProps }
 }
 
 interface SmartDataTableState {
@@ -139,6 +142,26 @@ class SmartDataTable extends Component<
 
     this.setState({ colProperties: newColProperties })
   }
+
+  handleColumnToggleAll =
+    (columns: utils.Column[]) =>
+    (isChecked: boolean): void => {
+      const { colProperties } = this.state
+      const newColProperties = { ...colProperties }
+
+      for (const { key } of columns) {
+        if (!newColProperties[key]) {
+          newColProperties[key] = {
+            ...constants.defaultHeader,
+            key,
+          }
+        }
+
+        newColProperties[key].invisible = isChecked
+      }
+
+      this.setState({ colProperties: newColProperties })
+    }
 
   handleOnPageChange = (
     event: MouseEvent<HTMLElement>,
@@ -369,6 +392,8 @@ class SmartDataTable extends Component<
     const { colProperties } = this.state
     const { withToggles } = this.props
 
+    const togglesProps = typeof withToggles === 'object' ? withToggles : {}
+
     if (withToggles) {
       return (
         <ErrorBoundary>
@@ -376,6 +401,8 @@ class SmartDataTable extends Component<
             columns={columns}
             colProperties={colProperties}
             handleColumnToggle={this.handleColumnToggle}
+            handleColumnToggleAll={this.handleColumnToggleAll(columns)}
+            selectAll={togglesProps?.selectAll}
           />
         </ErrorBoundary>
       )
@@ -484,7 +511,12 @@ SmartDataTable.propTypes = {
   withFooter: PropTypes.bool,
   withHeader: PropTypes.bool,
   withLinks: PropTypes.bool,
-  withToggles: PropTypes.bool,
+  withToggles: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      selectAll: togglesSelectAllPropTypes,
+    }),
+  ]),
 }
 
 // Defines the default values for not passing a certain prop
