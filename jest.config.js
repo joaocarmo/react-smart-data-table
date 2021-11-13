@@ -1,4 +1,5 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+const esModules = ['escape-string-regexp'].join('|')
+
 module.exports = {
   collectCoverage: true,
   moduleNameMapper: {
@@ -6,10 +7,9 @@ module.exports = {
       '<rootDir>/lib/__mocks__/fileMock.js',
     '\\.(css|less)$': 'identity-obj-proxy',
   },
-  // preset: 'ts-jest',
   resetMocks: false,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
   testRegex: '(/__tests__/.*)\\.[jt]sx?$',
-  transformIgnorePatterns: ['node_modules/(?!escape-string-regexp)'],
+  transformIgnorePatterns: [`node_modules/(?!(${esModules}))`],
 }
