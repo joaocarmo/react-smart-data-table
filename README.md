@@ -330,6 +330,16 @@ application. Feel free to play around with it, it's built with hot reloading.
 
 If you want to play around, check out this [codepen][codepen].
 
+## Troubleshooting
+
+If you're having trouble with _react-smart-data-table_, please check out the
+answers below. Otherwise, feel free to open an issue!
+
+- Check [this answer][hide-pagination] to see how to hide the pagination for an
+  empty table
+- Check [this answer][ssr-integration] if you're integrating with Server Side
+  Rendering (SSR)
+
 ## Forking / Contributing
 
 If you want to fork or [contribute][contribute], it's easy to test your changes.
@@ -349,6 +359,7 @@ yarn start
 [contributor]: ./CODE_OF_CONDUCT.md
 [example-source]: ./example/index.js
 [fetch]: https://fetch.spec.whatwg.org/
+[hide-pagination]: https://github.com/joaocarmo/react-smart-data-table/issues/42#issuecomment-828593880
 [jest]: https://github.com/facebook/jest
 [lgtm-alerts]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/alerts/
 [lgtm-context]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/context:javascript
@@ -357,3 +368,4 @@ yarn start
 [react-very-simple-data-table]: https://github.com/joaocarmo/react-very-simple-data-table
 [semantic]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
 [somewhere-i-belong]: https://github.com/joaocarmo/somewhere-i-belong
+[ssr-integration]: https://github.com/joaocarmo/react-smart-data-table/issues/50#issuecomment-963060887
