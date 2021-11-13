@@ -3,9 +3,10 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        corejs: '3.18',
+        corejs: '3.19',
         modules: 'umd',
         useBuiltIns: 'usage',
+        targets: { node: 'current' },
       },
     ],
     [

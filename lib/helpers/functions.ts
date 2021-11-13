@@ -64,6 +64,12 @@ export interface RenderOptions {
 
 export type KeyResolverFN = (args: UnknownObject) => UnknownObject[]
 
+export interface FetchDataOptions {
+  dataKey?: string
+  dataKeyResolver?: KeyResolverFN
+  options?: RequestInit
+}
+
 export const head = <T>([first]: T[]): T => first
 
 export const tail = <T>(arr: T[]): T => arr[arr.length - 1]
@@ -245,11 +251,7 @@ export async function fetchData(
     dataKey = constants.DEFAULT_DATA_KEY,
     dataKeyResolver,
     options = {},
-  }: {
-    dataKey?: string
-    dataKeyResolver?: KeyResolverFN
-    options?: RequestInit
-  } = {},
+  }: FetchDataOptions = {},
 ): Promise<UnknownObject[]> {
   if (isArray(data)) {
     return data as UnknownObject[]
@@ -498,7 +500,7 @@ export function isDataURL(url: unknown): boolean {
   return false
 }
 
-export function isImage(url: string): boolean {
+export function isImage(url: unknown): boolean {
   const isImgDataURL = isDataURL(url)
 
   if (isImgDataURL) {
@@ -506,7 +508,7 @@ export function isImage(url: string): boolean {
   }
 
   const parser = document.createElement('a')
-  parser.href = url
+  parser.href = String(url)
   let { pathname } = parser
   const last = pathname.search(/[:?&#]/)
 

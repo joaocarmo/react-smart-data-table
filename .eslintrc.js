@@ -38,12 +38,16 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-void': 'off',
     'react/jsx-filename-extension': [
-      2,
+      'error',
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
     'react/jsx-uses-react': 'off',
     'react/static-property-placement': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react/function-component-definition': [
+      'error',
+      { namedComponents: 'arrow-function' },
+    ],
     semi: ['error', 'never'],
   },
   settings: {

@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Paginator from '../Paginator'
-import PaginatorItem from '../PaginatorItem'
 
 const mockPageChange = jest.fn()
 

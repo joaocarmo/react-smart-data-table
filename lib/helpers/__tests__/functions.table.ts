@@ -16,11 +16,17 @@ import {
   sliceRowsPerPage,
   sortData,
   valueOrDefault,
+  FetchDataOptions,
+  Headers,
+  Highlight,
+  RenderOptions,
+  Sorting,
+  UnknownObject,
 } from '../functions'
 import { DEFAULT_NO_WORD, DEFAULT_YES_WORD } from '../constants'
 import { getRandomInt, imgb64 } from '../tests'
 
-const negativeImgTests = [
+const negativeImgTests: [unknown, boolean][] = [
   [null, false],
   [1, false],
   [true, false],
@@ -32,16 +38,16 @@ const negativeImgTests = [
 ]
 
 describe('fetchData(), should return remote data', () => {
-  const staticData = [{ foo: 'foo', bar: 'bar' }]
+  const staticData = [{ foo: 'foo', bar: 'bar' }] as unknown[]
   const remoteData = { results: staticData }
 
   beforeEach(() => {
-    fetch.mockResponseOnce(JSON.stringify(remoteData), {
+    fetchMock.mockResponseOnce(JSON.stringify(remoteData), {
       headers: { 'content-type': 'application/json' },
     })
   })
 
-  const tests = [
+  const tests: [string, string | unknown[], FetchDataOptions, any][] = [
     ['static data', staticData, undefined, staticData],
     ['remote data', 'https://example.com/api/v1/users', undefined, undefined],
     [
@@ -59,15 +65,17 @@ describe('fetchData(), should return remote data', () => {
     [
       'remote data',
       'https://example.com/api/v1/users',
-      { dataKeyResolver: (response) => response.results },
+      {
+        dataKeyResolver: (response) => response.results as UnknownObject[],
+      },
       remoteData.results,
     ],
     [
       'remote data with options',
       'https://example.com/api/v1/users',
       {
-        dataKeyResolver: (response) => response.results,
-        dataRequestOptions: {
+        dataKeyResolver: (response) => response.results as UnknownObject[],
+        options: {
           method: 'post',
           body: JSON.stringify({ page: 2 }),
         },
@@ -84,7 +92,7 @@ describe('fetchData(), should return remote data', () => {
     const numRemoteCalls = tests.filter(
       ([, data]) => typeof data === 'string',
     ).length
-    expect(fetch.mock.calls.length).toEqual(numRemoteCalls)
+    expect(fetchMock.mock.calls.length).toEqual(numRemoteCalls)
   })
 })
 
@@ -97,8 +105,8 @@ describe('generatePagination(), should return an array of objects with specific 
     const { value } = page
 
     expect(page).toMatchObject({
-      active: expect.any(Boolean),
-      text: expect.any(String),
+      active: expect.any(Boolean) as boolean,
+      text: expect.any(String) as string,
     })
     expect(page).toHaveProperty('value')
     expect(
@@ -167,11 +175,14 @@ describe('columnObject(), should return a well defined column object', () => {
   const column = columnObject('columnKey')
   const columns = Object.keys(column)
 
-  test.each(properties)(`Testing %s in ${columns}`, (property) => {
-    expect(column).toHaveProperty(property)
-  })
+  test.each(properties)(
+    `Testing %s in ${JSON.stringify(columns)}`,
+    (property) => {
+      expect(column).toHaveProperty(property)
+    },
+  )
 
-  test(`Testing foo not in ${columns}`, () => {
+  test(`Testing foo not in ${JSON.stringify(columns)}`, () => {
     expect(column).not.toHaveProperty('foo')
   })
 })
@@ -379,7 +390,7 @@ test('parseDataForRows(), should clear empty and non-object rows and flatten the
         array: [7, 8, 9],
       },
     },
-  ]
+  ] as UnknownObject<unknown>[]
   const parsedObjArr = [
     {
       one: 1,
@@ -403,7 +414,7 @@ test('parseDataForRows(), should clear empty and non-object rows and flatten the
       'nested.array.1': 8,
       'nested.array.2': 9,
     },
-  ]
+  ] as UnknownObject<unknown>[]
   expect(parseDataForRows(originalObjArr)).toEqual(parsedObjArr)
 })
 
@@ -451,13 +462,29 @@ test('filterRowsByValue(), should return only the entries which match the search
     },
   ]
   const search = '1'
-  const opts = { filterable: true }
+  const allKeys = originalData.reduce(
+    (acc: string[], curr) => [...acc, ...Object.keys(curr)],
+    [],
+  )
+  const opts: Headers = Object.fromEntries(
+    allKeys.map((key) => [
+      key,
+      {
+        filterable: true,
+        invisible: false,
+        isImg: false,
+        key: 'name',
+        sortable: false,
+        text: 'Name',
+      },
+    ]),
+  )
   expect(filterRowsByValue(search, originalData, opts)).toEqual(filteredData)
 })
 
 test('sliceRowsPerPage(), should return a properly sized array', () => {
   const N = getRandomInt(100)
-  const data = Array(N)
+  const data = Array(N).fill({}) as UnknownObject<unknown>[]
   const currentPage = 1
   const perPage = [10, 25, 50, 100][getRandomInt(4)]
   const slicedData = sliceRowsPerPage(data, currentPage, perPage)
@@ -467,8 +494,17 @@ test('sliceRowsPerPage(), should return a properly sized array', () => {
 
 test('sortData(), should return a properly sorted array', () => {
   const filter = ''
-  const opts = { filterable: false }
-  const sorting = { key: 'name', dir: 'ASC' }
+  const opts: Headers = {
+    name: {
+      filterable: false,
+      invisible: false,
+      isImg: false,
+      key: 'name',
+      sortable: false,
+      text: 'Name',
+    },
+  }
+  const sorting: Sorting = { key: 'name', dir: 'ASC' }
   const data = [
     { name: 'john' },
     { name: 'peter' },
@@ -488,7 +524,7 @@ test('sortData(), should return a properly sorted array', () => {
 })
 
 describe('isDataURL(), should return true if data is an enconded image', () => {
-  const tests = [...negativeImgTests, [imgb64, true]]
+  const tests: [unknown, boolean][] = [...negativeImgTests, [imgb64, true]]
 
   test.each(tests)('Testing data type %#', (data, expected) => {
     expect(isDataURL(data)).toBe(expected)
@@ -496,7 +532,7 @@ describe('isDataURL(), should return true if data is an enconded image', () => {
 })
 
 describe('isImage(), should return true if string is an image url', () => {
-  const tests = [
+  const tests: [unknown, boolean][] = [
     ...negativeImgTests,
     ['https://domain.ext/path/to/image.jpg', true],
   ]
@@ -507,7 +543,7 @@ describe('isImage(), should return true if string is an image url', () => {
 })
 
 describe('highlightValueParts(), should return an object of split parts', () => {
-  const tests = [
+  const tests: [[string, string], Highlight][] = [
     [
       ['', ''],
       {
@@ -556,7 +592,7 @@ describe('getRenderValue(), should decide which value to render', () => {
     noWord: 'No',
     yesWord: 'Yes',
   }
-  const tests = [
+  const tests: [string, RenderOptions, string][] = [
     ['empty', {}, ''],
     ['boolean (true)', { content: true }, 'true'],
     ['boolean (false)', { children: false }, 'false'],
@@ -646,7 +682,9 @@ describe('getSampleElement(), should sample the data and return a proper example
         thumbnail: 'https://randomuser.me/api/portraits/thumb/women/43.jpg',
       },
     },
-  ].flatMap((row) => Array.from(Array(10)).fill(row))
+  ].flatMap((row) =>
+    Array.from(Array(10) as unknown[]).fill(row),
+  ) as UnknownObject<unknown>[]
   const inputOutput = [
     [
       0,
@@ -749,16 +787,21 @@ describe('getSampleElement(), should sample the data and return a proper example
         'location.street.name': 'Engveien',
       },
     ],
-  ]
+  ] as [number, UnknownObject<unknown>][]
   const tests = inputOutput.map(([dataSampling, output]) => [
-    `Data Sampling: ${dataSampling}%`,
+    `Data Sampling: ${JSON.stringify(dataSampling)}%`,
     testCases,
     dataSampling,
     output,
   ])
 
   test.each(tests)('Testing %s', (name, data, dataSampling, expected) => {
-    expect(getSampleElement(data, dataSampling)).toEqual(expected)
+    expect(
+      getSampleElement(
+        data as UnknownObject<unknown>[],
+        dataSampling as number,
+      ),
+    ).toEqual(expected)
   })
 
   test('Throws an error if the dataSampling is outside [0, 100]', () => {
