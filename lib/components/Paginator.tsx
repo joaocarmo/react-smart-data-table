@@ -4,7 +4,7 @@ import PaginatorItem, { PageChangeFn } from './PaginatorItem'
 import * as utils from '../helpers/functions'
 import '../css/paginator.css'
 
-interface PaginatorProps {
+export interface PaginatorProps {
   activePage: number
   totalPages: number
   onPageChange: PageChangeFn
