@@ -1,6 +1,6 @@
 {
   "name": "react-smart-data-table",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "A smart data table component for React.js meant to be configuration free",
   "private": false,
   "main": "dist/react-smart-data-table.js",
