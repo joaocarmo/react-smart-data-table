@@ -23,7 +23,7 @@ jobs:
       - run: yarn --frozen-lockfile
       - run: |
           yarn clean
-          yarn prd
+          yarn build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
