@@ -1,4 +1,3 @@
-/* eslint-disable */
 const path = require('path')
 const babelOptions = require('./babel.config')
 const pkg = require('./package.json')

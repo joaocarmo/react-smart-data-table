@@ -14,15 +14,16 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT }}
           ref: 'master'
-      - uses: actions/setup-node@v1
+      - name: Use Node.js v14 (LTS)
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
+          cache: 'yarn'
           registry-url: https://registry.npmjs.org/
-      - uses: c-hive/gha-yarn-cache@v1
       - run: yarn --frozen-lockfile
       - run: |
           yarn clean
           yarn prd
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
