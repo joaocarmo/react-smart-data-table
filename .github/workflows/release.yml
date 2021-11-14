@@ -16,16 +16,16 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           ref: 'master'
       - name: Use Node.js v14 (LTS)
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - uses: c-hive/gha-yarn-cache@v1
+          cache: 'yarn'
       - name: Install dependencies
         run: |
           yarn --frozen-lockfile
       - name: Get release
         id: get_release
-        uses: bruceadams/get-release@v1.2.2
+        uses: bruceadams/get-release@v1.2.3
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
