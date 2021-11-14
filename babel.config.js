@@ -6,7 +6,12 @@ module.exports = {
         corejs: '3.19',
         modules: 'umd',
         useBuiltIns: 'usage',
-        targets: { node: 'current' },
+        targets: {
+          browsers:
+            process.env.NODE_ENV === 'development'
+              ? 'last 2 versions'
+              : '> 0.25%, not dead',
+        },
       },
     ],
     [

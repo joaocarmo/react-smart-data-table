@@ -13,10 +13,6 @@
   "files": [
     "dist"
   ],
-  "browserslist": [
-    "last 2 version",
-    "not dead"
-  ],
   "scripts": {
     "build:dev": "NODE_ENV=development webpack",
     "build:example-dev": "NODE_ENV=development webpack --config webpack.dev.js",
