@@ -371,6 +371,8 @@ answers below. Otherwise, feel free to open an issue!
   empty table
 - Check [this answer][ssr-integration] if you're integrating with Server Side
   Rendering (SSR)
+- Check [this answer][double-click] if you want to implement a double click
+  event on a row
 
 ## Forking / Contributing
 
@@ -389,6 +391,7 @@ yarn start
 [codepen]: https://codepen.io/joaocarmo/pen/oNBNZBO
 [contribute]: ./CONTRIBUTING.md
 [contributor]: ./CODE_OF_CONDUCT.md
+[double-click]: https://github.com/joaocarmo/react-smart-data-table/issues/59#issuecomment-969371513
 [example-source]: ./example/index.js
 [fetch]: https://fetch.spec.whatwg.org/
 [hide-pagination]: https://github.com/joaocarmo/react-smart-data-table/issues/42#issuecomment-828593880
