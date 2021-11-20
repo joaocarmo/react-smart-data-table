@@ -17,6 +17,7 @@ import * as constants from './helpers/constants'
 import './css/basic.css'
 
 interface SmartDataTableProps {
+  activePage: number
   className: string
   data: string | utils.UnknownObject[]
   dataKey: string
@@ -67,7 +68,7 @@ class SmartDataTable extends Component<
     const { headers: colProperties = {} } = props
 
     this.state = {
-      activePage: 1,
+      activePage: props.activePage,
       asyncData: [],
       colProperties,
       columns: [],
@@ -103,8 +104,12 @@ class SmartDataTable extends Component<
   }
 
   componentDidUpdate(prevProps: SmartDataTableProps): void {
-    const { data } = this.props
+    const { data, activePage } = this.props
     const { data: prevData } = prevProps
+
+    if (prevProps.activePage !== activePage) {
+      this.handleOnPageChange(null, { activePage })
+    }
 
     if (
       utils.isString(data) &&
@@ -474,6 +479,7 @@ class SmartDataTable extends Component<
 
 // Defines the type of data expected in each passed prop
 SmartDataTable.propTypes = {
+  activePage: PropTypes.number,
   className: PropTypes.string,
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   dataKey: PropTypes.string,
@@ -521,6 +527,7 @@ SmartDataTable.propTypes = {
 
 // Defines the default values for not passing a certain prop
 SmartDataTable.defaultProps = {
+  activePage: 1,
   className: '',
   dataKey: constants.DEFAULT_DATA_KEY,
   dataKeyResolver: null,
