@@ -6,6 +6,7 @@ import SmartDataTable from 'react-smart-data-table-dev'
 import 'react-smart-data-table-dev.css'
 
 const sematicUI = {
+  button: 'ui button',
   change: 'ui labeled secondary icon button',
   changeIcon: 'exchange icon',
   checkbox: 'ui toggle checkbox',
@@ -115,6 +116,7 @@ class AppDemo extends React.Component {
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnChangeOrder = this.handleOnChangeOrder.bind(this)
     this.handleOnPerPage = this.handleOnPerPage.bind(this)
+    this.handlePage = this.handlePage.bind(this)
     this.onRowClick = this.onRowClick.bind(this)
     this.setNewData = this.setNewData.bind(this)
   }
@@ -225,6 +227,10 @@ class AppDemo extends React.Component {
     this.setState({ [name]: parseInt(value, 10) })
   }
 
+  handlePage({ target: { name, value } }) {
+    this.setState({ [name]: parseInt(value, 10) })
+  }
+
   changeData() {
     const { useApi } = this.state
     this.setState({
@@ -258,6 +264,7 @@ class AppDemo extends React.Component {
 
   render() {
     const {
+      activePage,
       apiUrl,
       apiUrlNew,
       changeOrder,
@@ -301,6 +308,19 @@ class AppDemo extends React.Component {
             <option value="50">50</option>
             <option value="100">100</option>
           </select>
+          {divider}
+          {perPage > 0 && (
+            <>
+              <button
+                className={sematicUI.button}
+                name="activePage"
+                value="4"
+                onClick={this.handlePage}
+              >
+                Call page 4 programmaticly
+              </button>
+            </>
+          )}
           {divider}
           {!useApi && (
             <>
@@ -474,6 +494,7 @@ class AppDemo extends React.Component {
         )}
         {!useApi && (
           <SmartDataTable
+            activePage={activePage}
             name="test-fake-table"
             data={data}
             dataSampling={dataSampling}
