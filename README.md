@@ -373,6 +373,8 @@ answers below. Otherwise, feel free to open an issue!
   Rendering (SSR)
 - Check [this answer][double-click] if you want to implement a double click
   event on a row
+- Check [this answer][control-page] if you want to control the active page
+  manually (e.g., based on a URL parameter)
 
 ## Forking / Contributing
 
@@ -391,6 +393,7 @@ yarn start
 [codepen]: https://codepen.io/joaocarmo/pen/oNBNZBO
 [contribute]: ./CONTRIBUTING.md
 [contributor]: ./CODE_OF_CONDUCT.md
+[control-page]: https://github.com/joaocarmo/react-smart-data-table/issues/60#issuecomment-974718595
 [double-click]: https://github.com/joaocarmo/react-smart-data-table/issues/59#issuecomment-969371513
 [example-source]: ./example/index.js
 [fetch]: https://fetch.spec.whatwg.org/
