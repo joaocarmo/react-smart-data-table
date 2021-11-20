@@ -68,6 +68,7 @@ import 'react-smart-data-table/dist/react-smart-data-table.css'
 
 | Name               | Default               | Type                  | Description                                                       |
 | :----------------- | :-------------------- | :-------------------- | :---------------------------------------------------------------- |
+| activePage         | 1                     | {number}              | Initialize or set the table page to the given number              |
 | data               | []                    | {array&#124;string}   | An array of plain objects (can be nested) or a URL                |
 | dataKey            | 'data'                | {string}              | The object key where the async data is available                  |
 | dataKeyResolver    | _null_                | {function}            | Supply a function to extract the data from the async response     |
