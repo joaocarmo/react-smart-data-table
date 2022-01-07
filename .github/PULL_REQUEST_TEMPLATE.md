@@ -5,8 +5,11 @@
 <!-- (add an `x` to `[ ]` if applicable and the issue number if available) -->
 
 - [ ] Feature
-- [ ] Fix {#ISSUE}
+- [ ] Fix
 - [ ] Refactor
+- [ ] Tests
+
+### Summary
 
 <!-- Please replace {Please write here ...} with something useful -->
 

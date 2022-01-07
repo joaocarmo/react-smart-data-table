@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.14.0
+
+> Jan 7, 2022
+
+- Adds data attributes to columns that allows individual column targeting, e.g.
+  by CSS
+
+## 0.13.1
+
+> Nov 14, 2021
+
+- Removed the compiled example from the npm package to remove the overall
+  bundle/download size
+
 ## 0.13.0
 
 > Nov 13, 2021
@@ -110,7 +124,7 @@
 - Switched from _npm_ to _yarn_
 - Updated the dependencies
 - Fixed the example
-- Added _GitHub_ workflows for _push_ and _PR_ to `master`
+- Added _GitHub_ workflows for _push_ and _PR_ to the main branch
 
 ## 0.7.4
 

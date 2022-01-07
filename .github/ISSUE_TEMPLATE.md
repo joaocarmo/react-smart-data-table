@@ -1,21 +1,19 @@
-<!-- Please replace {Please write here ...} with your description -->
-
 ### Expected Behavior
 
-{Please write here}
+<!-- {Please write here} -->
 
 ### Actual Behavior
 
-{Please write here}
+<!-- {Please write here} -->
 
 ### Steps to Reproduce
 
-{Please write here, including precondition(s)}
+<!-- {Please write here, including precondition(s)} -->
 
-### Screenshot
+### Screenshot(s)
 
-{Please add here}
+<!-- {Please add here, if relevant} -->
 
 ### Your Environment
 
-- {Add all relevant items}
+<!--  {Add all relevant specs} -->
