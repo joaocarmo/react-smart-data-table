@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import SelectAll, { SelectAllProps } from '../SelectAll'
+import SelectAll from '../SelectAll'
+import type { SelectAllProps } from '../SelectAll'
 
 const selectAllWord = 'selectAllWord'
 const unSelectAllWord = 'unSelectAllWord'

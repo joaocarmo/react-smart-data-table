@@ -5,7 +5,7 @@ import HighlightValue from './HighlightValue'
 import * as utils from '../helpers/functions'
 import * as constants from '../helpers/constants'
 
-interface CellValueProps {
+export interface CellValueProps {
   children: ReactNode
   content?: ReactNode
   filterable: boolean
@@ -36,7 +36,11 @@ const CellValue = ({
       return value
     }
 
-    return <HighlightValue filterValue={filterValue}>{value}</HighlightValue>
+    return (
+      <HighlightValue data-testid="cell-value" filterValue={filterValue}>
+        {value}
+      </HighlightValue>
+    )
   }, [filterValue, filterable, value])
 
   const renderImage = useCallback(
