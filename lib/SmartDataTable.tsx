@@ -313,7 +313,7 @@ class SmartDataTable extends Component<
       const showCol = !thisColProps || !thisColProps.invisible
       if (showCol) {
         return (
-          <Table.HeaderCell key={column.key}>
+          <Table.HeaderCell data-column-name={column.key} key={column.key}>
             <span>{column.text}</span>
             <span className="rsdt rsdt-sortable">
               {sortable && column.sortable ? this.renderSorting(column) : null}
@@ -343,8 +343,11 @@ class SmartDataTable extends Component<
 
       if (showCol) {
         return (
-          // eslint-disable-next-line react/no-array-index-key
-          <Table.Cell key={`row-${i}-column-${j}`}>
+          <Table.Cell
+            data-column-name={column.key}
+            // eslint-disable-next-line react/no-array-index-key
+            key={`row-${i}-column-${j}`}
+          >
             {utils.isFunction(transformFn) ? (
               transformFn(row[column.key], i, row)
             ) : (

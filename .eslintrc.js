@@ -37,17 +37,18 @@ module.exports = {
     ],
     'no-restricted-syntax': 'off',
     'no-void': 'off',
-    'react/jsx-filename-extension': [
-      'error',
-      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
-    ],
-    'react/jsx-uses-react': 'off',
-    'react/static-property-placement': 'off',
-    'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': [
       'error',
       { namedComponents: 'arrow-function' },
     ],
+    'react/jsx-filename-extension': [
+      'error',
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
+    'react/jsx-props-no-spreading': 'off',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/static-property-placement': 'off',
     semi: ['error', 'never'],
   },
   settings: {
