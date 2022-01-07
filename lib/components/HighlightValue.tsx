@@ -1,4 +1,5 @@
-import { FC, memo, useMemo, ReactNode } from 'react'
+import { memo, useMemo } from 'react'
+import type { FC, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import * as utils from '../helpers/functions'
 

@@ -1,4 +1,5 @@
-import { FC, memo, useCallback, useMemo, ReactNode } from 'react'
+import { memo, useCallback, useMemo } from 'react'
+import type { FC, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { find as linkifyFind } from 'linkifyjs'
 import HighlightValue from './HighlightValue'
@@ -6,14 +7,14 @@ import * as utils from '../helpers/functions'
 import * as constants from '../helpers/constants'
 
 export interface CellValueProps {
-  children: ReactNode
+  children?: ReactNode
   content?: ReactNode
-  filterable: boolean
-  filterValue: string
-  isImg: boolean
-  parseBool: boolean | utils.ParseBool
-  parseImg: boolean | utils.ParseImg
-  withLinks: boolean
+  filterable?: boolean
+  filterValue?: string
+  isImg?: boolean
+  parseBool?: boolean | utils.ParseBool
+  parseImg?: boolean | utils.ParseImg
+  withLinks?: boolean
 }
 
 const CellValue = ({

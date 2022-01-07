@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import CellValue from '../CellValue'
 import type { CellValueProps } from '../CellValue'
 
-const setup = (props: CellValueProps = {}) => {
+const setup = (props: CellValueProps) => {
   const { children, content, ...otherProps } = props
   const utils = render(
     <CellValue content={content} {...otherProps}>
