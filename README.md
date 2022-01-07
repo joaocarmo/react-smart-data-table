@@ -362,10 +362,10 @@ application. Feel free to play around with it, it's built with hot reloading.
 
 If you want to play around, check out this [codepen][codepen].
 
-## Troubleshooting
+## FAQ
 
 If you're having trouble with _react-smart-data-table_, please check out the
-answers below. Otherwise, feel free to open an issue!
+answers below. Otherwise, feel free to open a new issue!
 
 - Check [this answer][hide-pagination] to see how to hide the pagination for an
   empty table
@@ -375,6 +375,8 @@ answers below. Otherwise, feel free to open an issue!
   event on a row
 - Check [this answer][control-page] if you want to control the active page
   manually (e.g., based on a URL parameter)
+- Check [this answer][column-selector] if you want to style individual columns
+  differently
 
 ## Forking / Contributing
 
@@ -391,6 +393,7 @@ yarn start
 
 [bootstrap]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
 [codepen]: https://codepen.io/joaocarmo/pen/oNBNZBO
+[column-selector]: https://github.com/joaocarmo/react-smart-data-table/issues/62#issuecomment-1002973644
 [contribute]: ./CONTRIBUTING.md
 [contributor]: ./CODE_OF_CONDUCT.md
 [control-page]: https://github.com/joaocarmo/react-smart-data-table/issues/60#issuecomment-974718595

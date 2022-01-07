@@ -1,19 +1,20 @@
-import { FC, memo, useCallback, useMemo, ReactNode } from 'react'
+import { memo, useCallback, useMemo } from 'react'
+import type { FC, ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { find as linkifyFind } from 'linkifyjs'
 import HighlightValue from './HighlightValue'
 import * as utils from '../helpers/functions'
 import * as constants from '../helpers/constants'
 
-interface CellValueProps {
-  children: ReactNode
+export interface CellValueProps {
+  children?: ReactNode
   content?: ReactNode
-  filterable: boolean
-  filterValue: string
-  isImg: boolean
-  parseBool: boolean | utils.ParseBool
-  parseImg: boolean | utils.ParseImg
-  withLinks: boolean
+  filterable?: boolean
+  filterValue?: string
+  isImg?: boolean
+  parseBool?: boolean | utils.ParseBool
+  parseImg?: boolean | utils.ParseImg
+  withLinks?: boolean
 }
 
 const CellValue = ({
@@ -36,7 +37,11 @@ const CellValue = ({
       return value
     }
 
-    return <HighlightValue filterValue={filterValue}>{value}</HighlightValue>
+    return (
+      <HighlightValue data-testid="cell-value" filterValue={filterValue}>
+        {value}
+      </HighlightValue>
+    )
   }, [filterValue, filterable, value])
 
   const renderImage = useCallback(
