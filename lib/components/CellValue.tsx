@@ -38,7 +38,7 @@ const CellValue = ({
     }
 
     return (
-      <HighlightValue data-testid="cell-value" filterValue={filterValue}>
+      <HighlightValue filterValue={filterValue} data-testid="cell-value">
         {value}
       </HighlightValue>
     )
@@ -60,6 +60,7 @@ const CellValue = ({
             style={style}
             className={className}
             alt={constants.DEFAULT_IMG_ALT}
+            data-testid="cell-value"
           />
         )
       }
