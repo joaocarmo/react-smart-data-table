@@ -8,6 +8,7 @@
 - [ ] Fix
 - [ ] Refactor
 - [ ] Tests
+- [ ] Documentation
 
 ### Summary
 
