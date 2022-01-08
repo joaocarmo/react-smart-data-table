@@ -59,4 +59,53 @@ describe('CellValue', () => {
     expect(highlightedValue).toBeInTheDocument()
     expect(highlightedValue).toHaveClass('rsdt-highlight')
   })
+
+  it('should render URLs correctly', () => {
+    const url = 'https://example.com'
+    const { cellValue } = setup({
+      children: url,
+      withLinks: true,
+    })
+
+    expect(cellValue).toBeInTheDocument()
+    expect(cellValue).toHaveAttribute('href', url)
+  })
+
+  it('should render images correctly', () => {
+    const birdImg = 'https://example.com/img/bird.jpg'
+    const { cellValue } = setup({
+      children: birdImg,
+      parseImg: true,
+    })
+
+    expect(cellValue).toBeInTheDocument()
+    expect(cellValue).toHaveAttribute('src', birdImg)
+  })
+
+  it('should render images with links correctly', () => {
+    const planeImg = 'https://example.com/img/plane.jpg'
+    const { cellValue } = setup({
+      children: planeImg,
+      parseImg: true,
+      withLinks: true,
+    })
+
+    expect(cellValue).toBeInTheDocument()
+    expect(cellValue).toHaveAttribute('src', planeImg)
+    expect(cellValue.parentElement).toHaveAttribute('href', planeImg)
+  })
+
+  it('should render data URLs correctly', () => {
+    const dataURL = `\
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI1\
+2P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==\
+`
+    const { cellValue } = setup({
+      children: dataURL,
+      parseImg: true,
+    })
+
+    expect(cellValue).toBeInTheDocument()
+    expect(cellValue).toHaveAttribute('src', dataURL)
+  })
 })
