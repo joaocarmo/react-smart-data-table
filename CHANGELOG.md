@@ -4,7 +4,7 @@
 
 > Jan 7, 2022
 
-- Adds data attributes to columns that allows individual column targeting, e.g.
+- Adds data attributes to columns that allow individual column targeting, e.g.
   by CSS
 
 ## 0.13.1
