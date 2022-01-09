@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import faker from 'faker'
+import faker from '@withshepherd/faker'
 import { imgb64 } from '../lib/helpers/tests'
 import SmartDataTable from 'react-smart-data-table-dev'
 import 'react-smart-data-table-dev.css'
