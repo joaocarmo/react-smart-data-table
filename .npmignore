@@ -45,4 +45,5 @@ npm-reinstall
 # Test, deployment and development stuff
 dev/
 dist/example.*
+docs/
 example/

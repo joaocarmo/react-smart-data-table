@@ -1,5 +1,11 @@
 # Changelog
 
+## no-release (2022-02-06)
+
+> Feb 6, 2022
+
+- Moved the docs to this repo
+
 ## 0.14.0
 
 > Jan 7, 2022
@@ -22,7 +28,7 @@
 - Added a `SelectAll` component to the `Toggles` component
   ([Issue \#49](https://github.com/joaocarmo/react-smart-data-table/issues/49))
 
-## no-release (2021-11-130)
+## no-release (2021-11-10)
 
 > Nov 10, 2021
 
