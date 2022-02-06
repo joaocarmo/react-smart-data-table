@@ -3,3 +3,5 @@
 
 yarn lint-staged
 yarn type-check
+yarn build
+yarn build:example

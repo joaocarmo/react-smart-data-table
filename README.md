@@ -351,7 +351,6 @@ You can try _react-smart-data-table_ with different UI libraries in the demo
 pages below. You can experiment with different features as well.
 
 - [Semantic UI: All Features][semantic]
-- [Bootstrap: Sortable][bootstrap]
 
 Take a look at the full featured example's [source code][example-source].
 
@@ -391,7 +390,6 @@ yarn start
 
 <!-- References -->
 
-[bootstrap]: https://joaocarmo.github.io/react-smart-data-table/examples/bootstrap/
 [codepen]: https://codepen.io/joaocarmo/pen/oNBNZBO
 [column-selector]: https://github.com/joaocarmo/react-smart-data-table/issues/62#issuecomment-1002973644
 [contribute]: ./CONTRIBUTING.md
@@ -407,6 +405,6 @@ yarn start
 [npm]: https://badge.fury.io/js/react-smart-data-table
 [pagination]: https://react.semantic-ui.com/addons/pagination/
 [react-very-simple-data-table]: https://github.com/joaocarmo/react-very-simple-data-table
-[semantic]: https://joaocarmo.github.io/react-smart-data-table/examples/semantic-ui/
+[semantic]: http://joaocarmo.com/react-smart-data-table/
 [somewhere-i-belong]: https://github.com/joaocarmo/somewhere-i-belong
 [ssr-integration]: https://github.com/joaocarmo/react-smart-data-table/issues/50#issuecomment-963060887
