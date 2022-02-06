@@ -15,17 +15,17 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT }}
           ref: 'main'
-      - name: Use Node.js v14 (LTS)
+      - name: Use Node.js v16 (LTS)
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
           cache: 'yarn'
       - name: Install dependencies
         run: |
           yarn --frozen-lockfile
       - name: Get release
         id: get_release
-        uses: bruceadams/get-release@v1.2.3
+        uses: bruceadams/get-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
