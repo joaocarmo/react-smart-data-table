@@ -507,23 +507,41 @@ test('sortData(), should return a properly sorted array', () => {
       text: 'Name',
     },
   }
+  const customSortOpts: Headers<Data> = {
+    name: {
+      ...opts.name,
+      sortable: (a, b) => a.name.length - b.name.length,
+    },
+  }
   const sorting: Sorting = { key: 'name', dir: 'ASC' }
   const data = [
     { name: 'john' },
+    { name: 'benedict' },
     { name: 'peter' },
-    { name: 'anna' },
+    { name: 'ana' },
     { name: 'yasmin' },
   ]
   const sortedDataAsc = [
-    { name: 'anna' },
+    { name: 'ana' },
+    { name: 'benedict' },
     { name: 'john' },
     { name: 'peter' },
     { name: 'yasmin' },
+  ]
+  const sortedDataCustom = [
+    { name: 'benedict' },
+    { name: 'yasmin' },
+    { name: 'peter' },
+    { name: 'john' },
+    { name: 'ana' },
   ]
   const sortedDataDesc = [...sortedDataAsc].reverse()
   expect(sortData(filter, opts, sorting, data)).toEqual(sortedDataAsc)
   sorting.dir = 'DESC'
   expect(sortData(filter, opts, sorting, data)).toEqual(sortedDataDesc)
+  expect(sortData(filter, customSortOpts, sorting, data)).toEqual(
+    sortedDataCustom,
+  )
 })
 
 describe('isDataURL(), should return true if data is an enconded image', () => {
