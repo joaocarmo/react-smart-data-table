@@ -16,21 +16,21 @@ import * as utils from './helpers/functions'
 import * as constants from './helpers/constants'
 import './css/basic.css'
 
-interface SmartDataTableProps {
+interface SmartDataTableProps<T = utils.UnknownObject> {
   className: string
-  data: string | utils.UnknownObject[]
+  data: string | T[]
   dataKey: string
-  dataKeyResolver: utils.KeyResolverFN
+  dataKeyResolver: utils.KeyResolverFN<T>
   dataRequestOptions: RequestInit
   dataSampling: number
   dynamic: boolean
   emptyTable: ReactNode
   filterValue: string
-  headers: utils.Headers
+  headers: utils.Headers<T>
   hideUnordered: boolean
   loader: ReactNode
   name: string
-  onRowClick: utils.RowClickFN
+  onRowClick: utils.RowClickFN<T>
   orderedHeaders: string[]
   paginator: ComponentType<WrappedComponentProps>
   parseBool: boolean | utils.ParseBool
@@ -43,25 +43,25 @@ interface SmartDataTableProps {
   withToggles: boolean | { selectAll?: TogglesSelectAllProps }
 }
 
-interface SmartDataTableState {
+interface SmartDataTableState<T = utils.UnknownObject> {
   activePage: number
-  asyncData: utils.UnknownObject[]
-  colProperties: utils.Headers
-  columns: utils.Column[]
+  asyncData: T[]
+  colProperties: utils.Headers<T>
+  columns: utils.Column<T>[]
   isLoading: boolean
   prevFilterValue: string
   sorting: utils.Sorting
 }
 
-class SmartDataTable extends Component<
-  SmartDataTableProps,
-  SmartDataTableState
+class SmartDataTable<T> extends Component<
+  SmartDataTableProps<T>,
+  SmartDataTableState<T>
 > {
   static propTypes
 
   static defaultProps
 
-  constructor(props: SmartDataTableProps) {
+  constructor(props: SmartDataTableProps<T>) {
     super(props)
 
     const { headers: colProperties = {} } = props
@@ -102,7 +102,7 @@ class SmartDataTable extends Component<
     void this.fetchData()
   }
 
-  componentDidUpdate(prevProps: SmartDataTableProps): void {
+  componentDidUpdate(prevProps: SmartDataTableProps<T>): void {
     const { data } = this.props
     const { data: prevData } = prevProps
 
@@ -116,9 +116,9 @@ class SmartDataTable extends Component<
 
   handleRowClick = (
     event: MouseEvent<HTMLElement>,
-    rowData: utils.UnknownObject,
+    rowData: T,
     rowIndex: number,
-    tableData: utils.UnknownObject[],
+    tableData: T[],
   ): void => {
     const { onRowClick } = this.props
 
@@ -144,7 +144,7 @@ class SmartDataTable extends Component<
   }
 
   handleColumnToggleAll =
-    (columns: utils.Column[]) =>
+    (columns: utils.Column<T>[]) =>
     (isChecked: boolean): void => {
       const { colProperties } = this.state
       const newColProperties = { ...colProperties }
@@ -170,7 +170,7 @@ class SmartDataTable extends Component<
     this.setState({ activePage })
   }
 
-  handleSortChange(column: utils.Column): void {
+  handleSortChange(column: utils.Column<T>): void {
     const { sorting } = this.state
     const { key } = column
     let dir = ''
@@ -197,7 +197,7 @@ class SmartDataTable extends Component<
     })
   }
 
-  getColumns(force = false): utils.Column[] {
+  getColumns(force = false): utils.Column<T>[] {
     const { asyncData, columns } = this.state
     const {
       data: propsData,
@@ -211,13 +211,13 @@ class SmartDataTable extends Component<
       return columns
     }
 
-    let data = propsData as utils.UnknownObject[]
+    let data = propsData as T[]
 
     if (utils.isString(data)) {
       data = asyncData
     }
 
-    return utils.parseDataForColumns(
+    return utils.parseDataForColumns<T>(
       data,
       headers,
       orderedHeaders,
@@ -226,11 +226,11 @@ class SmartDataTable extends Component<
     )
   }
 
-  getRows(): utils.UnknownObject[] {
+  getRows(): T[] {
     const { asyncData, colProperties, sorting } = this.state
     const { data: propsData, filterValue } = this.props
 
-    let data = propsData as utils.UnknownObject[]
+    let data = propsData as T[]
 
     if (utils.isString(data)) {
       data = asyncData
@@ -277,7 +277,7 @@ class SmartDataTable extends Component<
     }
   }
 
-  renderSorting(column: utils.Column): ReactNode {
+  renderSorting(column: utils.Column<T>): ReactNode {
     const {
       sorting: { key, dir },
     } = this.state
@@ -305,7 +305,7 @@ class SmartDataTable extends Component<
     )
   }
 
-  renderHeader(columns: utils.Column[]): ReactNode {
+  renderHeader(columns: utils.Column<T>[]): ReactNode {
     const { colProperties } = this.state
     const { sortable } = this.props
     const headers = columns.map((column) => {
@@ -328,11 +328,7 @@ class SmartDataTable extends Component<
     return <Table.Row>{headers}</Table.Row>
   }
 
-  renderRow(
-    columns: utils.Column[],
-    row: utils.UnknownObject,
-    i: number,
-  ): ReactNode {
+  renderRow(columns: utils.Column<T>[], row: T, i: number): ReactNode {
     const { colProperties } = this.state
     const { withLinks, filterValue, parseBool, parseImg } = this.props
 
@@ -372,7 +368,7 @@ class SmartDataTable extends Component<
     })
   }
 
-  renderBody(columns: utils.Column[], rows: utils.UnknownObject[]): ReactNode {
+  renderBody(columns: utils.Column<T>[], rows: T[]): ReactNode {
     const { perPage } = this.props
     const { activePage } = this.state
     const visibleRows = utils.sliceRowsPerPage(rows, activePage, perPage)
@@ -391,7 +387,7 @@ class SmartDataTable extends Component<
     return <Table.Body>{tableRows}</Table.Body>
   }
 
-  renderToggles(columns: utils.Column[]): ReactNode {
+  renderToggles(columns: utils.Column<T>[]): ReactNode {
     const { colProperties } = this.state
     const { withToggles } = this.props
 
@@ -400,7 +396,7 @@ class SmartDataTable extends Component<
     if (withToggles) {
       return (
         <ErrorBoundary>
-          <Toggles
+          <Toggles<T>
             columns={columns}
             colProperties={colProperties}
             handleColumnToggle={this.handleColumnToggle}
@@ -414,7 +410,7 @@ class SmartDataTable extends Component<
     return null
   }
 
-  renderPagination(rows: utils.UnknownObject[]): ReactNode {
+  renderPagination(rows: T[]): ReactNode {
     const { perPage, paginator: PaginatorComponent } = this.props
     const { activePage } = this.state
     const Paginate = withPagination(PaginatorComponent)
@@ -481,6 +477,7 @@ SmartDataTable.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   dataKey: PropTypes.string,
   dataKeyResolver: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
   dataRequestOptions: PropTypes.objectOf(PropTypes.any),
   dataSampling: PropTypes.number,
   dynamic: PropTypes.bool,
@@ -491,10 +488,11 @@ SmartDataTable.propTypes = {
     text: PropTypes.string,
     invisible: PropTypes.bool,
     sortable: PropTypes.bool,
-    filterable: PropTypes.bool,
+    filterable: PropTypes.oneOf([PropTypes.bool, PropTypes.func]),
     isImg: PropTypes.oneOf([
       PropTypes.bool,
       PropTypes.shape({
+        // eslint-disable-next-line react/forbid-prop-types
         style: PropTypes.objectOf(PropTypes.any),
         className: PropTypes.string,
       }),

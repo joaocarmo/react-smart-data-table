@@ -167,7 +167,7 @@ describe('parseHeader(), should parse the header correctly', () => {
 
 test('valueOrDefault(), should return the default on undefined', () => {
   expect(valueOrDefault(undefined, 'default')).toBe('default')
-  expect(valueOrDefault(1, 'default')).toBe(1)
+  expect(valueOrDefault(1, 100)).toBe(1)
 })
 
 describe('columnObject(), should return a well defined column object', () => {
@@ -466,7 +466,7 @@ test('filterRowsByValue(), should return only the entries which match the search
     (acc: string[], curr) => [...acc, ...Object.keys(curr)],
     [],
   )
-  const opts: Headers = Object.fromEntries(
+  const opts: Headers<any> = Object.fromEntries(
     allKeys.map((key) => [
       key,
       {
@@ -493,8 +493,11 @@ test('sliceRowsPerPage(), should return a properly sized array', () => {
 })
 
 test('sortData(), should return a properly sorted array', () => {
+  type Data = {
+    name: string
+  }
   const filter = ''
-  const opts: Headers = {
+  const opts: Headers<Data> = {
     name: {
       filterable: false,
       invisible: false,
@@ -504,23 +507,41 @@ test('sortData(), should return a properly sorted array', () => {
       text: 'Name',
     },
   }
+  const customSortOpts: Headers<Data> = {
+    name: {
+      ...opts.name,
+      sortable: (a, b) => a.name.length - b.name.length,
+    },
+  }
   const sorting: Sorting = { key: 'name', dir: 'ASC' }
   const data = [
     { name: 'john' },
+    { name: 'benedict' },
     { name: 'peter' },
-    { name: 'anna' },
+    { name: 'ana' },
     { name: 'yasmin' },
   ]
   const sortedDataAsc = [
-    { name: 'anna' },
+    { name: 'ana' },
+    { name: 'benedict' },
     { name: 'john' },
     { name: 'peter' },
     { name: 'yasmin' },
+  ]
+  const sortedDataCustom = [
+    { name: 'benedict' },
+    { name: 'yasmin' },
+    { name: 'peter' },
+    { name: 'john' },
+    { name: 'ana' },
   ]
   const sortedDataDesc = [...sortedDataAsc].reverse()
   expect(sortData(filter, opts, sorting, data)).toEqual(sortedDataAsc)
   sorting.dir = 'DESC'
   expect(sortData(filter, opts, sorting, data)).toEqual(sortedDataDesc)
+  expect(sortData(filter, customSortOpts, sorting, data)).toEqual(
+    sortedDataCustom,
+  )
 })
 
 describe('isDataURL(), should return true if data is an enconded image', () => {

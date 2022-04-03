@@ -13,9 +13,9 @@ type ColumnToggleFn = (key: string) => void
 
 export type TogglesSelectAllProps = boolean | SelectAllProps
 
-interface TogglesProps {
-  columns: utils.Column[]
-  colProperties: utils.Headers
+interface TogglesProps<T = utils.UnknownObject> {
+  columns: utils.Column<T>[]
+  colProperties: utils.Headers<T>
   handleColumnToggle: ColumnToggleFn
   handleColumnToggleAll: ColumnToggleAllFn
   selectAll?: TogglesSelectAllProps
@@ -23,14 +23,15 @@ interface TogglesProps {
 
 type SelectAllElement = ElementRef<typeof SelectAll>
 
-const Toggles = ({
+const Toggles = <T,>({
   columns,
   colProperties,
   handleColumnToggle,
   handleColumnToggleAll,
   selectAll,
-}: TogglesProps): JSX.Element => {
-  const selectAllProps = typeof selectAll === 'object' ? selectAll : {}
+}: TogglesProps<T>): JSX.Element => {
+  const selectAllProps: Partial<TogglesSelectAllProps> =
+    typeof selectAll === 'object' ? selectAll : {}
   const selectAllRef = useRef<SelectAllElement>(null)
 
   const handleToggleClick = useCallback(
@@ -91,13 +92,14 @@ export const togglesSelectAllPropTypes = PropTypes.oneOfType([
 ])
 
 Toggles.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   colProperties: PropTypes.objectOf(
     PropTypes.shape({
       key: PropTypes.string,
       text: PropTypes.string,
       invisible: PropTypes.bool,
-      sortable: PropTypes.bool,
+      sortable: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
       filterable: PropTypes.bool,
     }),
   ).isRequired,

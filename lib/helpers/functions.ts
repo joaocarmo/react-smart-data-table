@@ -17,32 +17,36 @@ export type ParseImg = {
   className: string
 }
 
-export type TransformFN = (
+export type TransformFN<T = UnknownObject> = (
   value: unknown,
   index: number,
-  row: UnknownObject,
+  row: T,
 ) => ReactNode
 
-export type RowClickFN = (
+export type RowClickFN<T = UnknownObject> = (
   event: MouseEvent<HTMLElement>,
   {
     rowData,
     rowIndex,
     tableData,
-  }: { rowData: UnknownObject; rowIndex: number; tableData: UnknownObject[] },
+  }: { rowData: T; rowIndex: number; tableData: T[] },
 ) => void
 
-export interface Column {
+export type CompareFunction<T> = (a: T, b: T) => number
+
+export type HeaderSortable<T> = boolean | CompareFunction<T>
+
+export interface Column<T> {
   key: string
   text: string
   invisible: boolean
-  sortable: boolean
+  sortable: HeaderSortable<T>
   filterable: boolean
   isImg: boolean
-  transform?: TransformFN
+  transform?: TransformFN<T>
 }
 
-export type Headers = Record<string, Column>
+export type Headers<T> = Record<string, Column<T>>
 
 export type Sorting = {
   key: string
@@ -62,11 +66,11 @@ export interface RenderOptions {
   parseBool?: boolean | ParseBool
 }
 
-export type KeyResolverFN = (args: UnknownObject) => UnknownObject[]
+export type KeyResolverFN<T = UnknownObject> = (args: T) => T[]
 
-export interface FetchDataOptions {
+export interface FetchDataOptions<T = UnknownObject> {
   dataKey?: string
-  dataKeyResolver?: KeyResolverFN
+  dataKeyResolver?: KeyResolverFN<T>
   options?: RequestInit
 }
 
@@ -77,13 +81,13 @@ export const tail = <T>(arr: T[]): T => arr[arr.length - 1]
 export const isString = (str: unknown): boolean =>
   typeof str === 'string' || str instanceof String
 
-export const isArray = (obj: unknown): boolean => Array.isArray(obj)
+export const isArray = <T = unknown>(obj: T): boolean => Array.isArray(obj)
 
-export const isObject = (obj: unknown): boolean =>
+export const isObject = <T = unknown>(obj: T): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
 
-export const isEmpty = (obj: unknown[] | UnknownObject): boolean => {
-  if (isArray(obj)) {
+export const isEmpty = <T = UnknownObject>(obj: unknown[] | T): boolean => {
+  if (isArray(obj) && 'length' in obj) {
     return !obj.length
   }
 
@@ -97,10 +101,10 @@ export const isEmpty = (obj: unknown[] | UnknownObject): boolean => {
 export const isFunction = (fn: (...args: unknown[]) => unknown): boolean =>
   typeof fn === 'function'
 
-export const isNumber = (num: unknown): boolean =>
+export const isNumber = <T = unknown>(num: T): boolean =>
   typeof num === 'number' && Number.isFinite(num)
 
-export const isUndefined = (undef: unknown): boolean =>
+export const isUndefined = <T = unknown>(undef: T): boolean =>
   typeof undef === 'undefined'
 
 export const capitalize = (str: string): string => {
@@ -114,8 +118,12 @@ export const capitalize = (str: string): string => {
   return ''
 }
 
-export const sortBy = (arr: UnknownObject[], key: string): UnknownObject[] =>
-  [...arr].sort((a, b) => {
+export const sortBy = <T = UnknownObject>(
+  arr: T[],
+  key: string,
+  compareFn: HeaderSortable<T>,
+): T[] => {
+  const defaultSort: CompareFunction<T> = (a, b) => {
     if (a[key] > b[key]) {
       return 1
     }
@@ -125,10 +133,15 @@ export const sortBy = (arr: UnknownObject[], key: string): UnknownObject[] =>
     }
 
     return 0
-  })
+  }
 
-export const cleanLonelyInt = (val: unknown): boolean =>
-  !(val && /^\d+$/.test(val as string))
+  const sortFn = typeof compareFn === 'function' ? compareFn : defaultSort
+
+  return [...arr].sort(sortFn)
+}
+
+export const cleanLonelyInt = (val: string): boolean =>
+  !(val && /^\d+$/.test(val))
 
 export const debugPrint = (...args: unknown[]): void => {
   if (process.env.NODE_ENV !== 'production') {
@@ -223,8 +236,8 @@ export function generatePagination(
   return pagination
 }
 
-export function getNestedObject(
-  nestedObj: UnknownObject,
+export function getNestedObject<T = UnknownObject>(
+  nestedObj: T,
   pathArr: string[],
 ): unknown {
   if (isObject(nestedObj) && !isEmpty(nestedObj)) {
@@ -236,7 +249,7 @@ export function getNestedObject(
       path = pathArr
     }
 
-    const reducerFn = (obj: UnknownObject, key: string): unknown =>
+    const reducerFn = (obj: T, key: string): unknown =>
       obj && !isUndefined(obj[key]) ? obj[key] : undefined
 
     return path.reduce(reducerFn, nestedObj)
@@ -245,16 +258,16 @@ export function getNestedObject(
   return undefined
 }
 
-export async function fetchData(
+export async function fetchData<T = UnknownObject>(
   data: string | unknown[],
   {
     dataKey = constants.DEFAULT_DATA_KEY,
     dataKeyResolver,
     options = {},
-  }: FetchDataOptions = {},
-): Promise<UnknownObject[]> {
+  }: FetchDataOptions<T> = {},
+): Promise<T[]> {
   if (isArray(data)) {
-    return data as UnknownObject[]
+    return data as T[]
   }
 
   if (isString(data)) {
@@ -266,13 +279,13 @@ export async function fetchData(
       const contentType = headers.get('content-type')
 
       if (contentType && contentType.includes('application/json')) {
-        const jsonBody = (await response.json()) as UnknownObject
+        const jsonBody = (await response.json()) as T
 
         if (typeof dataKeyResolver === 'function') {
           return dataKeyResolver(jsonBody)
         }
 
-        return (dataKey ? jsonBody[dataKey] : jsonBody) as UnknownObject[]
+        return (dataKey ? jsonBody[dataKey] : jsonBody) as T[]
       }
 
       throw new Error(constants.ERROR_INVALID_RESPONSE)
@@ -298,18 +311,18 @@ export function parseHeader(val: string): string {
   return ''
 }
 
-export function valueOrDefault<T = unknown>(
-  value: unknown,
-  defaultValue: T,
-): T {
+export function valueOrDefault<T = unknown>(value: T, defaultValue: T): T {
   if (isUndefined(value)) {
     return defaultValue
   }
 
-  return value as T
+  return value
 }
 
-export function columnObject(key: string, headers: Headers = {}): Column {
+export function columnObject<T>(
+  key: string,
+  headers: Headers<T> = {},
+): Column<T> {
   const { text, invisible, sortable, filterable } = { ...headers[key] }
 
   return {
@@ -322,12 +335,12 @@ export function columnObject(key: string, headers: Headers = {}): Column {
   }
 }
 
-export function getSampleElement(
-  data: UnknownObject[] = [],
+export function getSampleElement<T = UnknownObject>(
+  data: T[] = [],
   dataSampling = 0,
-): UnknownObject {
+): T {
   if (!dataSampling) {
-    return flatten<UnknownObject, UnknownObject>(head<UnknownObject>(data))
+    return flatten<T, T>(head<T>(data))
   }
 
   if (dataSampling < 0 || dataSampling > 100) {
@@ -336,20 +349,20 @@ export function getSampleElement(
 
   const sampleElement = data
     .slice(0, Math.ceil((dataSampling / 100) * data.length))
-    .reduce<UnknownObject>((merged, row) => ({ ...merged, ...row }), {})
+    .reduce<T>((merged, row) => ({ ...merged, ...row }), {} as T)
 
-  return flatten<UnknownObject, UnknownObject>(sampleElement)
+  return flatten<T, T>(sampleElement)
 }
 
-export function parseDataForColumns(
-  data: UnknownObject[] = [],
-  headers: Headers = {},
+export function parseDataForColumns<T = UnknownObject>(
+  data: T[] = [],
+  headers: Headers<T> = {},
   orderedHeaders: string[] = [],
   hideUnordered = false,
   dataSampling = 0,
-): Column[] {
+): Column<T>[] {
   const columnsAdded: string[] = []
-  const columns: Column[] = []
+  const columns: Column<T>[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
     // Clear falsy values from the data
@@ -383,8 +396,8 @@ export function parseDataForColumns(
   return columns
 }
 
-export function parseDataForRows(data: UnknownObject[] = []): UnknownObject[] {
-  let rows: UnknownObject[] = []
+export function parseDataForRows<T = UnknownObject>(data: T[] = []): T[] {
+  let rows: T[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {
     const filteredData = data.filter((row) => isObject(row) && !isEmpty(row))
@@ -394,11 +407,11 @@ export function parseDataForRows(data: UnknownObject[] = []): UnknownObject[] {
   return rows
 }
 
-export function filterRowsByValue(
+export function filterRowsByValue<T = UnknownObject>(
   value: string,
-  rows: UnknownObject[],
-  colProperties: Headers,
-): UnknownObject[] {
+  rows: T[],
+  colProperties: Headers<T>,
+): T[] {
   return rows.filter((row) => {
     const regex = new RegExp(`.*?${escapeStringRegexp(value)}.*?`, 'i')
     let hasMatch = false
@@ -418,11 +431,11 @@ export function filterRowsByValue(
   })
 }
 
-export function filterRows(
+export function filterRows<T = UnknownObject>(
   value: string,
-  rows: UnknownObject[],
-  colProperties: Headers,
-): UnknownObject[] {
+  rows: T[],
+  colProperties: Headers<T>,
+): T[] {
   if (!value) {
     return rows
   }
@@ -430,11 +443,11 @@ export function filterRows(
   return filterRowsByValue(value, rows, colProperties)
 }
 
-export function sliceRowsPerPage(
-  rows: UnknownObject[],
+export function sliceRowsPerPage<T = UnknownObject>(
+  rows: T[],
   currentPage: number,
   perPage: number,
-): UnknownObject[] {
+): T[] {
   if (isNumber(perPage) && Math.sign(perPage)) {
     const start = perPage * (currentPage - 1)
     const end = perPage * currentPage
@@ -445,20 +458,23 @@ export function sliceRowsPerPage(
   return rows
 }
 
-export function sortData(
+export function sortData<T = UnknownObject>(
   filterValue: string,
-  colProperties: Headers,
+  colProperties: Headers<T>,
   sorting: Sorting,
-  data: UnknownObject[],
-): UnknownObject[] {
-  let sortedRows: UnknownObject[] = []
+  data: T[],
+): T[] {
+  let sortedRows: T[] = []
   const { dir, key } = sorting
+  const compareFn =
+    typeof colProperties[key]?.sortable === 'function' &&
+    colProperties[key].sortable
 
   if (dir) {
     if (dir === 'ASC') {
-      sortedRows = sortBy(data, key)
+      sortedRows = sortBy(data, key, compareFn)
     } else {
-      sortedRows = sortBy(data, key).reverse()
+      sortedRows = sortBy(data, key, compareFn).reverse()
     }
   } else {
     sortedRows = data.slice(0)

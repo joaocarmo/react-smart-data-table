@@ -25,7 +25,7 @@ jobs:
           yarn --frozen-lockfile
       - name: Get release
         id: get_release
-        uses: bruceadams/get-release@v1
+        uses: bruceadams/get-release@v1.2.3
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
@@ -40,7 +40,7 @@ jobs:
           git commit -m "Release ${{ steps.get_release.outputs.tag_name }}" --no-gpg-sign --no-verify --signoff
           git push
       - name: Trigger the Publish Action
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@v1.1
         with:
           workflow: Publish
           token: ${{ secrets.GH_PAT }}

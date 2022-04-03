@@ -1,6 +1,5 @@
-import React from 'react'
+import { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
-import faker from '@withshepherd/faker'
 import { imgb64 } from '../lib/helpers/tests'
 import SmartDataTable from 'react-smart-data-table-dev'
 import 'react-smart-data-table-dev.css'
@@ -24,7 +23,9 @@ const sematicUI = {
   table: 'ui compact selectable table',
 }
 
-const generateData = (numResults = 0) => {
+const generateData = async (numResults = 0) => {
+  const faker = await import('@withshepherd/faker')
+
   let total = numResults || 0
 
   if (typeof numResults === 'string') {
@@ -75,7 +76,7 @@ const emptyTable = (
 
 const loader = <div className={sematicUI.loader}>Loading...</div>
 
-class AppDemo extends React.Component {
+class AppDemo extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -120,15 +121,15 @@ class AppDemo extends React.Component {
   }
 
   componentDidMount() {
-    const { numResults } = this.state
-    this.setNewData(numResults)
+    this.setNewData()
   }
 
-  setNewData() {
+  async setNewData() {
     const { numResults } = this.state
-    this.setState({
-      data: generateData(numResults),
-    })
+
+    const data = await generateData(numResults)
+
+    this.setState({ data })
   }
 
   handleNewApiUrl() {
@@ -167,6 +168,12 @@ class AppDemo extends React.Component {
       password_: {
         invisible: true,
       },
+      fullName: {
+        sortable: (a, b) => a.fullName.localeCompare(b.fullName),
+      },
+      phone_number: {
+        sortable: false,
+      },
       'address.city': {
         text: 'City',
       },
@@ -178,7 +185,10 @@ class AppDemo extends React.Component {
       },
       url: {
         text: 'Web Page',
-        sortable: false,
+        sortable: (a, b) =>
+          a.url
+            .replace(/^https?:\/\//, '')
+            .localeCompare(b.url.replace(/^https?:\/\//, '')),
       },
       actions: {
         text: 'Actions',

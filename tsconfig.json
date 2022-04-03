@@ -7,6 +7,7 @@
     "paths": {
       "~*": ["./*"]
     },
+    "skipLibCheck": true,
     "types": [
       "flat",
       "jest-fetch-mock",
