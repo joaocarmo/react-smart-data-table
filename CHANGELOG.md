@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.15.0
+
+> Apr 3, 2022
+
+- Adds support for a custom sort `compareFn` per column which can be used to
+  leverage [localeCompare](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare)
+
 ## no-release (2022-02-06)
 
 > Feb 6, 2022

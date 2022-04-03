@@ -466,7 +466,7 @@ test('filterRowsByValue(), should return only the entries which match the search
     (acc: string[], curr) => [...acc, ...Object.keys(curr)],
     [],
   )
-  const opts: Headers = Object.fromEntries(
+  const opts: Headers<any> = Object.fromEntries(
     allKeys.map((key) => [
       key,
       {
@@ -494,7 +494,7 @@ test('sliceRowsPerPage(), should return a properly sized array', () => {
 
 test('sortData(), should return a properly sorted array', () => {
   const filter = ''
-  const opts: Headers = {
+  const opts: Headers<any> = {
     name: {
       filterable: false,
       invisible: false,

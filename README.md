@@ -28,6 +28,7 @@ It currently supports:
 
 1. Humanized column names based on object keys
 2. Sortable columns
+    - Accepts a custom sort `compareFn` function
 3. Rows filtering / searchable
 4. Search term highlight in the results
 5. Column visibility toggles
@@ -86,7 +87,7 @@ import 'react-smart-data-table/dist/react-smart-data-table.css'
 | parseBool          | false                 | {boolean&#124;object} | When true, boolean values will be converted to Yes/No             |
 | parseImg           | false                 | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag            |
 | perPage            | 0                     | {number}              | Paginates the results with the value as rows per page             |
-| sortable           | false                 | {boolean}             | Makes the columns of the table sortable                           |
+| sortable           | false                 | {boolean}             | Makes the columns of the table sortable by default                |
 | withFooter         | false                 | {boolean}             | Copy the header to the footer                                     |
 | withHeader         | true                  | {boolean}             | Can be used to disable the rendering of column headers            |
 | withLinks          | false                 | {boolean}             | Converts e-mails and url addresses to links                       |
@@ -128,7 +129,7 @@ const headers = {
   'nested.columnKey': {
     text: 'Nested Column',
     invisible: false,
-    sortable: true,
+    sortable: (a, b) => (b['nested.columnKey'] - a['nested.columnKey']),
     filterable: true,
   },
   // If a dummy column is inserted into the data, it can be used to customize
