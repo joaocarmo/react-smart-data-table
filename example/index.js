@@ -1,4 +1,4 @@
-import React from 'react'
+import { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import { imgb64 } from '../lib/helpers/tests'
 import SmartDataTable from 'react-smart-data-table-dev'
@@ -76,7 +76,7 @@ const emptyTable = (
 
 const loader = <div className={sematicUI.loader}>Loading...</div>
 
-class AppDemo extends React.Component {
+class AppDemo extends PureComponent {
   constructor(props) {
     super(props)
 
