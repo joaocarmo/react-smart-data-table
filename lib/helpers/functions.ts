@@ -79,9 +79,9 @@ export const tail = <T>(arr: T[]): T => arr[arr.length - 1]
 export const isString = (str: unknown): boolean =>
   typeof str === 'string' || str instanceof String
 
-export const isArray = (obj: unknown): boolean => Array.isArray(obj)
+export const isArray = <T = unknown>(obj: T): boolean => Array.isArray(obj)
 
-export const isObject = (obj: unknown): boolean =>
+export const isObject = <T = unknown>(obj: T): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
 
 export const isEmpty = <T = UnknownObject>(obj: unknown[] | T): boolean => {
@@ -99,10 +99,10 @@ export const isEmpty = <T = UnknownObject>(obj: unknown[] | T): boolean => {
 export const isFunction = (fn: (...args: unknown[]) => unknown): boolean =>
   typeof fn === 'function'
 
-export const isNumber = (num: unknown): boolean =>
+export const isNumber = <T = unknown>(num: T): boolean =>
   typeof num === 'number' && Number.isFinite(num)
 
-export const isUndefined = (undef: unknown): boolean =>
+export const isUndefined = <T = unknown>(undef: T): boolean =>
   typeof undef === 'undefined'
 
 export const capitalize = (str: string): string => {
@@ -129,8 +129,8 @@ export const sortBy = <T = UnknownObject>(arr: T[], key: string): T[] =>
     return 0
   })
 
-export const cleanLonelyInt = (val: unknown): boolean =>
-  !(val && /^\d+$/.test(val as string))
+export const cleanLonelyInt = (val: string): boolean =>
+  !(val && /^\d+$/.test(val))
 
 export const debugPrint = (...args: unknown[]): void => {
   if (process.env.NODE_ENV !== 'production') {
@@ -300,15 +300,12 @@ export function parseHeader(val: string): string {
   return ''
 }
 
-export function valueOrDefault<T = unknown>(
-  value: unknown,
-  defaultValue: T,
-): T {
+export function valueOrDefault<T = unknown>(value: T, defaultValue: T): T {
   if (isUndefined(value)) {
     return defaultValue
   }
 
-  return value as T
+  return value
 }
 
 export function columnObject<T>(

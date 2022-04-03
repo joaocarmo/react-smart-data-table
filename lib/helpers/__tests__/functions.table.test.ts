@@ -167,7 +167,7 @@ describe('parseHeader(), should parse the header correctly', () => {
 
 test('valueOrDefault(), should return the default on undefined', () => {
   expect(valueOrDefault(undefined, 'default')).toBe('default')
-  expect(valueOrDefault(1, 'default')).toBe(1)
+  expect(valueOrDefault(1, 100)).toBe(1)
 })
 
 describe('columnObject(), should return a well defined column object', () => {
