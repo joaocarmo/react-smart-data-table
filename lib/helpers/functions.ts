@@ -467,7 +467,7 @@ export function sortData<T = UnknownObject>(
   let sortedRows: T[] = []
   const { dir, key } = sorting
   const compareFn =
-    typeof colProperties[key].sortable === 'function' &&
+    typeof colProperties[key]?.sortable === 'function' &&
     colProperties[key].sortable
 
   if (dir) {

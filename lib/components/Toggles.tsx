@@ -99,7 +99,7 @@ Toggles.propTypes = {
       key: PropTypes.string,
       text: PropTypes.string,
       invisible: PropTypes.bool,
-      sortable: PropTypes.bool,
+      sortable: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
       filterable: PropTypes.bool,
     }),
   ).isRequired,

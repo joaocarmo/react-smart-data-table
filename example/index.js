@@ -168,6 +168,12 @@ class AppDemo extends PureComponent {
       password_: {
         invisible: true,
       },
+      fullName: {
+        sortable: (a, b) => a.fullName.localeCompare(b.fullName),
+      },
+      phone_number: {
+        sortable: false,
+      },
       'address.city': {
         text: 'City',
       },
@@ -179,7 +185,10 @@ class AppDemo extends PureComponent {
       },
       url: {
         text: 'Web Page',
-        sortable: false,
+        sortable: (a, b) =>
+          a.url
+            .replace(/^https?:\/\//, '')
+            .localeCompare(b.url.replace(/^https?:\/\//, '')),
       },
       actions: {
         text: 'Actions',
