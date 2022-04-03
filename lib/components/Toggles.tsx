@@ -30,7 +30,8 @@ const Toggles = <T,>({
   handleColumnToggleAll,
   selectAll,
 }: TogglesProps<T>): JSX.Element => {
-  const selectAllProps = typeof selectAll === 'object' ? selectAll : {}
+  const selectAllProps: Partial<TogglesSelectAllProps> =
+    typeof selectAll === 'object' ? selectAll : {}
   const selectAllRef = useRef<SelectAllElement>(null)
 
   const handleToggleClick = useCallback(

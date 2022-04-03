@@ -34,11 +34,13 @@ export type RowClickFN<T = UnknownObject> = (
 
 export type CompareFunction<T> = (a: T, b: T) => number
 
+export type HeaderSortable<T> = boolean | CompareFunction<T>
+
 export interface Column<T> {
   key: string
   text: string
   invisible: boolean
-  sortable: boolean | CompareFunction<T>
+  sortable: HeaderSortable<T>
   filterable: boolean
   isImg: boolean
   transform?: TransformFN<T>
@@ -116,8 +118,12 @@ export const capitalize = (str: string): string => {
   return ''
 }
 
-export const sortBy = <T = UnknownObject>(arr: T[], key: string): T[] =>
-  [...arr].sort((a, b) => {
+export const sortBy = <T = UnknownObject>(
+  arr: T[],
+  key: string,
+  compareFn: HeaderSortable<T>,
+): T[] => {
+  const defaultSort: CompareFunction<T> = (a, b) => {
     if (a[key] > b[key]) {
       return 1
     }
@@ -127,7 +133,12 @@ export const sortBy = <T = UnknownObject>(arr: T[], key: string): T[] =>
     }
 
     return 0
-  })
+  }
+
+  const sortFn = typeof compareFn === 'function' ? compareFn : defaultSort
+
+  return [...arr].sort(sortFn)
+}
 
 export const cleanLonelyInt = (val: string): boolean =>
   !(val && /^\d+$/.test(val))
@@ -455,12 +466,15 @@ export function sortData<T = UnknownObject>(
 ): T[] {
   let sortedRows: T[] = []
   const { dir, key } = sorting
+  const compareFn =
+    typeof colProperties[key].sortable === 'function' &&
+    colProperties[key].sortable
 
   if (dir) {
     if (dir === 'ASC') {
-      sortedRows = sortBy(data, key)
+      sortedRows = sortBy(data, key, compareFn)
     } else {
-      sortedRows = sortBy(data, key).reverse()
+      sortedRows = sortBy(data, key, compareFn).reverse()
     }
   } else {
     sortedRows = data.slice(0)

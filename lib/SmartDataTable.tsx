@@ -488,7 +488,7 @@ SmartDataTable.propTypes = {
     text: PropTypes.string,
     invisible: PropTypes.bool,
     sortable: PropTypes.bool,
-    filterable: PropTypes.bool,
+    filterable: PropTypes.oneOf([PropTypes.bool, PropTypes.func]),
     isImg: PropTypes.oneOf([
       PropTypes.bool,
       PropTypes.shape({

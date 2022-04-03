@@ -493,8 +493,11 @@ test('sliceRowsPerPage(), should return a properly sized array', () => {
 })
 
 test('sortData(), should return a properly sorted array', () => {
+  type Data = {
+    name: string
+  }
   const filter = ''
-  const opts: Headers<any> = {
+  const opts: Headers<Data> = {
     name: {
       filterable: false,
       invisible: false,
