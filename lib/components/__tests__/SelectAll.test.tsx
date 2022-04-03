@@ -6,8 +6,12 @@ import type { SelectAllProps } from '../SelectAll'
 const selectAllWord = 'selectAllWord'
 const unSelectAllWord = 'unSelectAllWord'
 
-const setup = ({ locale }: SelectAllProps = {}) => {
-  const utils = render(<SelectAll locale={locale} />)
+const setup = (
+  { locale, handleToggleAll }: SelectAllProps = { handleToggleAll: jest.fn() },
+) => {
+  const utils = render(
+    <SelectAll locale={locale} handleToggleAll={handleToggleAll} />,
+  )
 
   const selectAll: HTMLInputElement = screen.getByTestId('select-all')
 
@@ -30,6 +34,7 @@ describe('SelectAll', () => {
         selectAllWord,
         unSelectAllWord,
       },
+      handleToggleAll: jest.fn(),
     })
 
     expect(selectAll).toBeInTheDocument()

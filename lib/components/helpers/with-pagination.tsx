@@ -9,8 +9,8 @@ export interface WrappedComponentProps {
   totalPages: number
 }
 
-interface PaginationWrapperProps {
-  rows: utils.UnknownObject[]
+interface PaginationWrapperProps<T = utils.UnknownObject> {
+  rows: T[]
   perPage: number
   activePage: number
   onPageChange: PageChangeFn
@@ -20,18 +20,18 @@ interface PaginationWrapperState {
   totalPages: number
 }
 
-const withPagination = (
+const withPagination = <T,>(
   WrappedComponent: ComponentType<WrappedComponentProps>,
-): ComponentType<PaginationWrapperProps> => {
+): ComponentType<PaginationWrapperProps<T>> => {
   class PaginationWrapper extends Component<
-    PaginationWrapperProps,
+    PaginationWrapperProps<T>,
     PaginationWrapperState
   > {
     static propTypes
 
     static defaultProps
 
-    constructor(props: PaginationWrapperProps) {
+    constructor(props: PaginationWrapperProps<T>) {
       super(props)
 
       this.state = { totalPages: 0 }
@@ -57,6 +57,7 @@ const withPagination = (
   }
 
   PaginationWrapper.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     rows: PropTypes.arrayOf(PropTypes.object).isRequired,
     perPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     activePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

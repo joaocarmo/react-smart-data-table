@@ -4,9 +4,13 @@ import cx from 'clsx'
 import * as utils from '../helpers/functions'
 import '../css/paginator.css'
 
+export type PageChangeFnOpts = {
+  activePage: number
+}
+
 export type PageChangeFn = (
   event: MouseEvent<HTMLElement>,
-  { activePage: number },
+  options: PageChangeFnOpts,
 ) => void
 
 interface PaginatorItemProps {
