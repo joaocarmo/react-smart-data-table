@@ -27,24 +27,25 @@ _smarts_, check out
 It currently supports:
 
 1. Humanized column names based on object keys
-2. Sortable columns
+1. Sortable columns
    - Accepts a custom sort `compareFn` function
-3. Rows filtering / searchable
-4. Search term highlight in the results
-5. Column visibility toggles
-6. Automatic pagination
-7. Server-side/remote data
-8. Control over row clicks
-9. Smart data rendering
+1. Rows filtering / searchable
+1. Search term highlight in the results
+1. Column visibility toggles
+1. Automatic pagination
+1. Server-side/remote data
+1. Control over row clicks
+1. Smart data rendering
    - URLs and E-Mail addresses rendered as the _href_ in an _anchor_ tag
      `<a />`
    - _boolean_ value parsing to yes/no word
    - Image URLs rendered as the _src_ for an image tag `<img />`
-10. Custom override if the default behavior is unwanted for some columns
-11. Custom components
+1. Custom override if the default behavior is unwanted for some columns
+1. Custom components
     - Paginator
-12. Control the order of the columns
+1. Control the order of the columns
     - Using the above, it's also possible to select which columns to display
+1. Custom sorting
 
 ## Installation
 
