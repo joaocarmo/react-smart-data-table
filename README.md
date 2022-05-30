@@ -45,7 +45,6 @@ It currently supports:
     - Paginator
 1. Control the order of the columns
     - Using the above, it's also possible to select which columns to display
-1. Custom sorting
 
 ## Installation
 
