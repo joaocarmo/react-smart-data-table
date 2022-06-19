@@ -1,31 +1,25 @@
-import { memo, useMemo } from 'react'
-import type { FC, ReactNode } from 'react'
+import { useMemo } from 'react'
+import type { PropsWithChildren } from 'react'
 import PropTypes from 'prop-types'
 import * as utils from '../helpers/functions'
 
-interface HighlightValueProps {
-  children: ReactNode
+type HighlightValueProps = PropsWithChildren<{
   filterValue: string
-  'data-testid': string
-}
-
-const areEqual = (
-  { children: prevChildren, filterValue: prevFilterValue },
-  { children: nextChildren, filterValue: nextFilterValue },
-) => prevChildren === nextChildren && prevFilterValue === nextFilterValue
+  'data-testid'?: string
+}>
 
 const HighlightValue = ({
   children,
   filterValue,
-  'data-testid': testId = 'highlight-value',
-}: HighlightValueProps): ReactNode => {
+  'data-testid': testId,
+}: HighlightValueProps) => {
   const { first, highlight, last } = useMemo(
-    () => utils.highlightValueParts(children as string, filterValue),
+    () => utils.highlightValueParts(String(children), filterValue),
     [children, filterValue],
   )
 
   if (!first && !highlight && !last) {
-    return children
+    return children as JSX.Element
   }
 
   return (
@@ -38,13 +32,14 @@ const HighlightValue = ({
 }
 
 HighlightValue.propTypes = {
-  filterValue: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+  filterValue: PropTypes.string,
 }
 
 HighlightValue.defaultProps = {
+  children: null,
   filterValue: '',
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+  'data-testid': 'highlight-value',
 }
 
-export default memo(HighlightValue as FC<HighlightValueProps>, areEqual)
+export default HighlightValue
