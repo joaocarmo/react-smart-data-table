@@ -48,11 +48,11 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     return null
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     void this.fetchData()
   }
 
-  componentDidUpdate(prevProps: SmartDataTableProps<T>): void {
+  componentDidUpdate(prevProps: SmartDataTableProps<T>) {
     const { data } = this.props
     const { data: prevData } = prevProps
 
@@ -69,7 +69,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     rowData: T,
     rowIndex: number,
     tableData: T[],
-  ): void => {
+  ) => {
     const { onRowClick } = this.props
 
     if (typeof onRowClick === 'function') {
@@ -77,7 +77,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     }
   }
 
-  handleColumnToggle = (key: string): void => {
+  handleColumnToggle = (key: string) => {
     const { colProperties } = this.state
     const newColProperties = { ...colProperties }
 
@@ -94,8 +94,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
   }
 
   handleColumnToggleAll =
-    (columns: utils.Column<T>[]) =>
-    (isChecked: boolean): void => {
+    (columns: utils.Column<T>[]) => (isChecked: boolean) => {
       const { colProperties } = this.state
       const newColProperties = { ...colProperties }
 
@@ -116,11 +115,11 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
   handleOnPageChange = (
     event: MouseEvent<HTMLElement>,
     { activePage }: { activePage: number },
-  ): void => {
+  ) => {
     this.setState({ activePage })
   }
 
-  handleSortChange(column: utils.Column<T>): void {
+  handleSortChange(column: utils.Column<T>) {
     const { sorting } = this.state
     const { key } = column
     let dir = ''
@@ -363,7 +362,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
   renderPagination(rows: T[]): ReactNode {
     const { perPage, paginator: PaginatorComponent } = this.props
     const { activePage } = this.state
-    const Paginate = withPagination(PaginatorComponent)
+    const Paginate = withPagination<T>(PaginatorComponent)
 
     if (perPage && perPage > 0) {
       return (
@@ -381,7 +380,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     return null
   }
 
-  render(): ReactNode {
+  render() {
     const {
       className,
       dynamic,
