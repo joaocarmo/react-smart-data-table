@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import SelectAll from '../SelectAll'
-import type { SelectAllProps } from '../SelectAll'
+import SelectAll from './SelectAll'
+import type { SelectAllProps } from './SelectAll'
 
 const selectAllWord = 'selectAllWord'
 const unSelectAllWord = 'unSelectAllWord'
@@ -28,7 +28,7 @@ describe('SelectAll', () => {
     expect(selectAll).toBeInTheDocument()
   })
 
-  it('should function correctly', () => {
+  it('should function correctly', async () => {
     const { selectAll } = setup({
       locale: {
         selectAllWord,
@@ -43,13 +43,13 @@ describe('SelectAll', () => {
 
     expect(screen.getByText(selectAllWord)).toBeInTheDocument()
 
-    userEvent.click(selectAll)
+    await userEvent.click(selectAll)
 
     expect(selectAll.checked).toBe(true)
 
     expect(screen.getByText(unSelectAllWord)).toBeInTheDocument()
 
-    userEvent.click(selectAll)
+    await userEvent.click(selectAll)
 
     expect(selectAll.checked).toBe(false)
 

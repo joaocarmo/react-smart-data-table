@@ -14,6 +14,6 @@ module.exports = {
   resetMocks: false,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
-  testRegex: '(/__tests__/.*)\\.test\\.[jt]sx?$',
+  testRegex: '\\.test\\.[jt]sx?$',
   transformIgnorePatterns: [`node_modules/(?!(${esModules}))`],
 }
