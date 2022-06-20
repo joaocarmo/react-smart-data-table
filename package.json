@@ -7,6 +7,7 @@
   "exports": {
     ".": "./dist/react-smart-data-table.js"
   },
+  "types": "./dist/react-smart-data-table.d.ts",
   "directories": {
     "lib": "lib"
   },
@@ -15,7 +16,7 @@
   ],
   "scripts": {
     "build:dev": "NODE_ENV=development webpack",
-    "build:docs": "yarn clean && yarn build && yarn build:example && rm -f dist/react-smart-data-table.* && cp docs/* dist/",
+    "build:docs": "yarn clean && yarn prd && rm -f dist/react-smart-data-table.* && cp docs/* dist/",
     "build:example-dev": "NODE_ENV=development webpack --config webpack.dev.js",
     "build:example": "NODE_ENV=production webpack --config webpack.dev.js",
     "build:types": "tsc -p tsconfig.declaration.json && mv dist/index.d.ts dist/react-smart-data-table.d.ts",
