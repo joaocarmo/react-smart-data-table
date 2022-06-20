@@ -65,6 +65,34 @@ basis for your own theme.
 import 'react-smart-data-table/dist/react-smart-data-table.css'
 ```
 
+## Context
+
+You can access the SmartDataTable's internal context in your own component by
+using the `useSmartDataTableContext` hook.
+
+**Note:** You must be within the context of `SmartDataTable`, e.g. passing a
+custom component to `emptyTable`, `loading`, or `paginator`.
+
+```jsx
+import { useSmartDataTableContext } from 'react-smart-data-table'
+
+const MyComponent = () => {
+  const { columns, data } = useSmartDataTableContext()
+
+  return (
+    <div>
+      <h3>My Component</h3>
+      <p>
+        Columns: {columns.length}
+      </p>
+      <p>
+        Rows: {data.length}
+      </p>
+    </div>
+  )
+}
+```
+
 ## Props
 
 | Name               | Default               | Type                  | Description                                                       |
