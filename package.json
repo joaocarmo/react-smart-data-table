@@ -14,13 +14,14 @@
     "dist"
   ],
   "scripts": {
-    "add-all": "git add .",
     "build:dev": "NODE_ENV=development webpack",
+    "build:docs": "yarn clean && yarn build && yarn build:example && rm -f dist/react-smart-data-table.* && cp docs/* dist/",
     "build:example-dev": "NODE_ENV=development webpack --config webpack.dev.js",
     "build:example": "NODE_ENV=production webpack --config webpack.dev.js",
     "build:types": "tsc -p tsconfig.declaration.json && mv dist/index.d.ts dist/react-smart-data-table.d.ts",
     "build": "NODE_ENV=production webpack",
     "clean": "rm -rf dist/",
+    "deploy": "gh-pages -d dist",
     "dev": "yarn build:dev && yarn build:example-dev",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
@@ -105,6 +106,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^4.0.0",
     "husky": "^8.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.1",
