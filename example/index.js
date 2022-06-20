@@ -76,6 +76,18 @@ const emptyTable = (
 
 const loader = <div className={sematicUI.loader}>Loading...</div>
 
+const DeleteButton = ({ handleDelete }) => (
+  <i
+    className={sematicUI.deleteIcon}
+    style={{ cursor: 'pointer' }}
+    onClick={handleDelete}
+    onKeyDown={handleDelete}
+    role="button"
+    tabIndex="0"
+    aria-label="delete row"
+  />
+)
+
 class AppDemo extends PureComponent {
   constructor(props) {
     super(props)
@@ -140,13 +152,13 @@ class AppDemo extends PureComponent {
   handleDelete(event, idx, row) {
     event.preventDefault()
     event.stopPropagation()
+
     const { data } = this.state
-    const { _id, id } = row
-    let orgInd
-    if (_id) orgInd = data.findIndex(({ _id: thisId }) => thisId === _id)
-    if (id) orgInd = data.findIndex(({ id: thisId }) => thisId === id)
-    data.splice(orgInd, 1)
-    this.setState({ data })
+    const newData = JSON.parse(JSON.stringify(data))
+
+    newData.splice(idx, 1)
+
+    this.setState({ data: newData })
   }
 
   getHeaders() {
@@ -195,15 +207,7 @@ class AppDemo extends PureComponent {
         sortable: false,
         filterable: false,
         transform: (value, idx, row) => (
-          <i
-            className={sematicUI.deleteIcon}
-            style={{ cursor: 'pointer' }}
-            onClick={(e) => this.handleDelete(e, idx, row)}
-            onKeyDown={(e) => this.handleDelete(e, idx, row)}
-            role="button"
-            tabIndex="0"
-            aria-label="delete row"
-          />
+          <DeleteButton handleDelete={(e) => this.handleDelete(e, idx, row)} />
         ),
       },
     }
@@ -486,7 +490,7 @@ class AppDemo extends PureComponent {
           <SmartDataTable
             name="test-fake-table"
             data={data}
-            dataSampling={dataSampling}
+            dataSampling={parseInt(String(dataSampling), 10)}
             headers={headers}
             orderedHeaders={orderedHeaders}
             hideUnordered={hideUnordered}

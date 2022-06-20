@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import CellValue from '../CellValue'
-import type { CellValueProps } from '../CellValue'
+import CellValue from './CellValue'
+import type { CellValueProps } from './CellValue'
 
 const setup = (props: CellValueProps) => {
   const { children, content, ...otherProps } = props

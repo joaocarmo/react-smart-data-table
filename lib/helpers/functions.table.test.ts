@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import {
   capitalizeAll,
   columnObject,
@@ -22,9 +23,9 @@ import {
   RenderOptions,
   Sorting,
   UnknownObject,
-} from '../functions'
-import { DEFAULT_NO_WORD, DEFAULT_YES_WORD } from '../constants'
-import { getRandomInt, imgb64 } from '../tests'
+} from './functions'
+import { DEFAULT_NO_WORD, DEFAULT_YES_WORD } from './constants'
+import { getRandomInt, imgb64 } from './tests'
 
 const negativeImgTests: [unknown, boolean][] = [
   [null, false],
@@ -635,7 +636,7 @@ describe('getRenderValue(), should decide which value to render', () => {
     ['array ([])', { content: [] }, ''],
     ['array ([1])', { content: [1] }, '1'],
     ["array ([1, 'a'])", { children: [1, 'a'] }, '1,a'],
-    ['object ({})', { content: {} }, '[object Object]'],
+    ['object ({})', { content: {} as ReactNode }, '[object Object]'],
   ]
 
   test.each(tests)('Testing %s', (name, data, expected) => {

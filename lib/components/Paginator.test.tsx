@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Paginator from '../Paginator'
-import type { PaginatorProps } from '../Paginator'
+import Paginator from './Paginator'
+import type { PaginatorProps } from './Paginator'
 
 const mockPageChange = jest.fn()
 
@@ -78,12 +78,12 @@ describe('Paginator', () => {
     )
   })
 
-  it('calls onPageChange when clicking PaginatorItem', () => {
+  it('calls onPageChange when clicking PaginatorItem', async () => {
     const [activePage, totalPages, , activeItem] = testCases[0]
 
     setup({ activePage, totalPages, onPageChange: mockPageChange })
 
-    userEvent.click(screen.getAllByTestId('paginator-item')[activeItem])
+    await userEvent.click(screen.getAllByTestId('paginator-item')[activeItem])
 
     expect(mockPageChange).toHaveBeenCalled()
   })

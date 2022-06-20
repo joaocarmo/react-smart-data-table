@@ -3,7 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./lib",
     "jsx": "react-jsx",
-    "lib": ["ES2020", "DOM"],
+    "lib": ["es2020", "dom"],
     "paths": {
       "~*": ["./*"]
     },

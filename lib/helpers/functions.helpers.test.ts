@@ -8,8 +8,8 @@ import {
   isFunction,
   isNumber,
   isUndefined,
-} from '../functions'
-import { getRandomInt } from '../tests'
+} from './functions'
+import { getRandomInt } from './tests'
 
 // Set different object types
 const objectTypes = {
