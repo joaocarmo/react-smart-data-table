@@ -2,7 +2,7 @@ const path = require('path')
 const babelOptions = require('./babel.config')
 const pkg = require('./package.json')
 
-const devDir = path.join(__dirname, 'dev')
+const devDir = path.join(__dirname, 'docs')
 const distDir = path.join(__dirname, 'dist')
 const exampleDir = path.join(__dirname, 'example')
 const libDir = path.join(__dirname, 'lib')

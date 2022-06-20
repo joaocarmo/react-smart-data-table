@@ -1,5 +1,5 @@
 import { PureComponent } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { imgb64 } from '../lib/helpers/tests'
 import SmartDataTable from 'react-smart-data-table-dev'
 import 'react-smart-data-table-dev.css'
@@ -534,4 +534,6 @@ class AppDemo extends PureComponent {
   }
 }
 
-ReactDOM.render(<AppDemo />, document.getElementById('app'))
+const container = document.getElementById('app')
+const root = createRoot(container)
+root.render(<AppDemo />)
