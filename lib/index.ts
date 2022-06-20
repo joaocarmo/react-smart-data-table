@@ -3,6 +3,9 @@ import SmartDataTable from './SmartDataTable'
 
 export default SmartDataTable
 
+// Export the context
+export { useSmartDataTableContext } from './helpers/context'
+
 // Named component exports
 export { default as CellValue } from './components/CellValue'
 export { default as ErrorBoundary } from './components/ErrorBoundary'
