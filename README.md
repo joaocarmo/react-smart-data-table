@@ -40,9 +40,9 @@ It currently supports:
    - Image URLs rendered as the _src_ for an image tag `<img />`
 1. Custom override if the default behavior is unwanted for some columns
 1. Custom components
-    - Paginator
+   - Paginator
 1. Control the order of the columns
-    - Using the above, it's also possible to select which columns to display
+   - Using the above, it's also possible to select which columns to display
 
 ## Installation
 
@@ -80,12 +80,8 @@ const MyComponent = () => {
   return (
     <div>
       <h3>My Component</h3>
-      <p>
-        Columns: {columns.length}
-      </p>
-      <p>
-        Rows: {data.length}
-      </p>
+      <p>Columns: {columns.length}</p>
+      <p>Rows: {data.length}</p>
     </div>
   )
 }
