@@ -38,9 +38,13 @@ const negativeImgTests: [unknown, boolean][] = [
   ['data:image/svg+xml;base64,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', false],
 ]
 
+type FetchData = Record<string, string>
+
+type ReturnFetchData = FetchData[] | { results: FetchData[] }
+
 describe('fetchData(), should return remote data', () => {
-  const staticData = [{ foo: 'foo', bar: 'bar' }] as unknown[]
-  const remoteData = { results: staticData }
+  const staticData: FetchData[] = [{ foo: 'foo', bar: 'bar' }]
+  const remoteData: ReturnFetchData = { results: staticData }
 
   beforeEach(() => {
     fetchMock.mockResponseOnce(JSON.stringify(remoteData), {
@@ -48,7 +52,12 @@ describe('fetchData(), should return remote data', () => {
     })
   })
 
-  const tests: [string, string | unknown[], FetchDataOptions, any][] = [
+  const tests: [
+    string,
+    string | unknown[],
+    FetchDataOptions,
+    ReturnFetchData,
+  ][] = [
     ['static data', staticData, undefined, staticData],
     ['remote data', 'https://example.com/api/v1/users', undefined, undefined],
     [
@@ -467,7 +476,7 @@ test('filterRowsByValue(), should return only the entries which match the search
     (acc: string[], curr) => [...acc, ...Object.keys(curr)],
     [],
   )
-  const opts: Headers<any> = Object.fromEntries(
+  const opts: Headers<unknown> = Object.fromEntries(
     allKeys.map((key) => [
       key,
       {
