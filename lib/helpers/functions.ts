@@ -1,11 +1,12 @@
 import { CSSProperties, MouseEvent, ReactNode } from 'react'
-import flatten from 'flat'
+import { flatten } from 'flat'
 import escapeStringRegexp from 'escape-string-regexp'
-import { snakeCase } from 'snake-case'
+import { snakeCase } from 'change-case'
 import fileImgExtensions from './file-extensions'
 import * as constants from './constants'
 
-export type UnknownObject<T = unknown> = Record<string, T>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type UnknownObject<T = any> = Record<string, T>
 
 export type ParseBool = {
   noWord: string
@@ -86,7 +87,9 @@ export const isArray = <T = unknown>(obj: T): boolean => Array.isArray(obj)
 export const isObject = <T = unknown>(obj: T): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
 
-export const isEmpty = <T = UnknownObject>(obj: unknown[] | T): boolean => {
+export const isEmpty = <T extends UnknownObject = UnknownObject>(
+  obj: unknown[] | T,
+): boolean => {
   if (isArray(obj) && 'length' in obj) {
     return !obj.length
   }
@@ -236,7 +239,7 @@ export function generatePagination(
   return pagination
 }
 
-export function getNestedObject<T = UnknownObject>(
+export function getNestedObject<T extends UnknownObject = UnknownObject>(
   nestedObj: T,
   pathArr: string[],
 ): unknown {
@@ -396,7 +399,9 @@ export function parseDataForColumns<T = UnknownObject>(
   return columns
 }
 
-export function parseDataForRows<T = UnknownObject>(data: T[] = []): T[] {
+export function parseDataForRows<T extends UnknownObject = UnknownObject>(
+  data: T[] = [],
+): T[] {
   let rows: T[] = []
 
   if (data && isArray(data) && !isEmpty(data)) {

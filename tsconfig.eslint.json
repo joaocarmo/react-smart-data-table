@@ -3,8 +3,8 @@
   "include": [
     ".eslintrc.js",
     "babel.config.js",
-    "jest.config.js",
-    "jest.setup.js",
+    "jest.config.ts",
+    "jest.setup.ts",
     "lib/**/*",
     "webpack.config.js",
     "webpack.dev.js"

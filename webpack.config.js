@@ -30,7 +30,7 @@ module.exports = {
       flat: 'flat',
       linkifyjs: 'linkifyjs',
       'prop-types': 'prop-types',
-      'snake-case': 'snake-case',
+      'change-case': 'change-case',
       react: {
         root: 'React',
         commonjs2: 'react',
