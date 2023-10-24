@@ -16,9 +16,8 @@
       "node",
       "prop-types",
       "react-dom",
-      "react",
-      "testing-library__jest-dom"
+      "react"
     ]
   },
-  "include": ["lib/**/*"]
+  "include": ["lib/**/*", "./jest.config.ts", "./jest.setup.ts"]
 }

@@ -4,10 +4,10 @@
 
 > Jun 21, 2022
 
-* Creates and implements a SmartDataTableContext
-* Removes the `dev` and `dist` dirs
-* Upgrades the example to use the React 18 API
-* Moves the example to gh-pages
+- Creates and implements a SmartDataTableContext
+- Removes the `dev` and `dist` dirs
+- Upgrades the example to use the React 18 API
+- Moves the example to gh-pages
 
 ## 0.15.0
 

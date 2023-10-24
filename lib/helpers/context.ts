@@ -3,6 +3,6 @@ import defaultState from './default-state'
 import type { SmartDataTableState } from '../types'
 
 export const SmartDataTableContext =
-  createContext<SmartDataTableState<any>>(defaultState)
+  createContext<SmartDataTableState>(defaultState)
 
 export const useSmartDataTableContext = () => useContext(SmartDataTableContext)
