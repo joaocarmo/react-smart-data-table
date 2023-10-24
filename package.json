@@ -61,7 +61,7 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
-    "change-case": "^5.1.2",
+    "change-case": "4.1.2",
     "clsx": "^2.0.0",
     "escape-string-regexp": "^5.0.0",
     "flat": "^6.0.1",
@@ -119,6 +119,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "style-loader": "^3.3.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
