@@ -4,8 +4,6 @@
 [![jest](https://jestjs.io/img/jest-badge.svg)][jest]
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)][contributor]
 ![Workflow Status](https://github.com/joaocarmo/react-smart-data-table/workflows/Tests/badge.svg)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][lgtm-alerts]
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/joaocarmo/react-smart-data-table.svg?logo=lgtm&logoWidth=18)][lgtm-context]
 
 A smart data table component for React.js meant to be configuration free,
 batteries included.
