@@ -64,7 +64,7 @@
     "clsx": "^1.1.1",
     "escape-string-regexp": "^5.0.0",
     "flat": "^5.0.2",
-    "linkifyjs": "^3.0.5",
+    "linkifyjs": "^4.1.3",
     "prop-types": "^15.8.1",
     "snake-case": "^3.0.3"
   },
