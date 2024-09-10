@@ -6,19 +6,7 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "~*": ["./*"]
-    },
-    "skipLibCheck": true,
-    "types": [
-      "flat",
-      "jest-fetch-mock",
-      "jest",
-      "linkifyjs",
-      "node",
-      "prop-types",
-      "react-dom",
-      "react",
-      "testing-library__jest-dom"
-    ]
+    }
   },
   "include": ["lib/**/*"]
 }

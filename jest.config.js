@@ -12,7 +12,7 @@ module.exports = {
     '\\.(css|less)$': 'identity-obj-proxy',
   },
   resetMocks: false,
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'jsdom',
   testRegex: '\\.test\\.[jt]sx?$',
   transformIgnorePatterns: [`node_modules/(?!(${esModules}))`],
