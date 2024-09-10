@@ -92,7 +92,6 @@ export const togglesSelectAllPropTypes = PropTypes.oneOfType([
 ])
 
 Toggles.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   colProperties: PropTypes.objectOf(
     PropTypes.shape({

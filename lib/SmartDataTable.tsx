@@ -290,7 +290,6 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
         return (
           <Table.Cell
             data-column-name={column.key}
-            // eslint-disable-next-line react/no-array-index-key
             key={`row-${i}-column-${j}`}
           >
             {utils.isFunction(transformFn) ? (
@@ -323,7 +322,6 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     const visibleRows = utils.sliceRowsPerPage(rows, activePage, perPage)
     const tableRows = visibleRows.map((row, idx) => (
       <Table.Row
-        // eslint-disable-next-line react/no-array-index-key
         key={`row-${idx}`}
         onClick={(event: MouseEvent<HTMLElement>) =>
           this.handleRowClick(event, row, idx, rows)
@@ -428,7 +426,6 @@ SmartDataTable.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   dataKey: PropTypes.string,
   dataKeyResolver: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
   dataRequestOptions: PropTypes.objectOf(PropTypes.any),
   dataSampling: PropTypes.number,
   dynamic: PropTypes.bool,
@@ -443,7 +440,6 @@ SmartDataTable.propTypes = {
     isImg: PropTypes.oneOf([
       PropTypes.bool,
       PropTypes.shape({
-        // eslint-disable-next-line react/forbid-prop-types
         style: PropTypes.objectOf(PropTypes.any),
         className: PropTypes.string,
       }),

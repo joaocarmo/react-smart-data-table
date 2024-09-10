@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./lib",
     "jsx": "react-jsx",

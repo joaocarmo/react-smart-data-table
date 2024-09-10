@@ -57,7 +57,6 @@ const withPagination = <T,>(
   }
 
   PaginationWrapper.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
     rows: PropTypes.arrayOf(PropTypes.object).isRequired,
     perPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     activePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

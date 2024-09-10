@@ -145,13 +145,11 @@ export const cleanLonelyInt = (val: string): boolean =>
 
 export const debugPrint = (...args: unknown[]): void => {
   if (process.env.NODE_ENV !== 'production') {
-    /* eslint-disable no-console */
     console.log(...args)
   }
 }
 
 export const errorPrint = (...args: unknown[]): void => {
-  /* eslint-disable no-console */
   console.error(...args)
 }
 

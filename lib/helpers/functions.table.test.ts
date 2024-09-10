@@ -48,7 +48,12 @@ describe('fetchData(), should return remote data', () => {
     })
   })
 
-  const tests: [string, string | unknown[], FetchDataOptions, any][] = [
+  const tests: [
+    string,
+    string | unknown[],
+    FetchDataOptions | undefined,
+    unknown,
+  ][] = [
     ['static data', staticData, undefined, staticData],
     ['remote data', 'https://example.com/api/v1/users', undefined, undefined],
     [
@@ -467,7 +472,7 @@ test('filterRowsByValue(), should return only the entries which match the search
     (acc: string[], curr) => [...acc, ...Object.keys(curr)],
     [],
   )
-  const opts: Headers<any> = Object.fromEntries(
+  const opts: Headers<unknown> = Object.fromEntries(
     allKeys.map((key) => [
       key,
       {

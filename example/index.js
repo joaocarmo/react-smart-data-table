@@ -149,7 +149,7 @@ class AppDemo extends PureComponent {
     this.setState({ apiUrl: apiUrlNew })
   }
 
-  handleDelete(event, idx, row) {
+  handleDelete(event, idx, _row) {
     event.preventDefault()
     event.stopPropagation()
 
@@ -261,11 +261,11 @@ class AppDemo extends PureComponent {
         const [key] = Object.keys(rowData)
         value = `${key}: ${rowData[key]}`
       }
-      /* eslint-disable no-alert */
+
       window.alert(`You clicked ${value}'s row !`)
     } else {
       // The following results should be identical
-      /* eslint-disable no-console */
+
       console.log(rowData, tableData[rowIndex])
     }
   }
