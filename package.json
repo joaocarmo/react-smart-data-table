@@ -34,7 +34,7 @@
     "pretty": "prettier --check .",
     "start": "NODE_ENV=development webpack serve --config webpack.dev.js",
     "test": "jest",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit --project tsconfig.eslint.json"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -85,7 +85,6 @@
     "@types/flat": "^5.0.2",
     "@types/jest": "^29.5.12",
     "@types/linkifyjs": "^2.1.4",
-    "@types/node": "^22.5.4",
     "@types/prop-types": "^15.7.5",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
