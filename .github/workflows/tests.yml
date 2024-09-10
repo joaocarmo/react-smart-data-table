@@ -25,8 +25,9 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version: '20'
           cache: 'yarn'
+          registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
