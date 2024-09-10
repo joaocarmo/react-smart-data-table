@@ -87,7 +87,7 @@ export const isObject = <T = unknown>(obj: T): boolean =>
   (obj && typeof obj === 'object' && obj.constructor === Object) || false
 
 export const isEmpty = <T = UnknownObject>(obj: unknown[] | T): boolean => {
-  if (isArray(obj) && 'length' in obj) {
+  if (Array.isArray(obj) && 'length' in obj) {
     return !obj.length
   }
 
