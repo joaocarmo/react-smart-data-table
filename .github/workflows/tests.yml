@@ -13,14 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_PAT }}
-          ref: 'main'
 
       - name: Enable corepack
         run: |
           corepack enable yarn
-          corepack use yarn@1
 
       - name: Use Node.js
         uses: actions/setup-node@v4
