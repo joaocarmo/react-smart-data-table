@@ -1,10 +1,13 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
   "include": [
     ".eslintrc.js",
     "babel.config.js",
     "jest.config.js",
-    "jest.setup.js",
+    "jest.setup.ts",
     "lib/**/*",
     "webpack.config.js",
     "webpack.dev.js"

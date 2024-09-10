@@ -4,6 +4,7 @@
 
 <!-- (add an `x` to `[ ]` if applicable and the issue number if available) -->
 
+- [ ] Chore
 - [ ] Feature
 - [ ] Fix
 - [ ] Refactor

@@ -1,7 +1,0 @@
-coverage/
-dist/
-docs/
-example/
-node_modules/
-test/
-webpack.*.js

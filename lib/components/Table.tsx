@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { DetailedHTMLProps, TableHTMLAttributes } from 'react'
 import PropTypes from 'prop-types'
 
