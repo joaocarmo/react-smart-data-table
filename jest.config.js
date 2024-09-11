@@ -1,4 +1,4 @@
-const esModules = ['escape-string-regexp'].join('|')
+const esModules = ['change-case', 'escape-string-regexp', 'flat'].join('|')
 
 module.exports = {
   collectCoverage: true,

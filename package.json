@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build:dev": "NODE_ENV=development webpack",
-    "build:docs": "yarn clean && yarn prd && rm -f dist/react-smart-data-table.* && cp docs/* dist/",
+    "build:docs": "yarn clean && yarn prd && rimraf dist/react-smart-data-table.* && cp docs/* dist/",
     "build:example-dev": "NODE_ENV=development webpack --config webpack.dev.js",
     "build:example": "NODE_ENV=production webpack --config webpack.dev.js",
     "build:types": "tsc -p tsconfig.declaration.json && mv dist/index.d.ts dist/react-smart-data-table.d.ts",
@@ -26,10 +26,8 @@
     "dev": "yarn build:dev && yarn build:example-dev",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
-    "postpublish": "pinst --enable",
     "prd": "yarn build && yarn build:example",
     "prepare": "husky",
-    "prepublishOnly": "pinst --disable",
     "pretty:fix": "prettier --write .",
     "pretty": "prettier --check .",
     "start": "NODE_ENV=development webpack serve --config webpack.dev.js",
@@ -61,15 +59,14 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
-    "clsx": "^1.1.1",
+    "clsx": "^2.1.1",
     "escape-string-regexp": "^5.0.0",
-    "flat": "^5.0.2",
-    "linkifyjs": "^3.0.5",
-    "prop-types": "^15.8.1",
-    "snake-case": "^3.0.3"
+    "flat": "^6.0.1",
+    "linkifyjs": "^4.1.3",
+    "prop-types": "^15.8.1"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
@@ -93,6 +90,7 @@
     "@withshepherd/faker": "^5.5.5",
     "babel-jest": "^29.7.0",
     "babel-loader": "^9.1.3",
+    "change-case": "^5.4.4",
     "core-js": "^3.23.2",
     "css-loader": "^7.1.2",
     "eslint": "^9.10.0",
@@ -105,7 +103,6 @@
     "jest-fetch-mock": "^3.0.3",
     "lint-staged": "^15.2.10",
     "mini-css-extract-plugin": "^2.6.1",
-    "pinst": "^3.0.0",
     "prettier": "^3.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
