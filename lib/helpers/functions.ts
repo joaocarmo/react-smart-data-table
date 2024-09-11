@@ -1,5 +1,5 @@
 import { CSSProperties, MouseEvent, ReactNode } from 'react'
-import flatten from 'flat'
+import { flatten } from 'flat'
 import escapeStringRegexp from 'escape-string-regexp'
 import { snakeCase } from 'change-case'
 import fileImgExtensions from './file-extensions'

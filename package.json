@@ -61,7 +61,7 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "escape-string-regexp": "^5.0.0",
-    "flat": "^5.0.2",
+    "flat": "^6.0.1",
     "linkifyjs": "^4.1.3",
     "prop-types": "^15.8.1"
   },
