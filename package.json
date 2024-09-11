@@ -59,12 +59,11 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
-    "clsx": "^1.1.1",
+    "clsx": "^2.1.1",
     "escape-string-regexp": "^5.0.0",
     "flat": "^5.0.2",
-    "linkifyjs": "^3.0.5",
-    "prop-types": "^15.8.1",
-    "snake-case": "^3.0.3"
+    "linkifyjs": "^4.1.3",
+    "prop-types": "^15.8.1"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0"
@@ -91,6 +90,7 @@
     "@withshepherd/faker": "^5.5.5",
     "babel-jest": "^29.7.0",
     "babel-loader": "^9.1.3",
+    "change-case": "^5.4.4",
     "core-js": "^3.23.2",
     "css-loader": "^7.1.2",
     "eslint": "^9.10.0",
