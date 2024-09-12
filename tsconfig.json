@@ -9,6 +9,5 @@
       "~*": ["./*"]
     }
   },
-  "include": ["lib/**/*"],
-  "exclude": ["lib/**/*.test.*", "lib/**/__mocks__"]
+  "include": ["./lib/**/*"]
 }
