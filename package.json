@@ -16,17 +16,17 @@
   ],
   "scripts": {
     "build:dev": "NODE_ENV=development webpack",
-    "build:docs": "yarn clean && yarn prd && rimraf dist/react-smart-data-table.* && cp docs/* dist/",
+    "build:docs": "pnpm clean && pnpm prd && rimraf dist/react-smart-data-table.* && cp docs/* dist/",
     "build:example-dev": "NODE_ENV=development webpack --config webpack.dev.js",
     "build:example": "NODE_ENV=production webpack --config webpack.dev.js",
     "build:types": "tsc -p tsconfig.declaration.json && mv dist/index.d.ts dist/react-smart-data-table.d.ts",
     "build": "NODE_ENV=production webpack",
     "clean": "rimraf dist/",
     "deploy": "gh-pages -d dist",
-    "dev": "yarn build:dev && yarn build:example-dev",
+    "dev": "pnpm build:dev && pnpm build:example-dev",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
-    "prd": "yarn build && yarn build:example",
+    "prd": "pnpm build && pnpm build:example",
     "prepare": "husky",
     "pretty:fix": "prettier --write .",
     "pretty": "prettier --check .",
@@ -115,5 +115,5 @@
     "webpack-dev-server": "^5.1.0",
     "webpack-merge": "^6.0.1"
   },
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
 }
