@@ -94,6 +94,7 @@
     "core-js": "^3.23.2",
     "css-loader": "^7.1.2",
     "eslint": "^9.10.0",
+    "eslint-plugin-react": "^7.36.1",
     "gh-pages": "^6.1.1",
     "globals": "^15.9.0",
     "husky": "^9.1.6",

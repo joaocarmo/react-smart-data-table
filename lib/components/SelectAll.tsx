@@ -72,6 +72,8 @@ export const selectAllPropTypes = {
   handleToggleAll: PropTypes.func.isRequired,
 }
 
+SelectAll.displayName = 'SelectAll'
+
 SelectAll.propTypes = selectAllPropTypes
 
 SelectAll.defaultProps = {
