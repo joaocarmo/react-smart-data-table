@@ -76,7 +76,6 @@ const emptyTable = (
 
 const loader = <div className={sematicUI.loader}>Loading...</div>
 
-// eslint-disable-next-line react/prop-types
 const DeleteButton = ({ handleDelete }) => (
   <i
     className={sematicUI.deleteIcon}

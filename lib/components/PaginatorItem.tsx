@@ -1,5 +1,5 @@
 import { memo, MouseEvent, useCallback } from 'react'
-import PropTypes from 'prop-types'
+import type { FC } from 'react'
 import cx from 'clsx'
 import * as utils from '../helpers/functions'
 import '../css/paginator.css'
@@ -15,23 +15,23 @@ export type PageChangeFn = (
 
 interface PaginatorItemProps {
   active: boolean
-  value: number
+  value?: number
   text: string
   onPageChange: PageChangeFn
 }
 
 const areEqual = (
-  { active: prevActive, value: prevValue, text: prevText },
-  { active: nextActive, value: nextValue, text: nextText },
+  { active: prevActive, value: prevValue, text: prevText }: PaginatorItemProps,
+  { active: nextActive, value: nextValue, text: nextText }: PaginatorItemProps,
 ) =>
   prevActive === nextActive && prevValue === nextValue && prevText === nextText
 
-const PaginatorItem = ({
+const PaginatorItem: FC<PaginatorItemProps> = ({
   active,
   value,
   text,
   onPageChange,
-}: PaginatorItemProps) => {
+}) => {
   const handleOnPageChange = useCallback(
     (event: MouseEvent<HTMLElement>) => {
       onPageChange(event, { activePage: value })
@@ -50,18 +50,6 @@ const PaginatorItem = ({
       {text}
     </button>
   )
-}
-
-/* Defines the type of data expected in each passed prop */
-PaginatorItem.propTypes = {
-  active: PropTypes.bool.isRequired,
-  value: PropTypes.number,
-  text: PropTypes.string.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-}
-
-PaginatorItem.defaultProps = {
-  value: undefined,
 }
 
 export default memo(PaginatorItem, areEqual)

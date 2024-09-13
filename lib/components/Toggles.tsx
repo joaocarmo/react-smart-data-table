@@ -1,10 +1,6 @@
 import { ElementRef, useCallback, useRef } from 'react'
-import PropTypes from 'prop-types'
-import SelectAll, {
-  ColumnToggleAllFn,
-  SelectAllProps,
-  selectAllPropTypes,
-} from './SelectAll'
+import type { FC } from 'react'
+import SelectAll, { ColumnToggleAllFn, SelectAllProps } from './SelectAll'
 import * as utils from '../helpers/functions'
 import * as constants from '../helpers/constants'
 import '../css/toggles.css'
@@ -28,8 +24,8 @@ const Toggles = <T,>({
   colProperties,
   handleColumnToggle,
   handleColumnToggleAll,
-  selectAll,
-}: TogglesProps<T>): JSX.Element => {
+  selectAll = false,
+}: TogglesProps<T>): ReturnType<FC> => {
   const selectAllProps: Partial<TogglesSelectAllProps> =
     typeof selectAll === 'object' ? selectAll : {}
   const selectAllRef = useRef<SelectAllElement>(null)
@@ -84,31 +80,6 @@ const Toggles = <T,>({
       ))}
     </nav>
   )
-}
-
-export const togglesSelectAllPropTypes = PropTypes.oneOfType([
-  PropTypes.bool,
-  PropTypes.shape(selectAllPropTypes),
-])
-
-Toggles.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  colProperties: PropTypes.objectOf(
-    PropTypes.shape({
-      key: PropTypes.string,
-      text: PropTypes.string,
-      invisible: PropTypes.bool,
-      sortable: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-      filterable: PropTypes.bool,
-    }),
-  ).isRequired,
-  handleColumnToggle: PropTypes.func.isRequired,
-  handleColumnToggleAll: PropTypes.func.isRequired,
-  selectAll: togglesSelectAllPropTypes,
-}
-
-Toggles.defaultProps = {
-  selectAll: false,
 }
 
 export default Toggles

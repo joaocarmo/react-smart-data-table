@@ -1,17 +1,14 @@
-import { Component, ReactNode } from 'react'
-import PropTypes from 'prop-types'
+import { Component } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
 import * as constants from '../helpers/constants'
 
-type ErrorInfo = {
+interface ErrorInfo {
   componentStack: string
 }
 
-type LogErrorFN = (error: Error, errorInfo: ErrorInfo) => void
-
 interface ErrorBoundaryProps {
-  logError?: LogErrorFN
+  logError?: (error: Error, errorInfo: ErrorInfo) => void
   fbComponent?: ReactNode
-  children: ReactNode
 }
 
 interface ErrorBoundaryState {
@@ -20,10 +17,14 @@ interface ErrorBoundaryState {
   errorInfo: ErrorInfo
 }
 
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  static propTypes
-
-  static defaultProps
+class ErrorBoundary extends Component<
+  PropsWithChildren<ErrorBoundaryProps>,
+  ErrorBoundaryState
+> {
+  static defaultProps: ErrorBoundaryProps = {
+    logError: () => null,
+    fbComponent: null,
+  }
 
   constructor(props: ErrorBoundaryProps) {
     super(props)
@@ -51,7 +52,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
   }
 
-  renderDefaultFB(): JSX.Element {
+  renderDefaultFB(): ReactNode {
     const { error, errorInfo } = this.state
 
     return (
@@ -65,7 +66,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     )
   }
 
-  render(): JSX.Element | ReactNode {
+  render(): ReactNode {
     const { hasError } = this.state
     const { children, fbComponent } = this.props
 
@@ -80,19 +81,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     return children
   }
-}
-
-// Defines the type of data expected in each passed prop
-ErrorBoundary.propTypes = {
-  logError: PropTypes.func,
-  fbComponent: PropTypes.node,
-  children: PropTypes.node.isRequired,
-}
-
-// Defines the default values for not passing a certain prop
-ErrorBoundary.defaultProps = {
-  logError: () => null,
-  fbComponent: null,
 }
 
 export default ErrorBoundary

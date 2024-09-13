@@ -1,5 +1,4 @@
 import { Component, ComponentType } from 'react'
-import PropTypes from 'prop-types'
 import { PageChangeFn } from '../PaginatorItem'
 import * as utils from '../../helpers/functions'
 
@@ -27,9 +26,12 @@ const withPagination = <T,>(
     PaginationWrapperProps<T>,
     PaginationWrapperState
   > {
-    static propTypes
-
-    static defaultProps
+    static defaultProps: PaginationWrapperProps<T> = {
+      rows: [],
+      perPage: 10,
+      activePage: 1,
+      onPageChange: () => null,
+    }
 
     constructor(props: PaginationWrapperProps<T>) {
       super(props)
@@ -40,33 +42,26 @@ const withPagination = <T,>(
     componentDidMount() {
       const { rows, perPage } = this.props
       const totalPages = Math.ceil(rows.length / +perPage)
+
       this.setState({ totalPages })
     }
 
     render() {
       const { activePage, onPageChange } = this.props
       const { totalPages } = this.state
-      return totalPages ? (
+
+      if (!totalPages) {
+        return null
+      }
+
+      return (
         <WrappedComponent
           totalPages={totalPages}
           activePage={+activePage}
           onPageChange={onPageChange}
         />
-      ) : null
+      )
     }
-  }
-
-  PaginationWrapper.propTypes = {
-    rows: PropTypes.arrayOf(PropTypes.object).isRequired,
-    perPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    activePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onPageChange: PropTypes.func,
-  }
-
-  PaginationWrapper.defaultProps = {
-    perPage: 10,
-    activePage: 1,
-    onPageChange: () => null,
   }
 
   return PaginationWrapper
