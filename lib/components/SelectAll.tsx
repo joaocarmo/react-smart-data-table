@@ -21,7 +21,7 @@ const SelectAll = forwardRef<SelectAllHandle, SelectAllProps>(
       locale: {
         selectAllWord = constants.DEFAULT_SELECT_ALL_WORD,
         unSelectAllWord = constants.DEFAULT_UNSELECT_ALL_WORD,
-      },
+      } = {},
       handleToggleAll,
     }: SelectAllProps,
     ref,
