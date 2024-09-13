@@ -32,7 +32,7 @@ jobs:
         run: pnpm type-check
 
       - name: Execute the tests
-        run: pnpm test --coverage=false
+        run: pnpm test
 
       - name: Build the library and the example
         run: pnpm prd

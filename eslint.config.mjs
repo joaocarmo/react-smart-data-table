@@ -15,7 +15,6 @@ export default tseslint.config(
     ignores: [
       '.eslintrc.js',
       'babel.config.js',
-      'coverage/',
       'jest.config.js',
       'webpack.config.js',
       'webpack.dev.js',
