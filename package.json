@@ -62,8 +62,7 @@
     "clsx": "^2.1.1",
     "escape-string-regexp": "^5.0.0",
     "flat": "^6.0.1",
-    "linkifyjs": "^4.1.3",
-    "prop-types": "^15.8.1"
+    "linkifyjs": "^4.1.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
@@ -84,7 +83,6 @@
     "@types/flat": "^5.0.2",
     "@types/jest": "^29.5.13",
     "@types/linkifyjs": "^2.1.4",
-    "@types/prop-types": "^15.7.5",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@withshepherd/faker": "^5.5.5",
