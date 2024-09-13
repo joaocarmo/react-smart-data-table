@@ -1,11 +1,11 @@
-import { Component, MouseEvent, ReactNode } from 'react'
-import PropTypes from 'prop-types'
+import { Component } from 'react'
+import type { MouseEvent, ReactNode } from 'react'
 import cx from 'clsx'
 import CellValue from './components/CellValue'
 import ErrorBoundary from './components/ErrorBoundary'
 import Paginator from './components/Paginator'
 import Table from './components/Table'
-import Toggles, { togglesSelectAllPropTypes } from './components/Toggles'
+import Toggles from './components/Toggles'
 import withPagination from './components/helpers/with-pagination'
 import { SmartDataTableContext } from './helpers/context'
 import type { SmartDataTableProps, SmartDataTableState } from './types'
@@ -18,9 +18,32 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
   SmartDataTableProps<T>,
   SmartDataTableState<T>
 > {
-  static propTypes
-
-  static defaultProps
+  static defaultProps: SmartDataTableProps<utils.UnknownObject> = {
+    className: '',
+    data: undefined,
+    dataKey: constants.DEFAULT_DATA_KEY,
+    dataKeyResolver: null,
+    dataRequestOptions: {},
+    dataSampling: 0,
+    dynamic: false,
+    emptyTable: null,
+    filterValue: '',
+    headers: {},
+    hideUnordered: false,
+    loader: null,
+    name: 'reactsmartdatatable',
+    onRowClick: () => null,
+    orderedHeaders: [],
+    paginator: Paginator,
+    parseBool: false,
+    parseImg: false,
+    perPage: 0,
+    sortable: false,
+    withFooter: false,
+    withHeader: true,
+    withLinks: false,
+    withToggles: false,
+  }
 
   constructor(props: SmartDataTableProps<T>) {
     super(props)
@@ -260,18 +283,19 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     const headers = columns.map((column) => {
       const thisColProps = colProperties[column.key]
       const showCol = !thisColProps || !thisColProps.invisible
-      if (showCol) {
-        return (
-          <Table.HeaderCell data-column-name={column.key} key={column.key}>
-            <span>{column.text}</span>
-            <span className="rsdt rsdt-sortable">
-              {sortable && column.sortable ? this.renderSorting(column) : null}
-            </span>
-          </Table.HeaderCell>
-        )
+
+      if (!showCol) {
+        return null
       }
 
-      return null
+      return (
+        <Table.HeaderCell data-column-name={column.key} key={column.key}>
+          <span>{column.text}</span>
+          <span className="rsdt rsdt-sortable">
+            {sortable && column.sortable ? this.renderSorting(column) : null}
+          </span>
+        </Table.HeaderCell>
+      )
     })
 
     return <Table.Row>{headers}</Table.Row>
@@ -286,33 +310,30 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
       const showCol = !thisColProps.invisible
       const transformFn = thisColProps.transform
 
-      if (showCol) {
-        return (
-          <Table.Cell
-            data-column-name={column.key}
-            key={`row-${i}-column-${j}`}
-          >
-            {utils.isFunction(transformFn) ? (
-              transformFn(row[column.key], i, row)
-            ) : (
-              <ErrorBoundary>
-                <CellValue
-                  withLinks={withLinks}
-                  filterValue={filterValue}
-                  parseBool={parseBool}
-                  parseImg={parseImg}
-                  filterable={thisColProps.filterable}
-                  isImg={thisColProps.isImg}
-                >
-                  {row[column.key]}
-                </CellValue>
-              </ErrorBoundary>
-            )}
-          </Table.Cell>
-        )
+      if (!showCol) {
+        return null
       }
 
-      return null
+      return (
+        <Table.Cell data-column-name={column.key} key={`row-${i}-column-${j}`}>
+          {utils.isFunction(transformFn) ? (
+            transformFn(row[column.key], i, row)
+          ) : (
+            <ErrorBoundary>
+              <CellValue
+                withLinks={withLinks}
+                filterValue={filterValue}
+                parseBool={parseBool}
+                parseImg={parseImg}
+                filterable={thisColProps.filterable}
+                isImg={thisColProps.isImg}
+              >
+                {row[column.key]}
+              </CellValue>
+            </ErrorBoundary>
+          )}
+        </Table.Cell>
+      )
     })
   }
 
@@ -323,7 +344,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     const tableRows = visibleRows.map((row, idx) => (
       <Table.Row
         key={`row-${idx}`}
-        onClick={(event: MouseEvent<HTMLElement>) =>
+        onClick={(event: MouseEvent<HTMLTableRowElement>) =>
           this.handleRowClick(event, row, idx, rows)
         }
       >
@@ -340,21 +361,21 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
 
     const togglesProps = typeof withToggles === 'object' ? withToggles : {}
 
-    if (withToggles) {
-      return (
-        <ErrorBoundary>
-          <Toggles<T>
-            columns={columns}
-            colProperties={colProperties}
-            handleColumnToggle={this.handleColumnToggle}
-            handleColumnToggleAll={this.handleColumnToggleAll(columns)}
-            selectAll={togglesProps?.selectAll}
-          />
-        </ErrorBoundary>
-      )
+    if (!withToggles) {
+      return null
     }
 
-    return null
+    return (
+      <ErrorBoundary>
+        <Toggles<T>
+          columns={columns}
+          colProperties={colProperties}
+          handleColumnToggle={this.handleColumnToggle}
+          handleColumnToggleAll={this.handleColumnToggleAll(columns)}
+          selectAll={togglesProps?.selectAll}
+        />
+      </ErrorBoundary>
+    )
   }
 
   renderPagination(rows: T[]): ReactNode {
@@ -362,20 +383,20 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     const { activePage } = this.state
     const Paginate = withPagination<T>(PaginatorComponent)
 
-    if (perPage && perPage > 0) {
-      return (
-        <ErrorBoundary>
-          <Paginate
-            rows={rows}
-            perPage={perPage}
-            activePage={activePage}
-            onPageChange={this.handleOnPageChange}
-          />
-        </ErrorBoundary>
-      )
+    if (!perPage || perPage <= 0) {
+      return null
     }
 
-    return null
+    return (
+      <ErrorBoundary>
+        <Paginate
+          rows={rows}
+          perPage={perPage}
+          activePage={activePage}
+          onPageChange={this.handleOnPageChange}
+        />
+      </ErrorBoundary>
+    )
   }
 
   render() {
@@ -418,80 +439,6 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
       </SmartDataTableContext.Provider>
     )
   }
-}
-
-// Defines the type of data expected in each passed prop
-SmartDataTable.propTypes = {
-  className: PropTypes.string,
-  data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-  dataKey: PropTypes.string,
-  dataKeyResolver: PropTypes.func,
-  dataRequestOptions: PropTypes.objectOf(PropTypes.any),
-  dataSampling: PropTypes.number,
-  dynamic: PropTypes.bool,
-  emptyTable: PropTypes.node,
-  filterValue: PropTypes.string,
-  headers: PropTypes.shape({
-    key: PropTypes.string,
-    text: PropTypes.string,
-    invisible: PropTypes.bool,
-    sortable: PropTypes.bool,
-    filterable: PropTypes.oneOf([PropTypes.bool, PropTypes.func]),
-    isImg: PropTypes.oneOf([
-      PropTypes.bool,
-      PropTypes.shape({
-        style: PropTypes.objectOf(PropTypes.any),
-        className: PropTypes.string,
-      }),
-    ]),
-    transform: PropTypes.func,
-  }),
-  hideUnordered: PropTypes.bool,
-  loader: PropTypes.node,
-  name: PropTypes.string,
-  onRowClick: PropTypes.func,
-  orderedHeaders: PropTypes.arrayOf(PropTypes.string),
-  paginator: PropTypes.elementType,
-  parseBool: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  parseImg: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  perPage: PropTypes.number,
-  sortable: PropTypes.bool,
-  withFooter: PropTypes.bool,
-  withHeader: PropTypes.bool,
-  withLinks: PropTypes.bool,
-  withToggles: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
-      selectAll: togglesSelectAllPropTypes,
-    }),
-  ]),
-}
-
-// Defines the default values for not passing a certain prop
-SmartDataTable.defaultProps = {
-  className: '',
-  dataKey: constants.DEFAULT_DATA_KEY,
-  dataKeyResolver: null,
-  dataRequestOptions: {},
-  dataSampling: 0,
-  dynamic: false,
-  emptyTable: null,
-  filterValue: '',
-  headers: {},
-  hideUnordered: false,
-  loader: null,
-  name: 'reactsmartdatatable',
-  onRowClick: () => null,
-  orderedHeaders: [],
-  paginator: Paginator,
-  parseBool: false,
-  parseImg: false,
-  perPage: 0,
-  sortable: false,
-  withFooter: false,
-  withHeader: true,
-  withLinks: false,
-  withToggles: false,
 }
 
 export default SmartDataTable

@@ -1,5 +1,4 @@
 import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
-import PropTypes from 'prop-types'
 import * as constants from '../helpers/constants'
 
 export type ColumnToggleAllFn = (isChecked: boolean) => void
@@ -22,7 +21,7 @@ const SelectAll = forwardRef<SelectAllHandle, SelectAllProps>(
       locale: {
         selectAllWord = constants.DEFAULT_SELECT_ALL_WORD,
         unSelectAllWord = constants.DEFAULT_UNSELECT_ALL_WORD,
-      },
+      } = {},
       handleToggleAll,
     }: SelectAllProps,
     ref,
@@ -64,23 +63,6 @@ const SelectAll = forwardRef<SelectAllHandle, SelectAllProps>(
   },
 )
 
-export const selectAllPropTypes = {
-  locale: PropTypes.shape({
-    selectAllWord: PropTypes.string,
-    unSelectAllWord: PropTypes.string,
-  }),
-  handleToggleAll: PropTypes.func.isRequired,
-}
-
 SelectAll.displayName = 'SelectAll'
-
-SelectAll.propTypes = selectAllPropTypes
-
-SelectAll.defaultProps = {
-  locale: {
-    selectAllWord: constants.DEFAULT_SELECT_ALL_WORD,
-    unSelectAllWord: constants.DEFAULT_UNSELECT_ALL_WORD,
-  },
-}
 
 export default SelectAll

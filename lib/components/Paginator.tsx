@@ -1,5 +1,4 @@
 import { memo, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import PaginatorItem, { PageChangeFn } from './PaginatorItem'
 import * as utils from '../helpers/functions'
 import '../css/paginator.css'
@@ -42,13 +41,6 @@ const Paginator = ({
       ))}
     </div>
   )
-}
-
-/* Defines the type of data expected in each passed prop */
-Paginator.propTypes = {
-  activePage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
 }
 
 export default memo(Paginator, areEqual)

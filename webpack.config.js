@@ -29,7 +29,6 @@ module.exports = {
       'escape-string-regexp': 'escape-string-regexp',
       flat: 'flat',
       linkifyjs: 'linkifyjs',
-      'prop-types': 'prop-types',
       'change-case': 'change-case',
       react: {
         root: 'React',

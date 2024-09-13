@@ -1,13 +1,11 @@
 import { memo, useCallback, useMemo } from 'react'
-import type { FC, ReactNode } from 'react'
-import PropTypes from 'prop-types'
+import type { FC, PropsWithChildren, ReactNode } from 'react'
 import { find as linkifyFind } from 'linkifyjs'
 import HighlightValue from './HighlightValue'
 import * as utils from '../helpers/functions'
 import * as constants from '../helpers/constants'
 
 export interface CellValueProps {
-  children?: ReactNode
   content?: ReactNode
   filterable?: boolean
   filterValue?: string
@@ -17,16 +15,16 @@ export interface CellValueProps {
   withLinks?: boolean
 }
 
-const CellValue = ({
+const CellValue: FC<PropsWithChildren<CellValueProps>> = ({
   children,
-  content,
-  filterable,
-  filterValue,
-  isImg,
-  parseBool,
-  parseImg,
-  withLinks,
-}: CellValueProps) => {
+  content = '',
+  filterable = true,
+  filterValue = '',
+  isImg = false,
+  parseBool = false,
+  parseImg = false,
+  withLinks = false,
+}) => {
   const value = useMemo(
     () => utils.getRenderValue({ children, content, parseBool }),
     [children, content, parseBool],
@@ -107,26 +105,4 @@ const CellValue = ({
   return highlightValue()
 }
 
-CellValue.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-  content: PropTypes.string,
-  filterable: PropTypes.bool,
-  filterValue: PropTypes.string,
-  isImg: PropTypes.bool,
-  parseBool: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  parseImg: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  withLinks: PropTypes.bool,
-}
-
-CellValue.defaultProps = {
-  children: null,
-  content: '',
-  filterable: true,
-  filterValue: '',
-  isImg: false,
-  parseBool: false,
-  parseImg: false,
-  withLinks: false,
-}
-
-export default memo(CellValue as FC<CellValueProps>)
+export default memo(CellValue)
