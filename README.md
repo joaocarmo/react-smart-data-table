@@ -408,7 +408,7 @@ a development HTTP server in your computer accessible from your browser at the
 address `http://localhost:3000/`.
 
 ```sh
-yarn start
+pnpm start
 ```
 
 <!-- References -->

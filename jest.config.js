@@ -1,11 +1,8 @@
-const esModules = ['change-case', 'escape-string-regexp', 'flat'].join('|')
+// @ts-check
+const esmModules = ['change-case', 'escape-string-regexp', 'flat'].join('|')
 
-module.exports = {
-  collectCoverage: true,
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '<rootDir>/lib/helpers/tests.ts',
-  ],
+/** @type {import('jest').Config} **/
+const config = {
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/lib/__mocks__/fileMock.ts',
@@ -15,5 +12,9 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'jsdom',
   testRegex: '\\.test\\.[jt]sx?$',
-  transformIgnorePatterns: [`node_modules/(?!(${esModules}))`],
+  transformIgnorePatterns: [
+    `<rootDir>/node_modules/(?!(?:.pnpm/)?(${esmModules}))`,
+  ],
 }
+
+module.exports = config

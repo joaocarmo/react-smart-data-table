@@ -17,17 +17,17 @@ jobs:
 
       - name: Enable corepack
         run: |
-          corepack enable yarn
+          corepack enable pnpm
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'pnpm'
           registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Get release
         id: get_release

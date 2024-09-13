@@ -16,23 +16,23 @@ jobs:
 
       - name: Enable corepack
         run: |
-          corepack enable yarn
+          corepack enable pnpm
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'pnpm'
           registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Check the typings
-        run: yarn type-check
+        run: pnpm type-check
 
       - name: Execute the tests
-        run: yarn test --coverage=false
+        run: pnpm test
 
       - name: Build the library and the example
-        run: yarn prd
+        run: pnpm prd

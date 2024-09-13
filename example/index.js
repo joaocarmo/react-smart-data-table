@@ -76,6 +76,7 @@ const emptyTable = (
 
 const loader = <div className={sematicUI.loader}>Loading...</div>
 
+// eslint-disable-next-line react/prop-types
 const DeleteButton = ({ handleDelete }) => (
   <i
     className={sematicUI.deleteIcon}
@@ -524,7 +525,7 @@ class AppDemo extends PureComponent {
           <p>
             <strong>React Smart Data Table</strong>
             {' by '}
-            <a href="//joaocarmo.com" target="_blank">
+            <a href="//joaocarmo.com" target="_blank" rel="noopener noreferrer">
               João Carmo
             </a>
           </p>
