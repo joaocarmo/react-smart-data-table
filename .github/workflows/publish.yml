@@ -21,6 +21,7 @@ jobs:
       - name: Enable corepack
         run: |
           corepack enable pnpm
+          corepack use pnpm@latest
 
       - name: Use Node.js
         uses: actions/setup-node@v6
