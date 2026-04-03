@@ -63,19 +63,14 @@ export function useAsyncData<T = UnknownObject>({
     void utils
       .fetchData(data as string, fetchOptions)
       .then((asyncData) => {
-        const {
-          headers: h,
-          orderedHeaders: oh,
-          hideUnordered: hu,
-          dataSampling: ds,
-        } = columnDepsRef.current
+        const currentDeps = columnDepsRef.current
 
         const columns = utils.parseDataForColumns<T>(
           asyncData as T[],
-          h,
-          oh,
-          hu,
-          ds,
+          currentDeps.headers,
+          currentDeps.orderedHeaders,
+          currentDeps.hideUnordered,
+          currentDeps.dataSampling,
         )
 
         dispatch({
