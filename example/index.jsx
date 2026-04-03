@@ -149,16 +149,13 @@ class AppDemo extends PureComponent {
     this.setState({ apiUrl: apiUrlNew })
   }
 
-  handleDelete(event, idx, _row) {
+  handleDelete(event, _idx, row) {
     event.preventDefault()
     event.stopPropagation()
 
     const { data } = this.state
-    const newData = JSON.parse(JSON.stringify(data))
 
-    newData.splice(idx, 1)
-
-    this.setState({ data: newData })
+    this.setState({ data: data.filter((r) => r._id !== row._id) })
   }
 
   getHeaders() {
