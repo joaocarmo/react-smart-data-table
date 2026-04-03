@@ -17,22 +17,27 @@ import * as constants from './helpers/constants'
 import * as utils from './helpers/functions'
 import './css/basic.css'
 
+const EMPTY_HEADERS = {} as utils.Headers<never>
+const EMPTY_ORDERED_HEADERS: string[] = []
+const EMPTY_REQUEST_OPTIONS: RequestInit = {}
+const NOOP_ROW_CLICK = () => null
+
 function SmartDataTable<T = utils.UnknownObject>({
   className = '',
   data,
   dataKey = constants.DEFAULT_DATA_KEY,
   dataKeyResolver = null,
-  dataRequestOptions = {},
+  dataRequestOptions = EMPTY_REQUEST_OPTIONS,
   dataSampling = 0,
   dynamic = false,
   emptyTable = null,
   filterValue = '',
-  headers = {} as utils.Headers<T>,
+  headers = EMPTY_HEADERS as utils.Headers<T>,
   hideUnordered = false,
   loader = null,
   name = 'reactsmartdatatable',
-  onRowClick = () => null,
-  orderedHeaders = [],
+  onRowClick = NOOP_ROW_CLICK,
+  orderedHeaders = EMPTY_ORDERED_HEADERS,
   paginator: PaginatorComponent = Paginator,
   parseBool = false,
   parseImg = false,
@@ -165,9 +170,6 @@ function SmartDataTable<T = utils.UnknownObject>({
     [handleColumnToggleAll, columns],
   )
 
-  // Memoized context value
-  const contextValue = useMemo(() => state, [state])
-
   // Render helpers
   const renderSorting = (column: utils.Column<T>): ReactNode => {
     const { key, dir } = sorting
@@ -283,7 +285,7 @@ function SmartDataTable<T = utils.UnknownObject>({
   }
 
   return (
-    <SmartDataTableContext value={contextValue}>
+    <SmartDataTableContext value={state}>
       <section className="rsdt rsdt-container">
         {renderToggles()}
         <Table data-table-name={name} className={className}>

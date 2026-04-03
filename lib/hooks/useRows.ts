@@ -13,7 +13,6 @@ interface UseRowsOptions<T> {
 }
 
 interface UseRowsResult<T> {
-  flattenedRows: T[]
   filteredRows: T[]
   visibleRows: T[]
 }
@@ -61,5 +60,5 @@ export function useRows<T = UnknownObject>({
     [filteredRows, activePage, perPage],
   )
 
-  return { flattenedRows, filteredRows, visibleRows }
+  return { filteredRows, visibleRows }
 }
