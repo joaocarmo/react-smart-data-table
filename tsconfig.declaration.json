@@ -4,10 +4,12 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "isolatedModules": false,
-    "module": "amd",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "noEmit": false,
+    "rootDir": "./lib",
     "outDir": "dist"
   },
-  "files": ["lib/index.ts"]
+  "include": ["lib/**/*"],
+  "exclude": ["lib/**/*.test.*"]
 }

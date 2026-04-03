@@ -1,13 +1,10 @@
 {
   "compilerOptions": {
+    "strict": false,
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./lib",
     "jsx": "react-jsx",
-    "lib": ["es2022", "dom"],
-    "paths": {
-      "~*": ["./*"]
-    }
+    "lib": ["es2022", "dom"]
   },
   "include": ["./lib/**/*"]
 }
