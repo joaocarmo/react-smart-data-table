@@ -36,14 +36,8 @@ const withPagination = <T,>(
     constructor(props: PaginationWrapperProps<T>) {
       super(props)
 
-      this.state = { totalPages: 0 }
-    }
-
-    componentDidMount() {
-      const { rows, perPage } = this.props
-      const totalPages = Math.ceil(rows.length / +perPage)
-
-      this.setState({ totalPages })
+      const { rows, perPage } = props
+      this.state = { totalPages: Math.ceil(rows.length / +perPage) }
     }
 
     render() {

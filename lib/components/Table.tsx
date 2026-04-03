@@ -1,13 +1,15 @@
+import React from 'react'
 import type { FC, PropsWithChildren } from 'react'
 
-interface TableComponent
-  extends FC<PropsWithChildren<JSX.IntrinsicElements['table']>> {
-  Body: FC<PropsWithChildren<JSX.IntrinsicElements['tbody']>>
-  Cell: FC<PropsWithChildren<JSX.IntrinsicElements['td']>>
-  Footer: FC<PropsWithChildren<JSX.IntrinsicElements['tfoot']>>
-  Header: FC<PropsWithChildren<JSX.IntrinsicElements['thead']>>
-  HeaderCell: FC<PropsWithChildren<JSX.IntrinsicElements['th']>>
-  Row: FC<PropsWithChildren<JSX.IntrinsicElements['tr']>>
+interface TableComponent extends FC<
+  PropsWithChildren<React.JSX.IntrinsicElements['table']>
+> {
+  Body: FC<PropsWithChildren<React.JSX.IntrinsicElements['tbody']>>
+  Cell: FC<PropsWithChildren<React.JSX.IntrinsicElements['td']>>
+  Footer: FC<PropsWithChildren<React.JSX.IntrinsicElements['tfoot']>>
+  Header: FC<PropsWithChildren<React.JSX.IntrinsicElements['thead']>>
+  HeaderCell: FC<PropsWithChildren<React.JSX.IntrinsicElements['th']>>
+  Row: FC<PropsWithChildren<React.JSX.IntrinsicElements['tr']>>
 }
 
 const Table: TableComponent = ({ children, ...props }) => (

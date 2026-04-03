@@ -462,11 +462,12 @@ export function sortData<T = UnknownObject>(
   sorting: Sorting,
   data: T[],
 ): T[] {
-  let sortedRows: T[] = []
   const { dir, key } = sorting
   const compareFn =
     typeof colProperties[key]?.sortable === 'function' &&
     colProperties[key].sortable
+
+  let sortedRows: T[]
 
   if (dir) {
     if (dir === 'ASC') {
