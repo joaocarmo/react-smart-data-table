@@ -4,13 +4,12 @@
     "skipLibCheck": true
   },
   "include": [
-    ".eslintrc.js",
-    "babel.config.js",
-    "jest.config.js",
-    "jest.setup.ts",
+    "vite.config.ts",
+    "vite.config.example.ts",
+    "vitest.setup.ts",
+    "eslint.config.mjs",
     "lib/**/*",
-    "webpack.config.js",
-    "webpack.dev.js"
+    "example/**/*"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "dist-example"]
 }

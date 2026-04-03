@@ -1,8 +1,8 @@
 import { PureComponent } from 'react'
 import { createRoot } from 'react-dom/client'
 import { imgb64 } from '../lib/helpers/tests'
-import SmartDataTable from 'react-smart-data-table-dev'
-import 'react-smart-data-table-dev.css'
+import SmartDataTable from '../lib'
+import '../lib/css/basic.css'
 
 const sematicUI = {
   change: 'ui labeled secondary icon button',
@@ -24,7 +24,7 @@ const sematicUI = {
 }
 
 const generateData = async (numResults = 0) => {
-  const faker = await import('@withshepherd/faker')
+  const { faker } = await import('@faker-js/faker')
 
   let total = numResults || 0
 
@@ -38,19 +38,19 @@ const generateData = async (numResults = 0) => {
     const row = {
       _id: i,
       address: {
-        city: faker.address.city(),
-        state: faker.address.state(),
-        country: faker.address.country(),
+        city: faker.location.city(),
+        state: faker.location.state(),
+        country: faker.location.country(),
       },
       url: faker.internet.url(),
       isMarried: faker.datatype.boolean(),
       actions: null,
       avatar: imgb64,
-      fullName: faker.name.findName(),
-      _username: faker.internet.userName(),
+      fullName: faker.person.fullName(),
+      _username: faker.internet.username(),
       password_: faker.internet.password(),
       'email.address': faker.internet.email(),
-      phone_number: faker.phone.phoneNumber(),
+      phone_number: faker.phone.number(),
     }
 
     // Add random attributes to random rows (after the first)
@@ -58,7 +58,7 @@ const generateData = async (numResults = 0) => {
       const column = faker.database.column()
 
       if (!row[column]) {
-        row[column] = faker.datatype.number()
+        row[column] = faker.number.int()
       }
     }
 
@@ -149,16 +149,13 @@ class AppDemo extends PureComponent {
     this.setState({ apiUrl: apiUrlNew })
   }
 
-  handleDelete(event, idx, _row) {
+  handleDelete(event, _idx, row) {
     event.preventDefault()
     event.stopPropagation()
 
     const { data } = this.state
-    const newData = JSON.parse(JSON.stringify(data))
 
-    newData.splice(idx, 1)
-
-    this.setState({ data: newData })
+    this.setState({ data: data.filter((r) => r._id !== row._id) })
   }
 
   getHeaders() {

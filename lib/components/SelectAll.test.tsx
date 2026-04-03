@@ -13,7 +13,7 @@ describe('SelectAll', () => {
           selectAllWord,
           unSelectAllWord,
         }}
-        handleToggleAll={jest.fn()}
+        handleToggleAll={vi.fn()}
       />,
     )
 

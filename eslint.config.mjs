@@ -15,14 +15,7 @@ export default tseslint.config(
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
   },
   {
-    ignores: [
-      'dist/**',
-      '.eslintrc.js',
-      'babel.config.js',
-      'jest.config.js',
-      'webpack.config.js',
-      'webpack.dev.js',
-    ],
+    ignores: ['dist/**', 'dist-example/**'],
   },
   {
     languageOptions: {

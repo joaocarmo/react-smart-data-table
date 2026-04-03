@@ -1,7 +1,6 @@
 # react-smart-data-table
 
 [![npm version](https://badge.fury.io/js/react-smart-data-table.svg)][npm]
-[![jest](https://jestjs.io/img/jest-badge.svg)][jest]
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)][contributor]
 ![Workflow Status](https://github.com/joaocarmo/react-smart-data-table/workflows/Tests/badge.svg)
 
@@ -15,10 +14,6 @@ in the spirit of _plug and play_.
 
 Just feed it an array of equal JSON objects and it will create a template free
 table that can be customized easily with any framework (or custom CSS).
-
-If you want more control over the data rendering process or don't need the
-_smarts_, check out
-[react-very-simple-data-table][react-very-simple-data-table].
 
 ## Features
 
@@ -335,9 +330,8 @@ data using the `dataKeyResolver` prop.
 ### Simple sortable table (with Semantic UI)
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
+import { createRoot } from 'react-dom/client'
 import SmartDataTable from 'react-smart-data-table'
 
 const testData = []
@@ -346,25 +340,24 @@ const numResults = 100
 for (let i = 0; i < numResults; i++) {
   testData.push({
     _id: i,
-    fullName: faker.name.findName(),
+    fullName: faker.person.fullName(),
     'email.address': faker.internet.email(),
-    phone_number: faker.phone.phoneNumber(),
+    phone_number: faker.phone.number(),
     address: {
-      city: faker.address.city(),
-      state: faker.address.state(),
-      country: faker.address.country(),
+      city: faker.location.city(),
+      state: faker.location.state(),
+      country: faker.location.country(),
     },
   })
 }
 
-ReactDOM.render(
+createRoot(document.getElementById('app')).render(
   <SmartDataTable
     data={testData}
     name="test-table"
     className="ui compact selectable table"
     sortable
   />,
-  document.getElementById('app'),
 )
 ```
 
@@ -419,15 +412,11 @@ pnpm start
 [contributor]: ./CODE_OF_CONDUCT.md
 [control-page]: https://github.com/joaocarmo/react-smart-data-table/issues/60#issuecomment-974718595
 [double-click]: https://github.com/joaocarmo/react-smart-data-table/issues/59#issuecomment-969371513
-[example-source]: ./example/index.js
+[example-source]: ./example/index.jsx
 [fetch]: https://fetch.spec.whatwg.org/
 [hide-pagination]: https://github.com/joaocarmo/react-smart-data-table/issues/42#issuecomment-828593880
-[jest]: https://github.com/facebook/jest
-[lgtm-alerts]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/alerts/
-[lgtm-context]: https://lgtm.com/projects/g/joaocarmo/react-smart-data-table/context:javascript
 [npm]: https://badge.fury.io/js/react-smart-data-table
 [pagination]: https://react.semantic-ui.com/addons/pagination/
-[react-very-simple-data-table]: https://github.com/joaocarmo/react-very-simple-data-table
 [semantic]: http://joaocarmo.com/react-smart-data-table/
 [somewhere-i-belong]: https://github.com/joaocarmo/somewhere-i-belong
 [ssr-integration]: https://github.com/joaocarmo/react-smart-data-table/issues/50#issuecomment-963060887

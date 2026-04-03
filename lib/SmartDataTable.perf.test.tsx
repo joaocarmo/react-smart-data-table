@@ -29,10 +29,10 @@ const PER_PAGE = 50
 const testData = generateRows(ROW_COUNT)
 
 describe('SmartDataTable Performance', () => {
-  let parseDataForRowsSpy: ReturnType<typeof jest.spyOn>
+  let parseDataForRowsSpy: ReturnType<typeof vi.spyOn>
 
   beforeEach(() => {
-    parseDataForRowsSpy = jest.spyOn(utils, 'parseDataForRows')
+    parseDataForRowsSpy = vi.spyOn(utils, 'parseDataForRows')
   })
 
   afterEach(() => {

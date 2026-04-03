@@ -4,7 +4,8 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "lib": ["es2022", "dom"]
+    "lib": ["es2022", "dom"],
+    "types": ["vitest/globals"]
   },
   "include": ["./lib/**/*"]
 }

@@ -4,4 +4,3 @@
 - Add multiple column sorting
 - Add sticky headers
 - Allow custom elements: _ErrorBoundary_, _Toggles_, _CellValue_
-- Improve performance
