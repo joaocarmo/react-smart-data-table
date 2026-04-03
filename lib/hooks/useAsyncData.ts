@@ -1,11 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { Dispatch } from 'react'
 import type { TableReducerAction } from './useTableReducer'
-import type {
-  Column,
-  FetchDataOptions,
-  UnknownObject,
-} from '../helpers/functions'
+import type { Column, UnknownObject } from '../helpers/functions'
 import TableAction from '../helpers/table-action.enum'
 import * as utils from '../helpers/functions'
 
@@ -52,17 +48,16 @@ export function useAsyncData<T = UnknownObject>({
       return
     }
 
-    const fetchOptions: FetchDataOptions<T> = {
-      dataKey,
-      dataKeyResolver,
-      options: dataRequestOptions,
-    }
+    const doFetch = async () => {
+      dispatch({ type: TableAction.FetchStart })
 
-    dispatch({ type: TableAction.FetchStart })
+      try {
+        const asyncData = await utils.fetchData(data as string, {
+          dataKey,
+          dataKeyResolver,
+          options: dataRequestOptions,
+        })
 
-    void utils
-      .fetchData(data as string, fetchOptions)
-      .then((asyncData) => {
         const currentDeps = columnDepsRef.current
 
         const columns = utils.parseDataForColumns<T>(
@@ -78,10 +73,12 @@ export function useAsyncData<T = UnknownObject>({
           asyncData: asyncData as T[],
           columns: columns as Column<T>[],
         })
-      })
-      .catch((err: unknown) => {
+      } catch (err: unknown) {
         dispatch({ type: TableAction.FetchError })
         utils.errorPrint(err)
-      })
+      }
+    }
+
+    void doFetch()
   }, [data, dataKey, dataKeyResolver, dataRequestOptions, dispatch])
 }
