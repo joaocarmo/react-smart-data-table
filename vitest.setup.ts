@@ -1,11 +1,6 @@
 import '@testing-library/jest-dom/vitest'
 import { vi } from 'vitest'
-
-interface FetchMock {
-  (...args: Parameters<typeof fetch>): ReturnType<typeof fetch>
-  mockResponseOnce(body: string, init?: ResponseInit): void
-  mock: { calls: unknown[][] }
-}
+import type { FetchMock } from './lib/test-globals'
 
 const createFetchMock = (): FetchMock => {
   const fn = vi.fn()

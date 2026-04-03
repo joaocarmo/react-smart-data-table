@@ -24,7 +24,7 @@ const sematicUI = {
 }
 
 const generateData = async (numResults = 0) => {
-  const faker = await import('@withshepherd/faker')
+  const { faker } = await import('@faker-js/faker')
 
   let total = numResults || 0
 
@@ -38,19 +38,19 @@ const generateData = async (numResults = 0) => {
     const row = {
       _id: i,
       address: {
-        city: faker.address.city(),
-        state: faker.address.state(),
-        country: faker.address.country(),
+        city: faker.location.city(),
+        state: faker.location.state(),
+        country: faker.location.country(),
       },
       url: faker.internet.url(),
       isMarried: faker.datatype.boolean(),
       actions: null,
       avatar: imgb64,
-      fullName: faker.name.findName(),
-      _username: faker.internet.userName(),
+      fullName: faker.person.fullName(),
+      _username: faker.internet.username(),
       password_: faker.internet.password(),
       'email.address': faker.internet.email(),
-      phone_number: faker.phone.phoneNumber(),
+      phone_number: faker.phone.number(),
     }
 
     // Add random attributes to random rows (after the first)
@@ -58,7 +58,7 @@ const generateData = async (numResults = 0) => {
       const column = faker.database.column()
 
       if (!row[column]) {
-        row[column] = faker.datatype.number()
+        row[column] = faker.number.int()
       }
     }
 
