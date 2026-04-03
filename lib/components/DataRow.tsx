@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react'
+import { useCallback } from 'react'
 import type { MouseEvent, ReactNode } from 'react'
 import CellValue from './CellValue'
 import Table from './Table'
@@ -10,6 +10,7 @@ import type {
   UnknownObject,
 } from '../helpers/functions'
 import * as utils from '../helpers/functions'
+import { typedMemo } from '../helpers/typed-memo'
 
 interface DataRowProps<T> {
   row: T
@@ -85,6 +86,6 @@ function DataRowInner<T = UnknownObject>({
   )
 }
 
-const DataRow = memo(DataRowInner) as typeof DataRowInner
+const DataRow = typedMemo(DataRowInner)
 
 export default DataRow
