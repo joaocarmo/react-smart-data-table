@@ -43,5 +43,6 @@ jspm_packages
 # Custom function testers
 test/*.func.*
 
-# Build directory
+# Build directories
 dist
+dist-example

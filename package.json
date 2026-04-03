@@ -23,12 +23,12 @@
     "dist"
   ],
   "scripts": {
-    "build:docs": "pnpm clean && pnpm build:example",
+    "build:docs": "rimraf dist-example && pnpm build:example",
     "build:example": "vite build --config vite.config.example.ts",
     "build:types": "tsc -p tsconfig.declaration.json && mv dist/index.d.ts dist/react-smart-data-table.d.ts",
     "build": "vite build",
-    "clean": "rimraf dist/",
-    "deploy": "gh-pages -d dist",
+    "clean": "rimraf dist/ dist-example/",
+    "deploy": "gh-pages -d dist-example",
     "dev": "vite",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
