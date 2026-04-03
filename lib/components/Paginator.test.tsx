@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import Paginator from './Paginator'
 import type { PaginatorProps } from './Paginator'
 
-const mockPageChange = jest.fn()
+const mockPageChange = vi.fn()
 
 const testCases = [
   // activePage, totalPages, renderedItems, activeItem

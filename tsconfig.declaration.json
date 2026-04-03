@@ -11,5 +11,5 @@
     "outDir": "dist"
   },
   "include": ["lib/**/*"],
-  "exclude": ["lib/**/*.test.*"]
+  "exclude": ["lib/**/*.test.*", "lib/test-globals.d.ts"]
 }
