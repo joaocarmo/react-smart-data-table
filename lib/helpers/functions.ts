@@ -109,10 +109,15 @@ export const isUndefined = <T = unknown>(undef: T): boolean =>
 
 export const capitalize = (str: string): string => {
   if (isString(str)) {
-    const regex = /[^a-z]*[a-z]/
-    const [first = ''] = regex.exec(str)
+    const idx = str.search(/[a-z]/)
 
-    return first.toUpperCase() + str.substring(first.length)
+    if (idx === -1) {
+      return str.toUpperCase()
+    }
+
+    const first = str.substring(0, idx + 1)
+
+    return first.toUpperCase() + str.substring(idx + 1)
   }
 
   return ''
