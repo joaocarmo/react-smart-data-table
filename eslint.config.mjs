@@ -2,17 +2,21 @@
 import globals from 'globals'
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
-import reactPlugin from 'eslint-plugin-react'
+import eslintReact from '@eslint-react/eslint-plugin'
 
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  reactPlugin.configs.flat.recommended,
+  {
+    files: ['**/*.{ts,tsx}'],
+    ...eslintReact.configs['recommended-typescript'],
+  },
   {
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
   },
   {
     ignores: [
+      'dist/**',
       '.eslintrc.js',
       'babel.config.js',
       'jest.config.js',
@@ -36,15 +40,6 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-unused-vars': 'off',
       'no-unused-vars': 'off',
-      'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
-    },
-  },
-  {
-    settings: {
-      react: {
-        version: 'detect',
-      },
     },
   },
 )

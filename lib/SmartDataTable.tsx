@@ -145,7 +145,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
   handleSortChange(column: utils.Column<T>) {
     const { sorting } = this.state
     const { key } = column
-    let dir = ''
+    let dir: string
 
     if (key !== sorting.key) {
       sorting.dir = ''
@@ -244,7 +244,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
           isLoading: false,
         })
 
-        throw new Error(String(err))
+        throw new Error(String(err), { cause: err })
       }
     }
   }
