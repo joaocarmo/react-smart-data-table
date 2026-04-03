@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import type { FC, PropsWithChildren } from 'react'
 
 interface TableComponent extends FC<
@@ -16,30 +16,29 @@ const Table: TableComponent = ({ children, ...props }) => (
   <table {...props}>{children}</table>
 )
 
-const TableBody: TableComponent['Body'] = ({ children, ...props }) => (
+const TableBody: TableComponent['Body'] = memo(({ children, ...props }) => (
   <tbody {...props}>{children}</tbody>
-)
+))
 
-const TableCell: TableComponent['Cell'] = ({ children, ...props }) => (
+const TableCell: TableComponent['Cell'] = memo(({ children, ...props }) => (
   <td {...props}>{children}</td>
-)
+))
 
-const TableFooter: TableComponent['Footer'] = ({ children, ...props }) => (
+const TableFooter: TableComponent['Footer'] = memo(({ children, ...props }) => (
   <tfoot {...props}>{children}</tfoot>
-)
+))
 
-const TableHeader: TableComponent['Header'] = ({ children, ...props }) => (
+const TableHeader: TableComponent['Header'] = memo(({ children, ...props }) => (
   <thead {...props}>{children}</thead>
+))
+
+const TableHeaderCell: TableComponent['HeaderCell'] = memo(
+  ({ children, ...props }) => <th {...props}>{children}</th>,
 )
 
-const TableHeaderCell: TableComponent['HeaderCell'] = ({
-  children,
-  ...props
-}) => <th {...props}>{children}</th>
-
-const TableRow: TableComponent['Row'] = ({ children, ...props }) => (
+const TableRow: TableComponent['Row'] = memo(({ children, ...props }) => (
   <tr {...props}>{children}</tr>
-)
+))
 
 Table.Body = TableBody
 Table.Cell = TableCell
