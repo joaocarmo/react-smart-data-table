@@ -52,9 +52,9 @@ function DataRowInner<T = UnknownObject>({
   return (
     <Table.Row onClick={handleClick}>
       {columns.map((column) => {
-        const thisColProps = { ...colProperties[column.key] }
-        const showCol = !thisColProps.invisible
-        const transformFn = thisColProps.transform
+        const thisColProps = colProperties[column.key]
+        const showCol = !thisColProps?.invisible
+        const transformFn = thisColProps?.transform
 
         if (!showCol) {
           return null
@@ -73,8 +73,8 @@ function DataRowInner<T = UnknownObject>({
                 filterValue={filterValue}
                 parseBool={parseBool}
                 parseImg={parseImg}
-                filterable={thisColProps.filterable}
-                isImg={thisColProps.isImg}
+                filterable={thisColProps?.filterable}
+                isImg={thisColProps?.isImg}
               >
                 {row[column.key]}
               </CellValue>

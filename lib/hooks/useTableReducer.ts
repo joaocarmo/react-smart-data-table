@@ -11,7 +11,6 @@ export type TableReducerAction<T = UnknownObject> =
   | { type: TableAction.FetchError }
   | { type: TableAction.SetSorting; column: Column<T> }
   | { type: TableAction.SetActivePage; activePage: number }
-  | { type: TableAction.SetColProperties; colProperties: Headers<T> }
   | { type: TableAction.ToggleColumn; key: string }
   | {
       type: TableAction.ToggleAllColumns
@@ -55,9 +54,6 @@ function tableReducer<T = UnknownObject>(
 
     case TableAction.SetActivePage:
       return { ...state, activePage: action.activePage }
-
-    case TableAction.SetColProperties:
-      return { ...state, colProperties: action.colProperties }
 
     case TableAction.ToggleColumn: {
       const { key } = action

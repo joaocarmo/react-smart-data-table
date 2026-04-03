@@ -280,7 +280,7 @@ function SmartDataTable<T = utils.UnknownObject>({
     return loader
   }
 
-  if (utils.isEmpty(filteredRows) && utils.isEmpty(resolvedData)) {
+  if (utils.isEmpty(filteredRows)) {
     return emptyTable
   }
 

@@ -84,9 +84,9 @@ export function useAsyncData<T = UnknownObject>({
           columns: columns as Column<T>[],
         })
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         dispatch({ type: TableAction.FetchError })
-        throw new Error(String(err), { cause: err })
+        utils.errorPrint(err)
       })
   }, [data, dataKey, dataKeyResolver, dataRequestOptions, dispatch])
 }
