@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import {
+  capitalize,
   capitalizeAll,
   columnObject,
   fetchData,
@@ -148,6 +149,43 @@ test('getNestedObject(), should return a nested value or null', () => {
   expect(twoLevelValue).toBe(nestedObject.two.twoOne)
   expect(threeLevelValue).toBe(nestedObject.two.twoTwo.twoTwoOne)
   expect(fourLevelValue).toBeUndefined()
+})
+
+describe('capitalize(), should capitalize the first lowercase letter', () => {
+  it('capitalizes a simple word', () => {
+    expect(capitalize('hello')).toBe('Hello')
+  })
+
+  it('capitalizes when leading non-lowercase chars exist', () => {
+    expect(capitalize('--hello')).toBe('--Hello')
+  })
+
+  it('handles all uppercase input', () => {
+    expect(capitalize('HELLO')).toBe('HELLO')
+  })
+
+  it('handles empty string', () => {
+    expect(capitalize('')).toBe('')
+  })
+
+  it('handles non-string input', () => {
+    expect(capitalize(123 as unknown as string)).toBe('')
+  })
+
+  it('handles strings with no lowercase letters', () => {
+    expect(capitalize('123!@#')).toBe('123!@#')
+  })
+
+  it('does not suffer from ReDoS on repeated backticks', () => {
+    const malicious = '`'.repeat(10_000)
+    const start = performance.now()
+
+    capitalize(malicious)
+
+    const elapsed = performance.now() - start
+
+    expect(elapsed).toBeLessThan(100)
+  })
 })
 
 test('capitalizeAll(), should capitalize the first letter in a word', () => {
