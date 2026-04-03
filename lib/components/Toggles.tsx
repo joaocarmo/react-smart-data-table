@@ -1,6 +1,10 @@
-import { ElementRef, useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import type { FC } from 'react'
-import SelectAll, { ColumnToggleAllFn, SelectAllProps } from './SelectAll'
+import SelectAll, {
+  ColumnToggleAllFn,
+  SelectAllHandle,
+  SelectAllProps,
+} from './SelectAll'
 import * as utils from '../helpers/functions'
 import * as constants from '../helpers/constants'
 import '../css/toggles.css'
@@ -17,8 +21,6 @@ interface TogglesProps<T = utils.UnknownObject> {
   selectAll?: TogglesSelectAllProps
 }
 
-type SelectAllElement = ElementRef<typeof SelectAll>
-
 const Toggles = <T,>({
   columns,
   colProperties,
@@ -28,7 +30,7 @@ const Toggles = <T,>({
 }: TogglesProps<T>): ReturnType<FC> => {
   const selectAllProps: Partial<TogglesSelectAllProps> =
     typeof selectAll === 'object' ? selectAll : {}
-  const selectAllRef = useRef<SelectAllElement>(null)
+  const selectAllRef = useRef<SelectAllHandle>(null)
 
   const handleToggleClick = useCallback(
     ({ target: { value } }) => {
