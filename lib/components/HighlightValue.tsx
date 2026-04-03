@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import type { FC, PropsWithChildren } from 'react'
 import * as utils from '../helpers/functions'
 
@@ -18,7 +18,7 @@ const HighlightValue: FC<PropsWithChildren<HighlightValueProps>> = ({
   )
 
   if (!first && !highlight && !last) {
-    return children as JSX.Element
+    return children as React.JSX.Element
   }
 
   return (

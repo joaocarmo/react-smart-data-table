@@ -80,7 +80,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/eslint__js": "^9.14.0",
+
     "@types/flat": "^5.0.2",
     "@types/jest": "^30.0.0",
     "@types/linkifyjs": "^2.1.4",
