@@ -315,7 +315,10 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
       }
 
       return (
-        <Table.Cell data-column-name={column.key} key={`row-${i}-column-${j}`}>
+        <Table.Cell
+          data-column-name={column.key}
+          key={`row-${i}-${column.key}`}
+        >
           {utils.isFunction(transformFn) ? (
             transformFn(row[column.key], i, row)
           ) : (
@@ -343,6 +346,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     const visibleRows = utils.sliceRowsPerPage(rows, activePage, perPage)
     const tableRows = visibleRows.map((row, idx) => (
       <Table.Row
+        // eslint-disable-next-line @eslint-react/no-array-index-key -- rows have no guaranteed unique ID in generic data tables
         key={`row-${idx}`}
         onClick={(event: MouseEvent<HTMLTableRowElement>) =>
           this.handleRowClick(event, row, idx, rows)
@@ -422,7 +426,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
     }
 
     return (
-      <SmartDataTableContext.Provider value={this.state}>
+      <SmartDataTableContext value={this.state}>
         <section className="rsdt rsdt-container">
           {this.renderToggles(columns)}
           <Table data-table-name={name} className={className}>
@@ -436,7 +440,7 @@ class SmartDataTable<T = utils.UnknownObject> extends Component<
           </Table>
           {this.renderPagination(rows)}
         </section>
-      </SmartDataTableContext.Provider>
+      </SmartDataTableContext>
     )
   }
 }
