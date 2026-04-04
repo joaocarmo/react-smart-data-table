@@ -1,6 +1,5 @@
 import {
   head,
-  tail,
   isString,
   isArray,
   isObject,
@@ -38,13 +37,6 @@ test('head(), should return the first element in an array', () => {
   const randVal = getRandomInt(100)
   randArr[0] = randVal
   expect(head(randArr)).toBe(randVal)
-})
-
-test('tail(), should return the last element in an array', () => {
-  const randArr = Array(getRandomInt(100))
-  const randVal = getRandomInt(100)
-  randArr[randArr.length - 1] = randVal
-  expect(tail(randArr)).toBe(randVal)
 })
 
 describe('isString(), should be true only for strings', () => {

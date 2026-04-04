@@ -82,8 +82,6 @@ export interface FetchDataOptions<T = UnknownObject> {
 
 export const head = <T>([first]: T[]): T => first
 
-export const tail = <T>(arr: T[]): T => arr[arr.length - 1]
-
 export const isString = (str: unknown): boolean =>
   typeof str === 'string' || str instanceof String
 
@@ -153,12 +151,6 @@ export const sortBy = <T = UnknownObject>(
 
 export const cleanLonelyInt = (val: string): boolean =>
   !(val && /^\d+$/.test(val))
-
-export const debugPrint = (...args: unknown[]): void => {
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(...args)
-  }
-}
 
 export const errorPrint = (...args: unknown[]): void => {
   console.error(...args)
