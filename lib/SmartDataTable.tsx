@@ -38,6 +38,7 @@ function SmartDataTable<T = utils.UnknownObject>({
   name = 'reactsmartdatatable',
   onRowClick = NOOP_ROW_CLICK,
   orderedHeaders = EMPTY_ORDERED_HEADERS,
+  rowClassName,
   paginator: PaginatorComponent = Paginator,
   parseBool = false,
   parseImg = false,
@@ -232,6 +233,7 @@ function SmartDataTable<T = utils.UnknownObject>({
           parseBool={parseBool}
           parseImg={parseImg}
           onRowClick={handleRowClick}
+          rowClassName={rowClassName}
           tableData={filteredRows}
         />
       </ErrorBoundary>

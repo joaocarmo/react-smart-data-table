@@ -104,6 +104,7 @@ const MyComponent = () => {
 | parseBool          | false                 | {boolean&#124;object} | When true, boolean values will be converted to Yes/No             |
 | parseImg           | false                 | {boolean&#124;object} | When true, image URLs will be rendered as an _img_ tag            |
 | perPage            | 0                     | {number}              | Paginates the results with the value as rows per page             |
+| rowClassName       | _undefined_           | {function}            | If present, returns a className string for each row               |
 | sortable           | false                 | {boolean}             | Enables the columns of the table to be sortable                   |
 | withFooter         | false                 | {boolean}             | Copy the header to the footer                                     |
 | withHeader         | true                  | {boolean}             | Can be used to disable the rendering of column headers            |
@@ -172,6 +173,15 @@ const headers = {
 const onRowClick = (event, { rowData, rowIndex, tableData }) => {
   // The following results should be identical
   console.log(rowData, tableData[rowIndex])
+}
+```
+
+### rowClassName()
+
+```js
+const rowClassName = (rowData, rowIndex, tableData) => {
+  // Return a className string for the row's <tr> element
+  return rowData.isActive ? 'highlighted-row' : ''
 }
 ```
 
