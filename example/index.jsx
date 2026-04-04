@@ -514,7 +514,9 @@ class AppDemo extends PureComponent {
                 width: '60px',
               },
             }}
-            rowClassName={(_row, idx) => `row-${idx}`}
+            rowClassName={(_row, idx) =>
+              idx % 2 === 0 ? 'odd-row' : 'even-row'
+            }
             emptyTable={emptyTable}
           />
         )}

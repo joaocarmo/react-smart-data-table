@@ -179,9 +179,10 @@ const onRowClick = (event, { rowData, rowIndex, tableData }) => {
 ### rowClassName()
 
 ```js
-const rowClassName = (rowData, rowIndex, tableData) => {
-  // Return a className string for the row's <tr> element
-  return rowData.isActive ? 'highlighted-row' : ''
+// Return a className string for each row's <tr> element
+const rowClassName = (rowData, rowIndex) => {
+  // rowIndex is zero-based, so the 1st row (index 0) is odd
+  return rowIndex % 2 === 0 ? 'odd-row' : 'even-row'
 }
 ```
 
