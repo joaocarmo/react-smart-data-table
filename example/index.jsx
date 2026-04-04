@@ -514,6 +514,7 @@ class AppDemo extends PureComponent {
                 width: '60px',
               },
             }}
+            rowClassName={(_row, idx) => `row-${idx}`}
             emptyTable={emptyTable}
           />
         )}
