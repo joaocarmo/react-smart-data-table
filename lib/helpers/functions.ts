@@ -17,13 +17,13 @@ export type ParseImg = {
   className: string
 }
 
-export type TransformFN<T = UnknownObject> = (
+export type TransformFn<T = UnknownObject> = (
   value: unknown,
   index: number,
   row: T,
 ) => ReactNode
 
-export type RowClickFN<T = UnknownObject> = (
+export type RowClickFn<T = UnknownObject> = (
   event: MouseEvent<HTMLElement>,
   {
     rowData,
@@ -32,7 +32,7 @@ export type RowClickFN<T = UnknownObject> = (
   }: { rowData: T; rowIndex: number; tableData: T[] },
 ) => void
 
-export type RowClassNameFN<T = UnknownObject> = (
+export type RowClassNameFn<T = UnknownObject> = (
   rowData: T,
   rowIndex: number,
   tableData: T[],
@@ -49,7 +49,7 @@ export interface Column<T> {
   sortable: HeaderSortable<T>
   filterable: boolean
   isImg: boolean
-  transform?: TransformFN<T>
+  transform?: TransformFn<T>
 }
 
 export type Headers<T> = Record<string, Column<T>>
@@ -72,11 +72,11 @@ export interface RenderOptions {
   parseBool?: boolean | ParseBool
 }
 
-export type KeyResolverFN<T = UnknownObject> = (args: T) => T[]
+export type KeyResolverFn<T = UnknownObject> = (args: T) => T[]
 
 export interface FetchDataOptions<T = UnknownObject> {
   dataKey?: string
-  dataKeyResolver?: KeyResolverFN<T>
+  dataKeyResolver?: KeyResolverFn<T>
   options?: RequestInit
 }
 
@@ -495,7 +495,7 @@ export function sortData<T = UnknownObject>(
   return filterRows(filterValue, sortedRows, colProperties)
 }
 
-export function isDataURL(url: unknown): boolean {
+export function isDataUrl(url: unknown): boolean {
   // Checks if the data is a valid base64 enconded string
   const regex =
     /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
@@ -529,7 +529,7 @@ export function isDataURL(url: unknown): boolean {
 }
 
 export function isImage(url: unknown): boolean {
-  const isImgDataURL = isDataURL(url)
+  const isImgDataURL = isDataUrl(url)
 
   if (isImgDataURL) {
     return isImgDataURL

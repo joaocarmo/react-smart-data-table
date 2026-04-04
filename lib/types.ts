@@ -7,7 +7,7 @@ export interface SmartDataTableProps<T = utils.UnknownObject> {
   className: string
   data: string | T[]
   dataKey: string
-  dataKeyResolver: utils.KeyResolverFN<T>
+  dataKeyResolver: utils.KeyResolverFn<T>
   dataRequestOptions: RequestInit
   dataSampling: number
   dynamic: boolean
@@ -17,13 +17,13 @@ export interface SmartDataTableProps<T = utils.UnknownObject> {
   hideUnordered: boolean
   loader: ReactNode
   name: string
-  onRowClick: utils.RowClickFN<T>
+  onRowClick: utils.RowClickFn<T>
   orderedHeaders: string[]
   paginator: ComponentType<WrappedComponentProps>
   parseBool: boolean | utils.ParseBool
   parseImg: boolean | utils.ParseImg
   perPage: number
-  rowClassName: utils.RowClassNameFN<T>
+  rowClassName: utils.RowClassNameFn<T>
   sortable: boolean
   withFooter: boolean
   withHeader: boolean

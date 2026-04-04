@@ -10,7 +10,7 @@ import {
   getRenderValue,
   getSampleElement,
   highlightValueParts,
-  isDataURL,
+  isDataUrl,
   isImage,
   parseDataForColumns,
   parseDataForRows,
@@ -588,11 +588,11 @@ test('sortData(), should return a properly sorted array', () => {
   )
 })
 
-describe('isDataURL(), should return true if data is an enconded image', () => {
+describe('isDataUrl(), should return true if data is an enconded image', () => {
   const tests: [unknown, boolean][] = [...negativeImgTests, [imgb64, true]]
 
   test.each(tests)('Testing data type %#', (data, expected) => {
-    expect(isDataURL(data)).toBe(expected)
+    expect(isDataUrl(data)).toBe(expected)
   })
 })
 
