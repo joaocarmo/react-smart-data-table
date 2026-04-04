@@ -65,6 +65,7 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
+    "change-case": "^5.4.4",
     "clsx": "^2.1.1",
     "escape-string-regexp": "^5.0.0",
     "flat": "^6.0.1",
@@ -86,7 +87,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "change-case": "^5.4.4",
     "eslint": "^10.2.0",
     "globals": "^17.4.0",
     "happy-dom": "^20.8.9",
@@ -101,5 +101,5 @@
     "vite": "^8.0.3",
     "vitest": "^4.1.2"
   },
-  "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b"
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }
