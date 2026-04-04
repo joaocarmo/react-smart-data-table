@@ -17,7 +17,7 @@ table that can be customized easily with any framework (or custom CSS).
 
 ## Features
 
-It currently supports:
+It supports:
 
 1. Humanized column names based on object keys
 1. Sortable columns
@@ -42,16 +42,15 @@ It currently supports:
 ## Installation
 
 ```sh
-yarn add react-smart-data-table
+npm install react-smart-data-table
 
 # or
 
-npm install react-smart-data-table
+pnpm add react-smart-data-table
 ```
 
-There is some very basic styling you can use to get started, but since `v0.8.0`
-you need to import it specifically. You can also copy the file and use it as the
-basis for your own theme.
+There is some very basic styling you can use to get started. You can also copy
+the file and use it as the basis for your own theme.
 
 ```js
 // Import basic styling
@@ -212,7 +211,7 @@ const CustomComponent = ({
 
 <MyCustomElement
   // ...
-  onClick={e => this.onPageChange(e, { activePage: nextActivePage })}
+  onClick={(e) => onPageChange(e, { activePage: nextActivePage })}
 />
 ```
 
@@ -343,7 +342,7 @@ data using the `dataKeyResolver` prop.
 />
 ```
 
-### Simple sortable table (with Semantic UI)
+### Simple sortable table
 
 ```jsx
 import { faker } from '@faker-js/faker'
