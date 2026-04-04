@@ -65,6 +65,7 @@
   },
   "homepage": "https://github.com/joaocarmo/react-smart-data-table#readme",
   "dependencies": {
+    "change-case": "^5.4.4",
     "clsx": "^2.1.1",
     "escape-string-regexp": "^5.0.0",
     "flat": "^6.0.1",
@@ -86,7 +87,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "change-case": "^5.4.4",
     "eslint": "^10.2.0",
     "globals": "^17.4.0",
     "happy-dom": "^20.8.9",

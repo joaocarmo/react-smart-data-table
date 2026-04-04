@@ -20,21 +20,23 @@ export default defineConfig(({ command }) => ({
     },
     rollupOptions: {
       external: [
-        'react',
-        'react/jsx-runtime',
+        'change-case',
         'clsx',
         'escape-string-regexp',
         'flat',
         'linkifyjs',
+        'react',
+        'react/jsx-runtime',
       ],
       output: {
         globals: {
-          react: 'React',
-          'react/jsx-runtime': 'ReactJSXRuntime',
+          'change-case': 'changeCase',
           clsx: 'clsx',
           'escape-string-regexp': 'escapeStringRegexp',
           flat: 'flat',
           linkifyjs: 'linkifyjs',
+          react: 'React',
+          'react/jsx-runtime': 'ReactJSXRuntime',
         },
         assetFileNames: 'react-smart-data-table.[ext]',
       },
