@@ -153,9 +153,9 @@ class AppDemo extends PureComponent {
     event.preventDefault()
     event.stopPropagation()
 
-    const { data } = this.state
-
-    this.setState({ data: data.filter((r) => r._id !== row._id) })
+    this.setState((prevState) => ({
+      data: prevState.data.filter((r) => r._id !== row._id),
+    }))
   }
 
   getHeaders() {
