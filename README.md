@@ -111,6 +111,11 @@ const MyComponent = () => {
 | withLinks          | false                 | {boolean}             | Converts e-mails and url addresses to links                       |
 | withToggles        | false                 | {boolean&#124;object} | Enables the column visibility toggles                             |
 
+> **Performance tip:** Function props (`onRowClick`, `rowClassName`,
+> `dataKeyResolver`) are called on every render cycle. Wrap them with
+> `useCallback` to keep row memoization effective and avoid unnecessary
+> re-renders.
+
 ### emptyTable
 
 ```jsx

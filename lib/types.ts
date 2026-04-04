@@ -19,11 +19,11 @@ export interface SmartDataTableProps<T = utils.UnknownObject> {
   name: string
   onRowClick: utils.RowClickFN<T>
   orderedHeaders: string[]
-  rowClassName: utils.RowClassNameFN<T>
   paginator: ComponentType<WrappedComponentProps>
   parseBool: boolean | utils.ParseBool
   parseImg: boolean | utils.ParseImg
   perPage: number
+  rowClassName: utils.RowClassNameFN<T>
   sortable: boolean
   withFooter: boolean
   withHeader: boolean
