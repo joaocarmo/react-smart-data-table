@@ -32,6 +32,12 @@ export type RowClickFN<T = UnknownObject> = (
   }: { rowData: T; rowIndex: number; tableData: T[] },
 ) => void
 
+export type RowClassNameFN<T = UnknownObject> = (
+  rowData: T,
+  rowIndex: number,
+  tableData: T[],
+) => string
+
 export type CompareFunction<T> = (a: T, b: T) => number
 
 export type HeaderSortable<T> = boolean | CompareFunction<T>

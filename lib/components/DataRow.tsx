@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import type { MouseEvent, ReactNode } from 'react'
+import cx from 'clsx'
 import CellValue from './CellValue'
 import Table from './Table'
 import type {
@@ -27,6 +28,7 @@ interface DataRowProps<T> {
     rowIndex: number,
     tableData: T[],
   ) => void
+  rowClassName?: (rowData: T, rowIndex: number, tableData: T[]) => string
   tableData: T[]
 }
 
@@ -40,6 +42,7 @@ function DataRowInner<T = UnknownObject>({
   parseBool,
   parseImg,
   onRowClick,
+  rowClassName,
   tableData,
 }: DataRowProps<T>): ReactNode {
   const handleClick = useCallback(
@@ -50,7 +53,10 @@ function DataRowInner<T = UnknownObject>({
   )
 
   return (
-    <Table.Row onClick={handleClick}>
+    <Table.Row
+      onClick={handleClick}
+      className={cx(rowClassName?.(row, rowIndex, tableData))}
+    >
       {columns.map((column) => {
         const thisColProps = colProperties[column.key]
         const showCol = !thisColProps?.invisible

@@ -42,6 +42,7 @@ function SmartDataTable<T = utils.UnknownObject>({
   parseBool = false,
   parseImg = false,
   perPage = 0,
+  rowClassName,
   sortable = false,
   withFooter = false,
   withHeader = true,
@@ -232,6 +233,7 @@ function SmartDataTable<T = utils.UnknownObject>({
           parseBool={parseBool}
           parseImg={parseImg}
           onRowClick={handleRowClick}
+          rowClassName={rowClassName}
           tableData={filteredRows}
         />
       </ErrorBoundary>
