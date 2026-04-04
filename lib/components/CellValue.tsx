@@ -73,7 +73,7 @@ const CellValue: FC<PropsWithChildren<CellValueProps>> = ({
     const highlightedValue = highlightValue()
 
     if (utils.isEmpty(grabLinks)) {
-      if (utils.isDataURL(value)) {
+      if (utils.isDataUrl(value)) {
         return renderImage({ bypass: true })
       }
 

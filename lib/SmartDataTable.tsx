@@ -17,27 +17,27 @@ import * as constants from './helpers/constants'
 import * as utils from './helpers/functions'
 import './css/basic.css'
 
-const EMPTY_HEADERS = {} as utils.Headers<never>
-const EMPTY_ORDERED_HEADERS: string[] = []
-const EMPTY_REQUEST_OPTIONS: RequestInit = {}
-const NOOP_ROW_CLICK = () => null
+const emptyHeaders = {} as utils.Headers<never>
+const emptyOrderedHeaders: string[] = []
+const emptyRequestOptions: RequestInit = {}
+const noopRowClick = () => null
 
 function SmartDataTable<T = utils.UnknownObject>({
   className = '',
   data,
   dataKey = constants.DEFAULT_DATA_KEY,
   dataKeyResolver = null,
-  dataRequestOptions = EMPTY_REQUEST_OPTIONS,
+  dataRequestOptions = emptyRequestOptions,
   dataSampling = 0,
   dynamic = false,
   emptyTable = null,
   filterValue = '',
-  headers = EMPTY_HEADERS as utils.Headers<T>,
+  headers = emptyHeaders as utils.Headers<T>,
   hideUnordered = false,
   loader = null,
   name = 'reactsmartdatatable',
-  onRowClick = NOOP_ROW_CLICK,
-  orderedHeaders = EMPTY_ORDERED_HEADERS,
+  onRowClick = noopRowClick,
+  orderedHeaders = emptyOrderedHeaders,
   paginator: PaginatorComponent = Paginator,
   parseBool = false,
   parseImg = false,

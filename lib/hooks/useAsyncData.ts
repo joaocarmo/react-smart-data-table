@@ -8,7 +8,7 @@ import * as utils from '../helpers/functions'
 interface UseAsyncDataOptions<T> {
   data: string | T[]
   dataKey: string
-  dataKeyResolver: utils.KeyResolverFN<T>
+  dataKeyResolver: utils.KeyResolverFn<T>
   dataRequestOptions: RequestInit
   headers: utils.Headers<T>
   orderedHeaders: string[]
