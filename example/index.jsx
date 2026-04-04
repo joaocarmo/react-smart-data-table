@@ -76,6 +76,9 @@ const emptyTable = (
 
 const loader = <div className={sematicUI.loader}>Loading...</div>
 
+// rowIndex is zero-based, so the 1st row (index 0) is odd
+const rowClassName = (_row, idx) => (idx % 2 === 0 ? 'odd-row' : 'even-row')
+
 const DeleteButton = ({ handleDelete }) => (
   <i
     className={sematicUI.deleteIcon}
@@ -514,9 +517,7 @@ class AppDemo extends PureComponent {
                 width: '60px',
               },
             }}
-            rowClassName={(_row, idx) =>
-              idx % 2 === 0 ? 'odd-row' : 'even-row'
-            }
+            rowClassName={rowClassName}
             emptyTable={emptyTable}
           />
         )}
