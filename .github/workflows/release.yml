@@ -47,7 +47,7 @@ jobs:
           git push
 
       - name: Trigger the Publish Action
-        uses: benc-uk/workflow-dispatch@v1.3.1
+        uses: benc-uk/workflow-dispatch@v1.3.2
         with:
           workflow: Publish
           token: ${{ secrets.GH_PAT }}
